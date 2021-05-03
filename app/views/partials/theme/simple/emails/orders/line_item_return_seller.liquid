@@ -1,0 +1,53 @@
+<p>
+  {{ 'app.emails.orders.return.seller.greeting' | t: name: data.line_item_return.order.seller.name }}<br>
+  {{ 'app.emails.orders.return.seller.info' | t: buyer_name: data.line_item_return.order.buyer.first_name, site_name: data.site_name }}
+</p>
+
+<div class="text-center">
+  <a href="{{ data.line_item_return.return_url }}" class="button">{{ 'app.emails.orders.return.seller.return_link' | t }}</a>
+</div>
+
+
+<div class="mt border"></div>
+
+
+<h2 class="mt subtitle">{{ 'app.emails.orders.return.seller.details' | t }}</h2>
+
+<table cellspacing="0" class="mt-2 w-full">
+  <tr>
+    <td>
+      {% function cover_url = 'theme/simple/items/cover_url', item: data.line_item_return.line_item.item %}
+      {% if cover_url %}
+          <img src="{{ cover_url }}" width="80" class="w-20 rounded">
+      {% endif %}
+    </td>
+    <td class="table-spacing"></td>
+    <td>{{ data.line_item_return.line_item.item.item_detail.name }}</td>
+    <td class="table-spacing"></td>
+    <td class="text-right">{{ data.line_item_return.quantity }}</td>
+    <td class="table-spacing"></td>
+    <td class="text-right">{% render 'theme/simple/price', amount_cents: data.line_item_return.line_item.total_price_cents, currency: data.line_item_return.line_item.currency %}</td>
+  </tr>
+</table>
+
+<div class="mt">
+  <p>
+    <b>{{ 'app.emails.orders.return.seller.reason' | t }}</b><br>
+    {{ data.line_item_return.reason}}
+  </p>
+  <p>
+    <b>{{ 'app.emails.orders.return.seller.reason_details' | t }}</b><br>
+    {{ data.line_item_return.reason_details | markdown }}
+  </p>
+</div>
+
+<b>{{ 'app.models.line_item_returns.form.shipping_type_' | append: data.line_item_return.shipping_type | t }}</b><br>
+{% if data.line_item_return.shipping_address %}
+  {{ data.line_item_return.shipping_address.full_name }}<br>
+  {{ data.line_item_return.shipping_address.country }}, {{ data.line_item_return.shipping_address.state }}<br>
+  {{ data.line_item_return.shipping_address.zip }} {{ data.line_item_return.shipping_address.city }}<br>
+  {{ data.line_item_return.shipping_address.street }} {{ data.line_item_return.shipping_address.building_number }} {{ data.line_item_return.shipping_address.flat_number }}<br>
+  {{ data.line_item_return.shipping_phone }}
+{% else %}
+  {{ data.line_item_return.shipping_pickup_point }}
+{% endif %}

@@ -1,0 +1,27 @@
+{% parse_json profile_anonymous %} {"id":  "1"} {% endparse_json %}
+{% parse_json profile %} {"id":  "2"} {% endparse_json %}
+{% parse_json item_data %}
+  {
+    "name":        "item-name",
+    "description": "item-description",
+    "price":       10,
+    "currency":    "usd",
+    "quantity":    2,
+    "uuid":        "item.uuid",
+    "category":    "jewellery"
+  }
+{% endparse_json %}
+{% liquid
+  function seller = 'test/fixtures/profile', user_id: "6999"
+  function item = 'lib/commands/items/create', object: item_data, owner: seller.id
+  comment
+    function order = 'lib/commands/line_items/find_or_create_order', item: item, current_profile: profile_anonymous
+    include 'test/assertions/valid_object', contract: contract, object: order, field_name: 'order'
+    include 'test/assertions/valid_object', contract: contract, object: item, field_name: 'item'
+
+    function object = 'lib/commands/profiles_anonymous/convert_orders', profile_anonymous: profile_anonymous, profile: profile
+
+    include 'test/assertions/valid_object', contract: contract, object: object, field_name: 'object'
+    include 'test/assertions/equal', contract: contract, field_name: 'count', given: object.count, expected: 1
+  endcomment
+%}

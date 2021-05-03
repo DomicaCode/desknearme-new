@@ -1,0 +1,9 @@
+{% liquid
+  assign payload = process.payload | parse_json
+  case process.command
+  when 'organizations/create_member'
+    echo 'organizations_create_member' | t: scope: 'processes.types', email: payload.email, first_name: payload.first_name, last_name: payload.last_name, organization_name: payload.organization_name
+  else
+    echo 'processes.types.unknown' | t
+  endcase
+%}

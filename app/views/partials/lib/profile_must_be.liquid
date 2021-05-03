@@ -1,0 +1,9 @@
+{% liquid
+  function can = "lib/can", actor: profile, do: action, object: profile
+  unless can.valid
+    include 'lib/flash/publish', error: 'app.errors.unauthorized'
+
+    redirect_to '/'
+    break
+  endunless
+-%}

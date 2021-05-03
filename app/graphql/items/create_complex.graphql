@@ -1,0 +1,59 @@
+mutation create_item_complex(
+  $category: String
+  $currency: String!
+  $price: Int!
+  $return_days: Int!
+  $uuid: String!
+  $sku: String
+  $quantity: Int!
+  $max_in_one_order: Int!
+  $owner: String!
+  $tags: [String]
+  $lang: String!
+  $name: String!
+  $description: String!
+) {
+  item: record_create(
+    record: {
+      table: "item"
+      properties: [
+        { name: "category", value: $category }
+        { name: "currency", value: $currency }
+        { name: "price", value_int: $price }
+        { name: "return_days", value_int: $return_days }
+        { name: "uuid", value: $uuid }
+        { name: "owner", value: $owner }
+      ]
+    }
+  ) {
+    id
+  }
+
+  item_inventory: record_create(
+    record: {
+      table: "item_inventory"
+      properties: [
+        { name: "sku", value: $sku }
+        { name: "quantity", value_int: $quantity }
+        { name: "max_in_one_order", value_int: $max_in_one_order }
+        { name: "owner", value: $owner }
+      ]
+    }
+  ) {
+    id
+  }
+
+  item_detail: record_create(
+    record: {
+      table: "item_detail"
+      properties: [
+        { name: "lang", value: $lang }
+        { name: "name", value: $name }
+        { name: "description", value: $description }
+        { name: "tags", value_array: $tags }
+      ]
+    }
+  ) {
+    id
+  }
+}

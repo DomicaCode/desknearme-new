@@ -1,0 +1,12 @@
+{% liquid
+  assign can = false
+
+  case do
+  when 'edit':
+    return false
+  when 'follow':
+    return true
+  endcase
+
+  return can
+%}

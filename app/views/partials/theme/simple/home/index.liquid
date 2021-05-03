@@ -1,0 +1,23 @@
+{% render 'theme/simple/home/hero' %}
+
+{% for feed in feeds %}
+  {% if feed[1].results.size > 0 %}
+    <section class="container mt-8">
+      <h2 class="bigtitle">
+        {{ feed[0] | t: scope: 'app.home.feeds' }}
+      </h2>
+      <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {% for item in feed[1].results %}
+          {% case item.type %}
+          {% when 'category' %}
+            {% render 'theme/simple/home/category', object: item %}
+          {% when 'item' %}
+            {% render 'theme/simple/items/card', item: item, current_profile: current_profile %}
+          {% else %}
+            {% render 'theme/simple/home/card', actor: item.payload.actor, target: item.payload.target, object: item.payload.object, type: item.payload.type %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+{% endfor %}

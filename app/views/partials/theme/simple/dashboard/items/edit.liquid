@@ -1,0 +1,10 @@
+<div class="container flex flex-wrap items-center mx-auto">
+  <h1 class="bigtitle">{{ 'app.items.edit' | t }}</h1>
+</div>
+
+{% include 'theme/simple/dashboard/items/form', item: item, default_currency %}
+
+<div class="container flex flex-wrap items-center mt-10 mx-auto">
+  <h1 class="bigtitle">{{ 'app.items.manage_inventory' | t }}</h1>
+</div>
+{% include 'theme/simple/dashboard/items/edit_inventory', item: item %}

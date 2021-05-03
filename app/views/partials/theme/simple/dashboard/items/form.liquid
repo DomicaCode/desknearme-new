@@ -1,0 +1,107 @@
+{% liquid
+  assign currency = item.currency | default: default_currency
+  if item.item_inventory_id
+    assign path = 'create_version'
+  else
+    assign path = 'create'
+  endif
+  assign uuid = '' | uuid
+  assign item_uuid = item.uuid | default: uuid
+%}
+
+<div class="container flex flex-wrap items-center mx-auto">
+  <form action="/dashboard/items/{{ path }}" method="post">
+    {% include 'authenticity_token' %}
+
+    {% if item.item_inventory_id %}
+      <input type="hidden" name="item[item_inventory_id]" value="{{ item.item_inventory_id }}" />
+    {% endif %}
+    <input type="hidden" name="item[uuid]" value="{{ item_uuid }}" />
+    <input type="hidden" name="item[currency]" value="{{ currency }}" />
+
+    <div class="my-3">
+      <label class="block" for="name">{{ 'app.items.form.name' | t }}</label>
+      <input class="w-2/3 form-input" type="text" id="name" name="item[name]" value="{{ item.name }}" autofocus required />
+      {% include 'theme/simple/field_error', errors: item.errors.name %}
+    </div>
+
+    <div class="mt-3">
+      <label class="block" for="description">{{ 'app.items.form.description' | t }}</label>
+      <textarea class="w-full form-input" type="text" id="description" name="item[description]" rows="3" required>{{ item.description }}</textarea>
+
+      {% include 'theme/simple/field_error', errors: item.errors.description %}
+    </div>
+
+    {% comment %}
+    <div class="mt-3">
+      <label class="block" for="tags">Tags</label>
+      <input class="w-full form-input" type="text" id="tags" name="item[tags]" value="{{ item.tags | join: ',' }}" />
+      {% if item.errors.tags %}
+      <span class="text-red-800">{{ item.errors.tags }}</span>
+      {% endif %}
+    </div>
+    {% endcomment %}
+
+    <div class="mt-3">
+      <label class="block">{{ 'app.items.form.photos' | t }}</label>
+      {% include 'theme/simple/photos/uppy_area' %}
+    </div>
+
+    <div class="mt-3">
+      <label class="block" for="category">{{ 'app.items.form.category' | t }}</label>
+      <select class="form-select" id="category" name="item[category]">
+        {% for category in lib.categories %}
+          {% assign ident = category | split: '/' | size | minus: 1 | times: 2 %}
+          <option value="{{ category }}" {% if item.category == category %}selected{% endif %}>
+              {% for step in (1..ident) %} {% print "&nbsp;" %} {% endfor %}
+              {{ 'categories.' | append: category | t }}
+          </option>
+        {% endfor %}
+      </select>
+
+      {% include 'theme/simple/field_error', errors: item.errors.category %}
+    </div>
+
+    <div class="mt-3">
+      <label class="block" for="price">{{ 'app.items.form.price' | t: currency: currency }}</label>
+      <!-- TODO: Add currency prefix $[input]  -->
+      <input class="w-32 form-input" type="number" id="price" name="item[price]" step="any" min="0"
+        value="{{ item.price | default: 1000 | fractional_to_amount: currency }}" />
+      {% include 'theme/simple/field_error', errors: item.errors.price %}
+    </div>
+
+    {% unless item.item_inventory_id %}
+      <div class="mt-3">
+        <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}</label>
+        <input class="w-32 form-input" type="number" id="quantity" name="item[quantity]" value="{{ item.quantity | default: 1 }}" />
+        {% include 'theme/simple/field_error', errors: item.errors.quantity %}
+      </div>
+
+      <div class="mt-3">
+        <label class="block" for="max_in_one_order">{{ 'app.items.form.max_quantity' | t }}</label>
+        <input class="w-32 form-input" type="number" id="quantity" name="item[max_in_one_order]" value="{{ item.max_in_one_order | default: 5 }}" />
+        {% include 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
+      </div>
+    {% endunless %}
+    <!--
+      <div class="my-3">
+      <label class="block" for="sku">{{ 'app.items.form.sku' | t }}</label>
+      <input class="w-2/3 form-input" type="text" id="sku" name="item[sku]" value="{{ item.sku }}" autofocus {% if item.id %}disabled{% endif %} />
+      {% include 'theme/simple/field_error', errors: item.errors.sku %}
+      </div>
+    -->
+
+    <div class="mt-3">
+      <label class="block" for="return_days">{{ 'app.items.form.return_days' | t }}</label>
+      <input class="w-32 form-input" type="number" id="return_days" name="item[return_days]" value="{{ item.return_days | default: 30 }}" />
+      {% include 'theme/simple/field_error', errors: item.errors.return_days %}
+    </div>
+
+    <button class="mt-8 button" value="{{ path }}">{{ 'app.items.form.submit' | t }}</button>
+  </form>
+</div>
+
+{% liquid
+  assign photos = photos | default: item.photos
+  render 'theme/simple/photos/uppy_form', object_uuid: item_uuid, presigned_url: presigned_url, user_id: user.id, photo_type: 'photo', note: 'Images only, up to 3 files, 2MB each', max_number_of_files: 3, existing_photos: photos
+%}

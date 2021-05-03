@@ -1,0 +1,187 @@
+{% liquid
+  if profile and profile.user_id != blank
+    assign registered_profile = true
+    function profile_url = 'link_to', profile: profile
+  endif
+
+%}
+<header class="px-0 py-2 mb-10 rounded-none card">
+  <div class="container flex flex-wrap items-center">
+
+    {% comment %} title {% endcomment %}
+    <a class="flex items-center order-1 font-medium" href="/">
+      {% render 'theme/simple/ui/logo' %}
+    </a>
+
+
+    {% comment %} desktop search {% endcomment %}
+    <div class="hidden md:ms-auto lg:block lg:order-2">
+      {% render 'theme/simple/home/quick_search_form', qkeyword: context.params.qkeyword %}
+    </div>
+
+    {% comment %} mobile separator {% endcomment %}
+    <div class="order-3 w-full mt-4 md:hidden"></div>
+
+    <nav class="order-4 w-full md:w-auto md:ms-auto">
+      <ul class="flex flex-wrap items-center justify-center w-full">
+
+
+        {% comment %} mobile search {% endcomment %}
+        <li class="-ms-3 md:ms-auto lg:ms-0 me-auto md:me-0 lg:hidden">
+          {% capture 'header_search_label' %}
+            {% render 'theme/simple/ui/icon', icon: 'search', class: 'w-6' %}
+          {% endcapture %}
+          {% capture 'header_search_content' %}
+            <div class="px-8 py-4">
+              {% render 'theme/simple/home/quick_search_form', qkeyword: context.params.qkeyword %}
+            </div>
+          {% endcapture %}
+
+          {% render 'theme/simple/ui/dropdown',
+            name: 'quickSearch',
+            toggle_title_key: 'app.quick_search.name',
+            label: header_search_label,
+            toggle_class: 'p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover',
+            content: header_search_content
+          %}
+        </li>
+
+        {% comment %} notifications {% endcomment %}
+        {% if registered_profile %}
+        <li>
+          <a href="/dashboard"
+            class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover"
+            x-data="unreadCount()" x-init="init()">
+            {% render 'theme/simple/ui/icon', icon: 'bell', class: 'w-6' %}
+            <span x-cloak x-show="unreadCount" x-text="unreadCount > 9 ? '9+' : unreadCount"
+              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-700 rounded-full">
+            </span>
+          </a>
+        </li>
+        {% endif %}
+
+        {% comment %} wishlist {% endcomment %}
+        {% if profile %}
+        <li class="relative">
+          <a href="/wishlist" data-header-wishlist data-tc="wishlist" title="{{ 'app.header.wishlist' | t }}" class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover">
+            {% render 'theme/simple/ui/icon', icon: 'heart', class: 'w-6' %}
+            {% render 'theme/simple/ui/icon', icon: 'heartFull', class: 'w-6 absolute top-3 left-3 text-interaction hidden' %}
+          </a>
+        </li>
+        {% endif %}
+
+
+        {% comment %} add content dropdown {% endcomment %}
+        {% if registered_profile %}
+        <li>
+          {% capture 'header_add_label' %}
+            {% render 'theme/simple/ui/icon', icon: 'circlePlus', class: 'w-6' %}
+          {% endcapture %}
+          {% capture 'header_add_content' %}
+            <ul class="whitespace-nowrap">
+              <li><a href="/dashboard" class="block py-3 px-7 md:rounded-t-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_post' | t }}</a></li>
+              <li><a href="/dashboard/posts/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_question' | t }}</a></li>
+              <li><a href="/dashboard/groups/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_group' | t }}</a></li>
+              <li><a href="/dashboard/items/new" class="block py-3 px-7 rounded-b-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_item' | t }}</a></li>
+            </ul>
+          {% endcapture %}
+
+          {% render 'theme/simple/ui/dropdown',
+            toggle_title_key: 'app.header.add_content',
+            toggle_class: 'p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover',
+            label: header_add_label,
+            content: header_add_content
+          %}
+        </li>
+        {% endif %}
+
+
+        <div style="display: inherit"
+          {% if profile %} x-data="navigationStats()" x-init="init()" {% endif %}
+        >
+          {% comment %} chat {% endcomment %}
+          {% if registered_profile %}
+          <li>
+            <a href="/inbox" class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover" title="{{ 'app.header.chat' | t }}" id="notifications-chat" data-current-user-id="{{ profile.id }}" data-current-user-slug="{{ profile.slug }}">
+              {% render 'theme/simple/ui/icon', icon: 'commentText', class: 'w-6' %}
+              <span id="notification-bell"
+                class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white rounded-full bg-interaction"
+                x-cloak x-show="inboxUnread" x-text="inboxUnread"
+              >
+              </span>
+            </a>
+          </li>
+          {% endif %}
+
+
+          {% comment %} cart {% endcomment %}
+          <li>
+            <a href="/dashboard/buy/cart" title="{{ 'app.header.cart' | t }}"
+              class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover"
+            >
+              {% render 'theme/simple/ui/icon', icon: 'shoppingCart', class: 'w-6' %}
+              {% if profile %}
+                <span
+                  class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white rounded-full bg-interaction"
+                  x-cloak x-show="cartQuantity" x-text="cartQuantity"
+                  data-cart-counter>
+                </span>
+              {% endif %}
+            </a>
+          </li>
+        </div>
+
+
+        {% comment %} profile {% endcomment %}
+        {% if registered_profile %}
+        <li class="ms-2" data-tc="profile-menu-dropdown">
+            {% capture 'header_profile_label' %}
+              <div class="flex items-center px-3 py-1 rounded-md bg-page">
+                {{ profile.first_name | default: initial_name }}
+                {% render 'theme/simple/ui/avatar', profile: profile, size: 48, class: 'w-5 h-5 ms-2 text-2xs' %}
+              </div>
+            {% endcapture %}
+            {% capture 'header_profile_content' %}
+              <ul class="whitespace-nowrap">
+                <li>
+                  <a href="/dashboard" class="block py-3 px-7 md:rounded-t-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.dashboard' | t }}</a>
+                </li>
+
+                <li class="border-t"><a href="/dashboard/sell/items" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.selling' | t }}</a></li>
+                <li class="border-t"><a href="/dashboard/buy/orders" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.purchases' | t }}</a></li>
+                {% function can_be_admin = "lib/can", actor: profile, do: "be_admin", object: profile %}
+                {% if can_be_admin.valid %}
+                  <li class="border-t"><a href="/admin" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.admin' | t }}</a></li>
+                {% endif %}
+                <li class="border-t">
+                  <form action="/sessions/destroy" method="post">
+                  {% include 'authenticity_token' %}
+                    <button type="submit" class="block w-full py-3 px-7 rounded-b-md hover:bg-interaction hover:text-content-inverted text-start transition-colors">
+                      {{ 'app.header.log-out' | t }}
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            {% endcapture %}
+            {% render 'theme/simple/ui/dropdown',
+              class: '-me-3',
+              label: header_profile_label,
+              toggle_class: 'p-3',
+              content: header_profile_content
+            %}
+        </li>
+        {% endif %}
+
+        {% comment %} login button {% endcomment %}
+        {% unless registered_profile %}
+          <a href="/sessions/new" class="button button-small ms-3">
+            {{ 'app.login' | t }}
+          </a>
+        {% endunless %}
+
+        {% render 'theme/simple/layout/language_switch', context: context, class: 'p-3' %}
+      </ul>
+    </nav>
+
+  </div>
+</header>

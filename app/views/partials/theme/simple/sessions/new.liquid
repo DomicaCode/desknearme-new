@@ -1,0 +1,32 @@
+<section class="my-10 container items-center">
+  <h2 class="bigtitle text-center">{{ 'app.login_form.log_in' | t }}</h2>
+
+  <form action="/sessions/create" method="post" class="card w-full md:w-96 mx-auto"
+    onsubmit="document.getElementById('password').value = btoa(document.getElementById('password').value)"
+  >
+    {% render 'authenticity_token', context: context %}
+
+    <fieldset>
+      <label for="email">{{ 'app.login_form.email' | t }}</label>
+      <input name="user[email]" type="email" id="email" value="{{ object.email | raw_escape_string }}" class="w-full" autofocus>
+      {% render 'theme/simple/field_error', errors: object.errors.email %}
+    </fieldset>
+
+    <fieldset class="mt-3">
+      <label for="password">{{ 'app.login_form.password' | t }}</label>
+      <input name="user[password]" type="password" id="password" value="" autocomplete="new-password" class="w-full">
+      {% render 'theme/simple/field_error', errors: object.errors.password %}
+    </fieldset>
+
+    <fieldset class="mt-5">
+      <button class="button mt-3">{{ 'app.login_form.log_in' | t }}</button>
+    </fieldset>
+
+    <p class="mt-8">
+      {{ 'app.login_form.anonymous' | t }} <a href='/sign-up' class="underline ps-3">{{ 'app.login_form.register' | t }}</a>
+    </p>
+    <p class="mt-1">
+      {{ 'app.login_form.password_lost' | t }} <a href='/passwords/reset' class="underline ps-3">{{ 'app.login_form.reset' | t }}</a>
+    </p>
+  </form>
+</section>

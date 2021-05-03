@@ -1,0 +1,21 @@
+{% liquid
+  function current_profile = 'lib/current_profile', user_id: context.current_user.id, followships: true
+
+  function items = 'lib/queries/activities/search', feed: 'system', feed_id: "5", limit: 3
+  function comments = 'lib/queries/activities/search', feed: 'system', feed_id: "2", limit: 3
+  function groups = 'lib/queries/activities/search', feed: 'system', feed_id: "3", limit: 3
+  function profiles = 'lib/queries/activities/search', feed: 'system', feed_id: "4", limit: 3
+  function categories = 'lib/queries/categories/search', limit: 3
+  function promoted_items = 'lib/queries/items/promoted', limit: 6, lang: context.language
+
+  assign feeds = '{}' | parse_json
+  hash_assign feeds['categories'] = categories
+  hash_assign feeds['promoted_items'] = promoted_items
+  hash_assign feeds['items'] = items
+  hash_assign feeds['comments'] = comments
+  hash_assign feeds['groups'] = groups
+  hash_assign feeds['profiles'] = profiles
+
+  include 'theme/simple/home/index', feeds: feeds, current_profile: current_profile
+  render 'theme/simple/wishlists/enable_event', current_profile_id: current_profile.id
+%}

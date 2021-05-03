@@ -1,0 +1,30 @@
+<aside class="w-72 flex-shrink-0 -mt-6 ms-8 ps-8 pt-8 text-content-sidenote border-s border-frame">
+
+  <section class="border rounded p-4">
+    <h4 class="-mx-4 px-4 pb-2 border-b uppercase font-bold">{{ 'app.search.organizations' | t }}</h4>
+
+    <ul>
+      {% for organization in filters.organizations %}
+        <li class="mt-2 flex items-start gap-2">
+          <input
+            type="checkbox"
+            id="organization_{{ organization.id }}"
+            name="organizations[]"
+            value="{{ organization.id }}"
+            form="admin-form"
+            class="mt-1"
+            {% if params.organizations contains organization.id %} checked {% endif %}
+            {% if params.organizations.size == 0 %} checked {% endif %}
+            {% unless params.organizations %} checked {% endunless %}
+          >
+          <label for="organization_{{ organization.id }}" class="cursor-pointer">{{ organization.name }}</label>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <div class="text-center">
+    <button type="submit" class="mt-4 button button-small" form="admin-form">Apply</button>
+  </div>
+
+</aside>

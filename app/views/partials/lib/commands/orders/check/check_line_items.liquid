@@ -1,0 +1,16 @@
+{% liquid
+  for line in order.line_items
+    if line.item.item_inventory.quantity < line.quantity or line.item.item_inventory.quantity == null
+      if line.item.item_inventory.quantity == 0 or line.item.item_inventory.quantity == null
+        include 'lib/register_error', contract: c, field_name: 'base', key: 'app.orders.line-items.errors.quantity-no-items'
+      else
+        include 'lib/register_error', contract: c, field_name: 'base', key: 'app.orders.line-items.errors.quantity-too-big'
+      endif
+    endif
+    if line.item.id != line.item.item_inventory.item_id
+      include 'lib/register_error', contract: c, field_name: 'base', key: 'app.orders.line-items.errors.item-changed'
+    endif
+  endfor
+
+  return c
+%}

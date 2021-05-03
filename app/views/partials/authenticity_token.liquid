@@ -1,0 +1,2 @@
+{% assign token = authenticity_token | default: context.authenticity_token %}
+<input type="hidden" name="authenticity_token" value="{{ token }}">

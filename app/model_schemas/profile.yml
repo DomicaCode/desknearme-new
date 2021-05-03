@@ -1,0 +1,14 @@
+name: profile
+properties:
+  - name: uuid
+  - name: name
+  - name: user_id
+  - name: anonymous_session_id
+  - name: slug
+  - name: first_name
+  - name: last_name
+  - name: bio
+  - name: default_address_id
+  - name: language
+  - name: otp_configured
+    type: boolean

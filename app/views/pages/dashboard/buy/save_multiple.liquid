@@ -1,0 +1,17 @@
+---
+slug: dashboard/buy/save_multiple
+method: post
+---
+{% liquid
+  function current_profile = 'lib/current_profile', user_id: context.current_user.id, allow_uncompleted: true
+  include 'lib/profile_present_or_redirect', profile: current_profile, allow_uncompleted: true, return_to: '/dashboard/buy/shipping'
+
+  function orders = 'lib/queries/orders/search', buyer: current_profile.id, ids: context.params.cart.order_ids, limit: 200
+  function object = 'lib/commands/orders/save_multiple', orders: orders.results, object: context.params.cart
+
+  if object.valid
+    redirect_to '/dashboard/buy/confirmation'
+  else
+    include 'theme/simple/dashboard/orders/review', orders: orders, object: object
+  endif
+%}

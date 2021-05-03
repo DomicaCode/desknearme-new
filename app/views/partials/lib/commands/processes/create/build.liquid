@@ -1,0 +1,7 @@
+{% liquid
+  assign object = '{}' | parse_json
+  hash_assign object['command'] = command
+  hash_assign object["payload"] = payload | json
+
+  return object
+%}

@@ -1,0 +1,62 @@
+  <div
+    class="container"
+    id="chat-inbox"
+    style="height: calc((100vh - 112px) - 20px)"
+    data-error-connection="{{ 'modules/chat/error_connection' | t }}"
+  >
+      <div class="flex border rounded h-full">
+        <div class="w-1/3 flex flex-col">
+          <div class="flex-1 overflow-auto">
+            {% liquid
+            for conversation in conversations.results
+              assign participants = conversation.participants
+              assign current_participants = participants | select: id: current_profile.id
+              assign other_participants = participants | subtract_array: current_participants
+              assign from_profile = other_participants | first
+
+              render 'modules/chat/theme/simple/inbox/conversation', conversation: conversation, current_conversation: current_conversation, current_profile: current_profile, from_user: from_profile, messages: messages
+            endfor
+            %}
+		      </div>
+        </div>
+
+        {% if current_conversation %}
+          <div class="w-2/3 border-l flex flex-col relative">
+            <div class="hidden absolute left-0 right-0 text-center" id="chat-loadingIndicator" data-more="true">
+              <span class="inline-block mt-2 py-2 px-4 bg-blue-600 rounded shadow-md text-white">{{ 'modules/chat/loading_previous' | t }}</span>
+            </div>
+            <div class="flex-1 overflow-auto" id="chat-messagesList-container">
+              <ul class="max-w-full p-3" id="chat-messagesList">
+                {% liquid
+                  assign list = current_conversation.messages | reverse
+                  for message in list
+                    if message["autor_id"] != current_profile.id
+                      render "modules/chat/theme/simple/inbox/message", message: message, justify: 'justify-start', bg_color: 'bg-gray-300'
+                    else
+                      render "modules/chat/theme/simple/inbox/message", message: message, justify: 'justify-end', bg_color: 'bg-indigo-200'
+                    endif
+                  endfor
+                %}
+                </ul>
+            </div>
+            <div class="bg-grey-lighter px-3 py-3">
+              <input
+                placeholder="{{ 'modules/chat/message_input_placeholder' | t }}"
+                id="chat-messageInput"
+                class="w-full border rounded px-2 py-2"
+                type="text"
+                data-from-name="{{ current_profile.name }}" data-conversation-id="{{ current_conversation.id}}"
+                data-current-profile-id="{{ current_profile.id }}"
+                disabled
+              >
+            </div>
+          </div>
+        {% else %}
+          <div class="w-2/3 border-l flex items-center justify-center">
+            <span class="title">
+              {{ 'modules/chat/pick_conversation' | t }}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+  </div>

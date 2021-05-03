@@ -1,0 +1,21 @@
+mutation create_version_fill_relations(
+  $item_id: ID!
+  $item_inventory_id: ID!
+  $item_detail_id: ID!
+) {
+  item_inventory: record_update(
+    id: $item_inventory_id
+    record: {
+      table: "item_inventory"
+      properties: { name: "item_id", value: $item_id }
+    }
+  ) { id }
+
+  item_detail: record_update(
+    id: $item_detail_id
+    record: {
+      table: "item_detail"
+      properties: { name: "item_id", value: $item_id }
+    }
+  ) { id }
+}

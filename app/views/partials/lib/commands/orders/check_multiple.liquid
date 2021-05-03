@@ -1,0 +1,12 @@
+{% liquid
+  assign object = "{}" | parse_json
+  for order in orders
+    function object = 'lib/commands/orders/check/check', object: object, order: order
+
+    unless object.valid
+      break
+    endunless
+  endfor
+
+  return object
+%}

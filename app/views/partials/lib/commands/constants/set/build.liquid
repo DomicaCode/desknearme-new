@@ -1,0 +1,21 @@
+{% parse_json mapping %}
+ {
+   "chat":  "USE_WEBSOCKET_CHAT",
+   "slack": "SLACK_WEBHOOK_URL",
+   "currency": "CURRENCY",
+   "order_cancel_unpaid_after_x_hours": "ORDER_CANCEL_UNPAID_AFTER_X_HOURS",
+   "required_2fa": "REQUIRED_2FA",
+   "checker_users": "CHECKER_USERS"
+ }
+{% endparse_json %}
+
+{% parse_json object %}
+  {
+    "name":           {{ mapping[name] | json }},
+    "value":          {{ value | json }}
+  }
+{% endparse_json %}
+
+{% liquid
+  return object
+%}

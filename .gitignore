@@ -1,0 +1,12 @@
+.marketplace-kit
+.pos
+tmp/
+/node_modules/
+.DS_Store
+app/assets/css/*.css
+app/assets/js/*.js
+test/pictures/
+test/reports/video/
+seed/data.csv
+seed/models.csv
+.vscode/

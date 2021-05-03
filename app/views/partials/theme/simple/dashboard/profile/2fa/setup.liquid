@@ -1,0 +1,55 @@
+<div class="container">
+  <h2 class="bigtitle">
+    {{ 'app.2fa.new.two_factor_authentication' | t  }}
+  </h2>
+
+  <div class="flex">
+    <div class="md:w-1/2 card me-5">
+      <h3 class="title">
+        1. {{ 'app.2fa.new.scan_qr_code' | t  }}
+      </h3>
+
+      {{ 'app.2fa.new.please_scan_qr_code' | t  }}
+      <div class="mt-5">
+        {{ otp.secret_as_svg_qr_code  }}
+      </div>
+
+      <div class="mt-5">
+        {{ 'app.2fa.new.if_you_cannot_scan' | t  }}
+        <span class="text-interaction">
+          {{ otp.secret  }}
+        </span>
+      </div>
+    </div>
+    <div class="md:w-1/2 card">
+      <h3 class="title">
+        2. {{ 'app.2fa.new.confirm_otp_code' | t  }}
+      </h3>
+
+      {{ 'app.2fa.new.please_confirm' | t  }}
+
+      <form action="/dashboard/profile/2fa" method="post" class="mt-5"
+        onsubmit="document.getElementById('password').value = btoa(document.getElementById('password').value)"
+      >
+        {% render 'authenticity_token', context: context %}
+        <input type="hidden" name="2fa[email]" value="{{object.email}}">
+
+        <fieldset class="mt-3">
+          <label for="password">{{ 'app.2fa.attr.password' | t }}</label>
+          <input name="2fa[password]" type="password" id="password" value="" class="w-full" autofocus required>
+          {% render 'theme/simple/field_error', errors: object.errors.password %}
+        </fieldset>
+
+        <fieldset class="mt-3">
+          <label for="otp_code">{{ 'app.2fa.attr.otp_code' | t }}</label>
+          <input name="2fa[otp_code]" type="text" id="otp_code" value="{{ object.otp_code | raw_escape_string }}" class="w-full" required>
+          {% render 'theme/simple/field_error', errors: object.errors.otp_code %}
+        </fieldset>
+
+        <fieldset class="mt-5">
+          <button class="button mt-3">{{ 'app.2fa.new.confirm_and_enable' | t }}</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

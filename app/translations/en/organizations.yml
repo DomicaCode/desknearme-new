@@ -1,0 +1,11 @@
+en:
+  app:
+    organizations:
+      attr:
+        name: Name
+        created_at: Created at
+        contact_emails: Contact Emails
+        promoted: Promoted
+        offline_stores: Offline Stores
+        shipping_types: Shipping Types
+        delivery_fee: Delivery fee

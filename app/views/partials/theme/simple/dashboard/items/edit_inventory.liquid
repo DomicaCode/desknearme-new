@@ -1,0 +1,22 @@
+<div class="container flex flex-wrap items-center mx-auto">
+  <form action="/dashboard/items/inventory" method="post">
+    {% include 'authenticity_token' %}
+    <input type="hidden" name="_method" value="put" />
+    <input type="hidden" name="item[item_inventory_id]" value="{{ item.item_inventory_id }}" />
+
+    <div class="mt-3">
+      <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}</label>
+      <input class="w-32 form-input" type="number" id="quantity" name="item[quantity]" value="{{ item.quantity | default: 1 }}" />
+      {% include 'theme/simple/field_error', errors: item.errors.quantity %}
+    </div>
+
+    <div class="mt-3">
+      <label class="block" for="max_in_one_order">{{ 'app.items.form.max_quantity' | t }}</label>
+      <input class="w-32 form-input" type="number" id="quantity" name="item[max_in_one_order]" value="{{ item.max_in_one_order | default: 5 }}" />
+      {% include 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
+    </div>
+
+    <button class="mt-8 button" value="{{ path }}">{{ 'app.items.form.submit' | t }}</button>
+  </form>
+</div>
+

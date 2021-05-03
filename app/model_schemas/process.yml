@@ -1,0 +1,4 @@
+name: process
+properties:
+  - name: payload
+  - name: command
