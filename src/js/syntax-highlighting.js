@@ -16,6 +16,6 @@ hljs.registerLanguage('ruby', ruby);
 hljs.registerLanguage('twig', twig); // liquid
 hljs.registerLanguage('xml', xml);
 
-document.querySelectorAll('pre code').forEach((block) => {
+document.querySelectorAll('pre > code').forEach((block) => {
   hljs.highlightBlock(block);
 });

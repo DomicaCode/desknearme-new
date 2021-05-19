@@ -16,16 +16,15 @@
 
   {% render 'theme/simple/wishlists/button', profile_id: current_profile.id, item_id: item.id  %}
 
-
-  <div class="flex px-4 pb-4 flex-col justify-between h-full">
+  <div class="flex px-4 flex-col justify-between h-full">
     <header>
       {% if item_url %}
-      <h2 class="font-bold subtitle">
-        <a href="{{ item_url }}">{{ item.item_detail.name }}</a>
+      <h2 class="subtitle">
+        <a href="{{ item_url }}" class="font-semibold">{{ item.item_detail.name }}</a>
       </h2>
       {% endif %}
 
-      {% if item.category %}
+      {% if item.category and showMeta %}
         <a href="{% render 'link_to', category: item.category %}">
           {% print 'categories.' | append: item.category | t %}
         </a>
@@ -39,16 +38,19 @@
             {% render 'theme/simple/price', amount_cents: item.price, currency: item.currency %}
           {% endif %}
         </span>
-          {% if item.original_price %}
+
+        {% if item.original_price %}
           <span class="text-danger line-through">
             {% render 'theme/simple/price', amount_cents: item.original_price, currency: item.currency %}
           </span>
         {% endif %}
       </div>
 
+    {% if showMeta %}
       <div class="sidenote">
         {% render 'theme/simple/business_card', user: item.item_inventory.owner, current_profile: current_profile %}
       </div>
+    {% endif %}
     </div>
   </div>
 </article>

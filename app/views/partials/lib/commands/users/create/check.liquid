@@ -17,7 +17,8 @@
   function c = 'lib/validations/length', c: c, object: object, field_name: 'first_name', maximum: 100
   function c = 'lib/validations/length', c: c, object: object, field_name: 'last_name', maximum: 100
   function c = 'lib/validations/length', c: c, object: object, field_name: 'agreed', maximum: 10
-  function c = 'lib/validations/length', c: c, object: object, field_name: 'password', maximum: 256, minimum: 8
+  function c = 'lib/validations/password_complexity', c: c, object: object
+
   function c = 'lib/validations/hcaptcha', c: c, hcaptcha_params: hcaptcha_params
 
   hash_assign object['valid'] = c.valid

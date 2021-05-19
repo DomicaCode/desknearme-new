@@ -10,7 +10,8 @@
           @message_is
 {% endcomment %}
 {% liquid
-  assign size = object[field_name].size
+  assign value = value | default: object[field_name]
+  assign size = value.size
 
   if minimum != null and size < minimum
     assign message = message_minimum | default: 'app.errors.length.minimum' | t: count: minimum, value: size

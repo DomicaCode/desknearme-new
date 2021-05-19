@@ -1,6 +1,9 @@
 en:
   app:
     groups:
+      content:
+        form:
+          subtitle: Original post
       no_members_found: This group has no members
       no_invitations_found: This group has no pending invitations
       no_groups_found: You have no groups

@@ -23,10 +23,10 @@ en:
         MVP Marketplace template is modern marketplace to gather your clients together
       copyrights:
         year: © 2020
-        title: MVP Marketplacex — Powered by
+        title: MVP Marketplace — Powered by
         product_owner: platformOS
       social_links:
-        twitter: Twitter
+        twitter: https://twitter.com/platformOS
         instagram: Instagram
         facebook: Facebook
       contact:
@@ -51,3 +51,9 @@ en:
       sell: Sell part of your collection
       main-sentence: Find Your Time
       secondary-sentence: MVP Marketplace is a social marketplace to buy and sell all things
+    safety_list:
+      safe-shopping: Safe online <strong class="text-interaction font-bold">Shopping</strong>
+      verified-merchants: Verified <strong class="text-interaction font-bold">Merchants</strong>
+      secure-payment: Secure <strong class="text-interaction font-bold">Payment</strong>
+      unsatisfied-returns: Not satisfied <strong class="text-interaction font-bold">Return</strong>
+      order-tracking: Order <strong class="text-interaction font-bold">Tracking</strong>

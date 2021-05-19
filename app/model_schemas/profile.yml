@@ -12,3 +12,4 @@ properties:
   - name: language
   - name: otp_configured
     type: boolean
+  - name: permissions

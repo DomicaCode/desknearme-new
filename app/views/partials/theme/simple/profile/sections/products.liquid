@@ -2,6 +2,6 @@
   {% for item in list.results %}
     {% render 'theme/simple/items/card', item: item, current_profile: current_profile %}
   {% else %}
-    <p class="text-lg">{{ 'app.search.no_items_found' | t }}</p>
+    <p class="text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
   {% endfor %}
 </div>

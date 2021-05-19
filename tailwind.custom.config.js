@@ -1,15 +1,23 @@
 module.exports = {
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
     require('tailwindcss-rtl')
   ],
 
   theme: {
     extend: {
+      screens: {
+        'xs': '475px'
+      },
       colors: {
         page: '#f3f4f6',
         panel: '#fff',
         frame: '#e2e8f0',
+        logo: '#4299e1',
+        accent: {
+          dark: '#1e3173'
+        },
         content: {
           DEFAULT: '#374151',
           inverted: '#fff',

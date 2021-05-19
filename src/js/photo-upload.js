@@ -13,6 +13,10 @@ const _form = document.querySelector('[data-s3-uppy-photo="form"]');
 const maxNumberOfFiles = _form.dataset.s3UppyMaxNumberOfFiles;
 const note = _form.dataset.s3UppyNote;
 const photos = JSON.parse(_form.dataset.s3UppyPhotos || '[]') || [];
+const updateImgSelector = _form.dataset.updateImgSelector;
+let photoIds = photos.map((photo) => photo.id);
+const photoIdsElement = document.querySelector('[name="item[photo_ids]"]');
+const itemsPhotos = !!photoIdsElement;
 
 const uppy = Uppy({
   autoProceed: photos.length == 0,
@@ -33,10 +37,14 @@ const createPhoto = (imageUrl) => {
 };
 
 const deletePhoto = (photoId) => {
-  return apiFetch('/api/photos', {
-    method: 'DELETE',
-    body: JSON.stringify({ photo: { id: photoId } })
-  });
+  if (itemsPhotos){
+    removePhotoFromForm(photoId);
+  } else {
+    return apiFetch('/api/photos', {
+      method: 'DELETE',
+      body: JSON.stringify({ photo: { id: photoId } })
+    });
+  }
 };
 
 const loadExistingPhotos = async (photos) => {
@@ -58,6 +66,30 @@ const loadExistingPhotos = async (photos) => {
     })
   });
 };
+
+const updateImages = (photo) => {
+  if (updateImgSelector){
+    const photoUrl = photo.preview;
+    document.querySelectorAll(updateImgSelector).forEach(img => {
+      img.src = photoUrl;
+    });
+  }
+}
+
+const addPhotosToForm = (photos) => {
+  photoIds = photoIds.concat(photos.map((photo) => photo.id));
+  updatePhotoIdsElement(photoIds);
+}
+
+const removePhotoFromForm = (photoId) => {
+  var index = photoIds.indexOf(photoId);
+  if (index > -1) photoIds.splice(index, 1);
+  updatePhotoIdsElement(photoIds);
+}
+
+const updatePhotoIdsElement = () => {
+  photoIdsElement.value = photoIds.join(',');
+}
 
 uppy.use(Dashboard,
   {
@@ -98,8 +130,18 @@ uppy.use(Dashboard,
   });
 
 uppy.on('complete', ({ failed, successful }) => {
-  Promise.all(successful.map(({ response }) => createPhoto(response.body.location))).then(() => {
-  });
+  Promise.all(
+    successful.map((file) => {
+      return createPhoto(file.response.body.location)
+        .then((photo) => {
+          uppy.setFileMeta(file.id, { photoId: photo.id });
+          return photo;
+        })
+    })
+  ).then((photos) => {
+    if (itemsPhotos) addPhotosToForm(photos);
+    updateImages(successful[0]);
+  })
 });
 
 uppy.on('file-removed', (file, reason) => {

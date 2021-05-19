@@ -21,11 +21,12 @@
     <section class="table">
 
       <header>
-        <div>User</div>
+        <div>{{ 'app.users.attr.id' | t }}</div>
         <div>{{ 'app.users.attr.first_name' | t }}</div>
         <div>{{ 'app.users.attr.last_name' | t }}</div>
         <div>{{ 'app.users.attr.email' | t }}</div>
         <div>{{ 'app.users.attr.created_at' | t }}</div>
+        <div>{{ 'app.admin.users.list.permissions' | t }}</div>
       </header>
 
       <div class="table-content">
@@ -50,6 +51,27 @@
             <li>
               <span class="lg:hidden">{{ 'app.users.attr.created_at' | t }}</span>
               {{ user.created_at | l: 'compact' }}
+            </li>
+            <li>
+              <span class="lg:hidden">{{ 'app.admin.users.list.permissions' | t }}</span>
+                <div class="flex justify-between gap-3 items-start">
+                  <span>
+                    {% liquid
+                      assign permissions = user.profile.permissions | default: '{}' | parse_json
+                      for permission in permissions
+                        if permission[1]
+                          echo permission[0]
+                          unless forloop.last
+                            echo ', '
+                          endunless
+                        endif
+                      endfor
+                    %}
+                  </span>
+                  <a href="/admin/users/{{user.profile.id}}/permissions" class="button button-secondary button-small">
+                    {{ 'app.edit' | t }}
+                  </a>
+                </div>
             </li>
           </ul>
         {% endfor %}

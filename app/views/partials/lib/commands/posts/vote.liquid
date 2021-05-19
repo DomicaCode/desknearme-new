@@ -3,7 +3,7 @@
   function object = 'lib/commands/posts/vote/check', object: object
 
   if object.valid
-    function object = 'lib/commands/execute', mutation_name: 'posts/update' object: object, selection: 'model_update'
+    function object = 'lib/commands/execute', mutation_name: 'posts/update' object: object, selection: 'record_update'
   endif
 
   return object

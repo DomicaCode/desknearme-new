@@ -47,12 +47,12 @@ a:focus-visible {
 
     .title {
       @apply
-        mb-2 text-2xl;
+        mb-2 text-2xl font-normal;
     }
 
     .subtitle {
       @apply
-        mb-1 text-xl;
+        mb-1 text-xl font-normal;
     }
 
   }
@@ -95,4 +95,22 @@ main p + p {
     }
 
   }
+}
+
+
+
+/* appearance reset
+============================================================================ */
+@layer utilities {
+
+  .appearance-reset {
+    -moz-appearance: textfield;
+  }
+
+  .appearance-reset::-webkit-outer-spin-button,
+  .appearance-reset::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
 }

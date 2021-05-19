@@ -13,11 +13,11 @@
   document.addEventListener('apiFlashReady', () => {
 
     {% if error %}
-      new api.flash('error', '{{ error | html_safe }}', { delay: 1000 });
+      new api.flash('error', {% print error | markdown | json %}, { delay: 1000 });
     {% endif %}
 
     {% if notice %}
-      new api.flash('success', '{{ notice | html_safe }}', { delay: 1000 {% if autohide != null %}, autohide: {{ autohide }} {% endif %} });
+      new api.flash('success', {% print notice | markdown | json  %}, { delay: 1000 {% if autohide != null %}, autohide: {{ autohide }} {% endif %} });
     {% endif %}
 
   });

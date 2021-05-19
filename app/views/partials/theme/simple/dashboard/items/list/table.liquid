@@ -54,7 +54,7 @@
 
           <li>
             <span class="lg:hidden">{{ 'app.status' | t }}: </span>
-            {{ item_inventory.c__status | t }}
+            {{ item_inventory.status.name | t }}
           </li>
 
           <li class="lg:text-right" data-tc="inventory-product-quantity">
@@ -72,15 +72,28 @@
               {% render 'theme/simple/ui/icon', icon: 'pencil' %}
             </a>
 
-            <form action="/dashboard/items/delete" method="post" class="ms-1 inline-block" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }" >
-              {% include 'authenticity_token' %}
-              <input type="hidden" name="_method" value="delete">
-              <input type="hidden" name="id" value="{{ item_inventory.item.id }}">
+            {% if item_inventory.status.name == 'app.statuses.items.unpublished' %}
+              <form action="/dashboard/sell/items/publish" method="post" class="ms-1 inline-block" onSubmit="if(!confirm('{{ 'app.items.confirm-publish' | t }}')){ return false; }" >
+                {% include 'authenticity_token' %}
+                <input type="hidden" name="_method" value="put">
+                <input type="hidden" name="id" value="{{ item_inventory.id }}">
 
-              <button class="button button-compact button-danger" title="{{ 'app.models.shared.delete' | t }}">
-                {% render 'theme/simple/ui/icon', icon: 'trash' %}
-              </button>
-            </form>
+                <button class="button button-compact button-confirmation buton-icon-right" title="{{ 'app.items.publish' | t }}">
+                  {{ 'app.items.publish' | t }}
+                  {% render 'theme/simple/ui/icon', icon: 'check' %}
+                </button>
+              </form>
+            {% else %}
+              <form action="/dashboard/items/delete" method="post" class="ms-1 inline-block" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }" >
+                {% include 'authenticity_token' %}
+                <input type="hidden" name="_method" value="delete">
+                <input type="hidden" name="id" value="{{ item_inventory.id }}">
+
+                <button class="button button-compact button-danger" title="{{ 'app.models.shared.delete' | t }}">
+                  {% render 'theme/simple/ui/icon', icon: 'trash' %}
+                </button>
+              </form>
+            {% endif %}
           </li>
         </ul>
       {% endfor %}

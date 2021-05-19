@@ -4,14 +4,24 @@
 
 
 {% if item.id != item.item_inventory.item_id %}
-<div class="w-full p-5 mb-5 text-center bg-warning">
-  <p>{{ 'app.items.old_version' | t }}</p>
-  {% liquid
-    assign current_item = '{}' | parse_json
-    hash_assign current_item['id'] = item.item_inventory.item_id
-  %}
-  <a href="{% render 'link_to', item: current_item %}">{{'app.items.see_actual_version' | t}}</a>
-</div>
+  <section class="container mb-8">
+    <div class="p-4 flex items-center justify-center gap-8 rounded border border-warning bg-warning-disabled">
+      <div class="max-w-sm">
+        <h3 class="subtitle">{{ 'app.items.old_version' | t }}</h3>
+        <p>{{ 'app.items.see_new_version' | t }}</p>
+        {% liquid
+          assign current_item = item.item_inventory.item
+        %}
+        <a href="{% render 'link_to', item: current_item %}" class="mt-4 button button-small button-secondary button-icon-right">
+          {{ 'app.items.go_to_new_version' | t }}
+          {% render 'theme/simple/ui/icon', icon: 'dashRight' %}
+        </a>
+      </div>
+      <div class="ps-8 hidden md:block border-l border-warning">
+        {% render 'theme/simple/ui/icon', icon: 'archive', class: 'w-20 text-warning' %}
+      </div>
+    </div>
+  </section>
 {% endif %}
 
 <article class="container lg:flex lg:items-start">
@@ -131,9 +141,12 @@
           <strong data="item-price" class="subtitle font-bold !mb-0 {% if item.original_price %} text-danger {% endif %}">{% render 'theme/simple/price', context: context,  amount_cents: item.price, currency: item.currency %}</strong>
         </div>
 
+        {% liquid
+          assign status = item.item_inventory.status.name
+        %}
         <button
           class="button"
-          {% if item.item_inventory.status.name == 'app.statuses.items.unavailable' %} disabled {% endif %}
+          {% if status != 'app.statuses.items.published' or item.id != item.item_inventory.item_id %} disabled {% endif %}
         >
           {% if item.item_inventory.status.name == 'app.statuses.items.unavailable' %}
             {{ 'app.items.sold-out' | t }}
@@ -187,7 +200,9 @@
 
       <form action="/dashboard/items/delete" method="post" class="ms-2" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }">
         {% render 'authenticity_token', authenticity_token: authenticity_token %}
-        <input type="hidden" name="id" value="{{ item.id }}">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="id" value="{{ item.item_inventory.id }}">
+
         <button class="button button-danger">{{ 'app.delete' | t }}</button>
       </form>
     </footer>

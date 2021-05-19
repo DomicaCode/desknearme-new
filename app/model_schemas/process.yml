@@ -2,3 +2,4 @@ name: process
 properties:
   - name: payload
   - name: command
+  - name: profile_id

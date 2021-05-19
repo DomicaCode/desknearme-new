@@ -82,7 +82,14 @@ en:
             order_link: 'Order details'
       organizations:
         member_set_password:
-          title: Set password for your merchant account
-          subject: Set password for your merchant account
-          content: You have been invited to merchant, to set password and login please use the following button.
-          ignore: If you don't know this merchant juest ignore this message.
+          title: Claim your Merchant Admin Account
+          subject: "%{site_name} Invited you to become a Merchant Admin for %{name}"
+          content: You have been invited as a Merchant Admin, to set password and login please
+            use the following button.
+          claim: Claim Account
+          ignore: If you don't know this merchant just ignore this message.
+        member_added_existing_profile:
+          title: You have been invited to become the Merchant Admin
+          subject: "%{site_name} You have been invited to become the Merchant Admin for %{name}"
+          content: You have been added as a Merchant Admin, now you can manage orders.
+          visit_organization: Visit organization site

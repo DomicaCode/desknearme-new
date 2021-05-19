@@ -10,7 +10,8 @@
   {
     "error":  {{ error | json }},
     "notice": {{ notice | json }},
-    "from":   {{ context.location.pathname | json }}
+    "from":   {{ context.location.pathname | json }},
+    "now": {{ force_clear | default: false }}
   }
 {% endparse_json %}
 

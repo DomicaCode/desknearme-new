@@ -22,8 +22,8 @@
     {% render 'theme/simple/ui/icon', icon: 'dashUp' %}
   </div>
 {% else %}
-  <form action="/dashboard/posts/vote" method="post">
-    {% include 'authenticity_token' %}
+  <form action="{% render 'link_to', object: post, action: 'vote' %}" method="post">
+    {% render 'authenticity_token', context: context %}
     <input type="hidden" name="post[id]" value="{{ post.id }}"/>
     <input type="hidden" name="post[type]" value="{{up_action_type}}"/>
     <button class="{% if upvote %}text-yellow-600{% else %}text-interaction{% endif %}" data-tc="voteup" title="{{up_action_title}}">
@@ -39,8 +39,8 @@
     {% render 'theme/simple/ui/icon', icon: 'dashDown' %}
   </div>
 {% else %}
-  <form action="/dashboard/posts/vote" method="post" data-tc="votedown">
-    {% include 'authenticity_token' %}
+  <form action="{% render 'link_to', object: post, action: 'vote' %}" method="post" data-tc="votedown">
+    {% render 'authenticity_token', context: context %}
     <input type="hidden" name="post[id]" value="{{ post.id }}"/>
     <input type="hidden" name="post[type]" value="{{down_action_type}}"/>
     <button class="{% if downvote %}text-yellow-600{% else %}text-interaction{% endif %}" title="{{down_action_title}}">
@@ -50,8 +50,8 @@
 {% endif %}
 
 {% if post.parent_id != null and root_post.creator.id == current_profile.id %}
-  <form action="/dashboard/posts/accept" method="post">
-    {% include 'authenticity_token' %}
+  <form action="{% render 'link_to', object: root_post, action: 'accept' %}" method="post">
+    {% render 'authenticity_token', context: context %}
     <input type="hidden" name="post[id]" value="{{ post.parent_id }}"/>
     <input type="hidden" name="post[accepted_post_id]" value="{{ post.id }}"/>
     <button class="mt-5 {% if root_post.accepted_post_id == post.id %}text-green-600{% endif %}">

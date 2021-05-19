@@ -11,10 +11,16 @@ method: post
 
   function object = 'lib/commands/items/create_version', object: context.params.item, owner: current_profile.id
   if object.valid
-    include 'lib/commands/events/create', type: 'item_updated', actor_id: current_profile.id, object_id: object.id
-
-    function url = 'link_to', item: object.item
-    include 'redirect_to', url: url, notice: 'app.items.updated'
+    assign publish_object = '{}' | parse_json
+    hash_assign publish_object['new_item'] = object.item
+    hash_assign publish_object['old_item'] = item_inventory.item
+    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish_version', object: publish_object, current_profile: current_profile
+    if publish_object.require_acceptance
+      include 'redirect_to', url: '/dashboard/sell/items', notice: 'app.items.need_to_be_accepted_before_publish'
+    else
+      function url = 'link_to', item: object.item
+      include 'redirect_to', url: url, notice: 'app.items.updated'
+    endif
   else
     function object = 'lib/commands/items/build_new_version', item_inventory: item_inventory
     function filters = 'lib/queries/search/filters', query: context.params

@@ -1,12 +1,8 @@
 {% liquid
   assign command = 'lib/commands/' | append: object.command
   assign payload = object.payload | parse_json
-  function result = command, object: payload
+  function result = command, object: payload, current_profile: object.profile
   if result.valid
-    case object.command
-    when 'organizations/create_member'
-      include 'lib/commands/events/create', type: 'organization_member_created', actor_id: current_profile.id, object_id: result.organization_id, target_id: result.profile.id
-    endcase
   else
     hash_assign object['valid'] = false
     hash_assign object['errors'] = result.errors

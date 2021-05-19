@@ -7,9 +7,6 @@
 
     if order_object.valid == false
       hash_assign c['valid'] = false
-      log order, type: 'order'
-
-      log order_object.errors, type: 'order#errors'
     endif
   endfor
 

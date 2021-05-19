@@ -5,14 +5,13 @@
   endif
 
 %}
-<header class="px-0 py-2 mb-10 rounded-none card">
+<header class="py-3 shadow mb-10">
   <div class="container flex flex-wrap items-center">
 
-    {% comment %} title {% endcomment %}
-    <a class="flex items-center order-1 font-medium" href="/">
+    <a class="flex items-center order-1 font-light" href="/">
       {% render 'theme/simple/ui/logo' %}
+      {% render 'theme/simple/ui/icon', icon: 'home', class: 'text-white w-5 h-5 ms-3' %}
     </a>
-
 
     {% comment %} desktop search {% endcomment %}
     <div class="hidden md:ms-auto lg:block lg:order-2">
@@ -80,8 +79,8 @@
           {% capture 'header_add_content' %}
             <ul class="whitespace-nowrap">
               <li><a href="/dashboard" class="block py-3 px-7 md:rounded-t-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_post' | t }}</a></li>
-              <li><a href="/dashboard/posts/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_question' | t }}</a></li>
-              <li><a href="/dashboard/groups/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_group' | t }}</a></li>
+              <li><a href="/posts/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_question' | t }}</a></li>
+              <li><a href="/groups/new" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_group' | t }}</a></li>
               <li><a href="/dashboard/items/new" class="block py-3 px-7 rounded-b-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.add_item' | t }}</a></li>
             </ul>
           {% endcapture %}

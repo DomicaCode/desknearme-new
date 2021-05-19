@@ -1,10 +1,10 @@
-<div class="container xl:max-w-7xl xl:w-4/5 mt-10 mb-32 xl:px-12 text-lg">
-  <h2 class="bigtitle text-center">{{'app.title' | t}}</h2>
-  <h3 class="title text-center">{{ 'static-pages.privacy.privacy-policy' | t }}</h3>
+<div class="container text-center">
+  <h2 class="bigtitle">{{'app.title' | t}}</h2>
+  <h3 class="title">{{ 'static-pages.privacy.privacy-policy' | t }}</h3>
 
-  <p class="mt-8 text-center text-sm">{{ 'static-pages.privacy.last-updated' | t }}</p>
+  <p class="my-8 text-sm">{{ 'static-pages.privacy.last-updated' | t }}</p>
 
-  <div class="markdown max-w-3xl">
+  <div class="prose mx-auto text-left">
     {{ 'static-pages.privacy.content' | t | markdown }}
   </div>
 </div>

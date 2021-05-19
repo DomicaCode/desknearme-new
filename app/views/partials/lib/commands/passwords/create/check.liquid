@@ -5,7 +5,7 @@
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'password'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'password_confirmation'
   function c = 'lib/validations/equal', c: c, given: object.password, expected: object.password_confirmation, key: 'app.errors.do_not_match'
-  function c = 'lib/validations/length', c: c, object: object, field_name: 'password', minimum: 6, message_minimum: key: 'app.errors.too_short'
+  function c = 'lib/validations/password_complexity', c: c, object: object
 
   hash_assign object['valid'] = c.valid
   hash_assign object['errors'] = c.errors

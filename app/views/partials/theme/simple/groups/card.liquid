@@ -5,7 +5,7 @@
       {% print type_badge %}
     </span>
 
-    <img class="object-cover object-center w-full lg:h-48 md:h-36" src="{{ group.main_photo.photo.versions.small | default: 'https://dummyimage.com/720x400' }}" alt="blog">
+    <img class="object-cover object-center w-full lg:h-48 md:h-36" src="{{ group.main_photo.photo.versions.small | default: 'https://ipsumimage.appspot.com/720x400' }}" alt="blog">
   </a>
 
   <div class="p-6">
@@ -17,7 +17,7 @@
     </h1>
 
 
-    <p class="my-3 leading-relaxed">{{ group.summary }}</p>
+    <p class="my-3 leading-relaxed break-all">{{ group.summary }}</p>
 
     <div class="flex flex-wrap items-center">
 

@@ -11,7 +11,7 @@ metadata:
   function current_profile = 'lib/current_organization_profile', user_id: context.current_user.id
   include 'lib/profile_organization_present_or_redirect', profile: current_profile
 
-  function item_inventory = 'lib/queries/item_inventories/find', id: context.params.id, lang: context.language
+  function item_inventory = 'lib/queries/item_inventories/find', id: context.params.id, lang: context.language, withAllLangs: true
   include 'lib/present_or_404', property: item_inventory.id
   include 'lib/can_edit', user_id: current_profile.id, item_inventory: item_inventory
 

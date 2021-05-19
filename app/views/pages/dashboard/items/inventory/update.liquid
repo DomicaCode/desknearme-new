@@ -12,6 +12,7 @@ method: put
 
   function object = 'lib/commands/item_inventories/update', object: context.params.item, item_inventory: item_inventory
   if object.valid
+    function res = 'lib/commands/item_inventories/change_status_on_quantity', object: object, item_inventory: item_inventory, profile: current_profile
     function res = 'lib/commands/item_inventories/create_updated_event', object: object, item_inventory: item_inventory, current_profile: current_profile
     include 'redirect_to', url: '/dashboard/sell/items', notice: 'app.items.updated'
   else

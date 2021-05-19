@@ -28,13 +28,13 @@
   endif
 
   if group
-    if action == blank
-      print "/groups/" | append: group.id
-      return "/groups/" | append: group.id
-    else
-      print "/groups/" | append: group.id | append: '/' | append: action
-      return "/groups/" | append: group.id | append: '/' | append: action
+    assign url = '/groups/' | append: group.id
+    if action
+      assign url = url | append: '/' | append: action
     endif
+
+    print url
+    return url
   endif
 
   if profile
@@ -59,8 +59,8 @@
   endif
 
   if comment
-    print "/error_handling/unhandled/todo:fix"
-    return "/error_handling/unhandled/todo:fix"
+    print comment.url
+    return comment.url
   endif
 
   if seller_order
@@ -95,11 +95,18 @@
 
   if post
     function slug = 'generate_slug', title: post.title, id: post.id
-    print "/posts/" | append: slug
-    return "/posts/" | append: slug
-  endif
+    assign url = "/groups/" | append: post.group_id |  append: "/content/" | append: slug
 
+    if action
+      assign url = url | append: '/' | append: action
+    endif
+    if anchor
+      assign url = url | append: '#post-' | append: anchor
+    endif
+    print url
+    return url
+  endif
   log object, type: 'unknown-model-when-generating-url'
-  print "/unknown/" | append: object
-  return "/unknown/" | append: object
+  print "/unknown/"
+  return "/unknown-object"
 %}

@@ -1,6 +1,4 @@
-<form action="/passwords" method="post"
-  onsubmit="document.getElementById('password').value = btoa(document.getElementById('password').value); document.getElementById('password_confirmation').value = btoa(document.getElementById('password_confirmation').value)"
->
+<form action="/passwords" method="post">
   {% include 'authenticity_token' %}
 
   <label class="block mt-3" for="password">

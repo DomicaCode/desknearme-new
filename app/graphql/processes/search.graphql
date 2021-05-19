@@ -26,6 +26,12 @@ query search(
 
       payload: property(name: "payload")
       command: property(name: "command")
+      profile_id: property(name: "profile_id")
+      profile: related_record(
+        table: ["profile", "organization"]
+        join_on_property: "profile_id"
+        foreign_property: "id"
+      ) { ...profile }
       status: related_record(
         join_on_property: "id"
         foreign_property: "object_id"
@@ -40,7 +46,7 @@ query search(
         profile: related_record(
           join_on_property: "profile_id"
           foreign_property: "id"
-          table: "profile"
+          table: ["profile", "organization"]
         ) {...profile }
       }
     }
@@ -49,6 +55,8 @@ query search(
 
 fragment profile on Record {
   id
+  type: table
   first_name: property(name: "first_name")
   last_name: property(name: "last_name")
+  name: property(name: "name")
 }

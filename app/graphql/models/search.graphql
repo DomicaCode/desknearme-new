@@ -51,6 +51,8 @@ query search(
       category: property(name: "category")
       description: property(name: "description")
       slug: property(name: "slug")
+      title: property(name: "title")
+      group_id: property(name: "group_id")
       tags: property_array(name: "tags")
 
       owner: related_user(join_on_property: "owner", foreign_property: "id") {

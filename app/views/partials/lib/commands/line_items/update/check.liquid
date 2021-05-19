@@ -12,6 +12,13 @@
     include 'lib/register_error', contract: c, field_name: 'order_status', message: msg
   endif
 
+  if item.id != item.item_inventory.item_id
+    include 'lib/register_error', contract: c, field_name: 'item', key: 'app.orders.line-items.errors.item-outdated'
+  endif
+  if item.item_inventory.status.name != 'app.statuses.items.published'
+    include 'lib/register_error', contract: c, field_name: 'item', key: 'app.orders.line-items.errors.item-not-published'
+  endif
+
   if item.item_inventory.quantity == null or item.item_inventory.quantity <= 0
     include 'lib/register_error', contract: c, field_name: 'quantity', key: 'app.orders.line-items.errors.quantity-no-items'
   else

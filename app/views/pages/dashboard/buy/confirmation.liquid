@@ -16,6 +16,6 @@ metadata:
     render 'theme/simple/ui/breadcrumbs', breadcrumbs: context.page.metadata.breadcrumbs
     include 'theme/simple/dashboard/orders/confirm', orders: orders
   else
-    include 'redirect_to', url: '/dashboard/buy/shipping', error: 'app.orders.confirm.errors.order_changed'
+    include 'redirect_to', url: '/dashboard/buy/review', error: 'app.orders.confirm.errors.order_changed'
   endif
 %}

@@ -77,7 +77,7 @@ export async function waitForSelector(selector) {
     let exists = await selector.exists;
     if (!exists) {
       await t
-        .wait(2250)
+        .wait(5000)
         .eval(() => location.reload(true));
     }
   }

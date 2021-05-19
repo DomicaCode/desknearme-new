@@ -1,12 +1,12 @@
 {% liquid
   assign c = '{}' | parse_json
 
-  if actor and object and do
+  if object and do
     case object.type
     when 'group'
       function valid = 'lib/can/groups', actor: actor, group: object, do: do, context: context
     when 'item'
-      function valid = 'lib/can/items', actor: actor, group: object, do: do, context: context
+      function valid = 'lib/can/items', actor: actor, item: object, do: do, context: context
     when 'profile'
       function valid = 'lib/can/profiles', actor: actor, profile: object, do: do, context: context
     else

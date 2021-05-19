@@ -9,3 +9,6 @@ en:
         offline_stores: Offline Stores
         shipping_types: Shipping Types
         delivery_fee: Delivery fee
+
+      errors:
+        user_already_in_organization: Selected email is already used by user that belongs to organization

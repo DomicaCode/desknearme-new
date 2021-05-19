@@ -8,6 +8,7 @@ const prod = process.env.NODE_ENV === 'production';
 const config = {
   entry: {
     app: './src/js/app',
+    admin: './src/js/admin'
   },
   output: {
     filename: 'js/[name].js?v=[chunkhash:5]',
@@ -47,14 +48,9 @@ const config = {
     }),
   ],
   mode: prod ? 'production' : 'development',
+  stats: prod ? 'normal' : 'minimal',
   bail: prod,
-  performance: { hints: false },
-  stats: {
-    assetsSort: '!size',
-    builtAt: false,
-    children: false,
-    modules: false,
-  },
+  performance: { hints: false }
 };
 
 module.exports = config;

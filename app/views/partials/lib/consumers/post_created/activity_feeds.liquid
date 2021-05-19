@@ -10,8 +10,19 @@
   function publish = 'lib/commands/activities/publish', uuid: event.uuid, type: "user-public", ids: event.actor.id
 %}
 
+{% liquid
+  function audience = 'lib/queries/activities/posts/audience', id: event.object.id
+  function publish = 'lib/commands/activities/publish', uuid: event.uuid, type: "user-private", ids: audience
+%}
+
+{% liquid
+  function audience = 'lib/queries/activities/groups/audience', id: event.attributed_to.id
+  function publish = 'lib/commands/activities/publish', uuid: event.uuid, type: "group-public", ids: event.attributed_to.id
+  function publish = 'lib/commands/activities/publish', uuid: event.uuid, type: "user-private", ids: audience
+%}
+
 {% comment %} system:audit {% endcomment %}
-{% include 'lib/commands/activities/publish', uuid: event.uuid, type: "system", ids: "1" %}
+{% render 'lib/commands/activities/publish', uuid: event.uuid, type: "system", ids: "1" %}
 
 {% comment %} system:posts {% endcomment %}
-{% include 'lib/commands/activities/publish', uuid: event.uuid, type: "system", ids: "6" %}
+{% render 'lib/commands/activities/publish', uuid: event.uuid, type: "system", ids: "6" %}

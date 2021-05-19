@@ -27,7 +27,7 @@ en:
           "quantity" from %{old_quantity} to %{new_quantity} <br/>
           "max in one order" from %{old_max_in_one_order} to %{new_max_in_one_order}
         comment_created: 'posted a comment on <a href="%{url}"> %{target} </a>'
-        post_created: 'created a question <a href="%{url}"> %{title} </a>'
+        post_created: 'posted <a href="%{url}"> %{title} </a>'
         post_answered: 'posted answer on <a href="%{url}"> %{target} </a>'
         user_joined_group: 'joined to <a href="%{url}"> %{target} </a> group'
         group_created: 'created <a href="%{url}"> %{target} </a> group'

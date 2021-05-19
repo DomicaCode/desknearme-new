@@ -24,10 +24,14 @@
 
           <div class="lg:ps-4 lg:py-4 lg:table-cell lg:border-t {% if forloop.first %} rounded-tl {% endif %} {% if forloop.last %} rounded-bl {% endif %} align-middle">
             <span class="lg:hidden">{{ 'app.models.posts.form.title' | t }}: </span>
-            {% function url = 'link_to', post: post %}
-            <a href="{{ url }}">
+            <a href="{% render 'link_to', object: post %}">
               {{ post.title }}
             </a>
+            <div>
+              <a href="{% render 'link_to', object: post.group, action: 'content' %}">
+                <small> {{ post.group.name }} </small>
+              </a>
+            </div>
           </div>
 
           <div class="flex items-center lg:ps-4 lg:py-4 lg:table-cell lg:border-t align-middle">
@@ -46,13 +50,12 @@
           </div>
 
           <div class="mt-2 lg:mt-0 lg:ps-4 lg:py-6 lg:pe-4 lg:table-cell lg:border-t lg:text-right align-middle whitespace-nowrap {% if forloop.first %} rounded-tr {% endif %} {% if forloop.last %} rounded-br {% endif %}">
-            <a href="/dashboard/posts/edit?id={{ post.id }}" class="button button-compact" title="{{ 'app.models.posts.edit' | t }}">
+            <a href="{% render 'link_to', object: post, action: 'edit' %}" class="button button-compact" title="{{ 'app.models.posts.edit' | t }}">
               {% render 'theme/simple/ui/icon', icon: 'pencil' %}
             </a>
-            <form action="/dashboard/posts" method="post" class="inline" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }" >
-              {% include 'authenticity_token' %}
+            <form action="{% render 'link_to', object: post %}" method="post" class="inline" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }" >
+              {% render 'authenticity_token', context: context %}
               <input type="hidden" name="_method" value="delete">
-              <input type="hidden" name="id" value="{{ post.id }}">
 
               <button class="button button-compact button-danger" title="{{ 'app.models.shared.delete' | t }}">
                 {% render 'theme/simple/ui/icon', icon: 'trash' %}
@@ -66,5 +69,5 @@
 
   </section>
 {% else %}
-    {% include 'theme/simple/posts/empty_state' %}
+    {% render 'theme/simple/posts/empty_state' %}
 {% endif %}

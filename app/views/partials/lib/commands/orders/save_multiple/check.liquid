@@ -13,7 +13,11 @@
     assign co = '{ "errors": {}, "valid": true }' | parse_json
 
     function co = 'lib/validations/presence', c: co, object: order, field_name: 'payment_type'
-    function co = 'lib/validations/shipping_type', c: co, object: order, shipping_types: orders[index].seller.shipping_types
+    assign shipping_types = orders[index].seller.shipping_types
+    if shipping_types == blank
+      function shipping_types = 'lib/queries/orders/default_shipping_types'
+    endif
+    function co = 'lib/validations/shipping_type', c: co, object: order, shipping_types: shipping_types
 
     hash_assign order['errors'] = co.errors
     if co.valid == false

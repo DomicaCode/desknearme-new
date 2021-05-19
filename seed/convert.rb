@@ -69,7 +69,7 @@ id_sequence = -> { (start_sequence += 1).to_s }
 # user_id == profile.id
 profiles = [
   { uuid: 'ed034dc5-540e-42ab-9453-75ece6abb7f2', user_id: id_sequence.call, slug: 'yan-seller', name: 'Yan Seller', last_name: 'Yan', first_name: 'Seller' },
-  { uuid: 'ffec6d59-76ba-40d7-a0a1-b594c038c058', user_id: id_sequence.call, slug: 'anton-admin', name: 'Anton Admin', last_name: 'Anton', first_name: 'Admin' },
+  { uuid: 'ffec6d59-76ba-40d7-a0a1-b594c038c058', user_id: id_sequence.call, slug: 'anton-admin', name: 'Anton Admin', last_name: 'Anton', first_name: 'Admin', permissions: '{"superadmin": true}' },
   { uuid: '60593c97-165a-4a52-8e91-e26ae77f1cb8', user_id: id_sequence.call, slug: 'frank-buyer', name: 'Frank Buyer', last_name: 'Frank', first_name: 'Buyer' },
   { uuid: '2c8a51e2-291f-4f0d-94ea-ec010c222fbf', user_id: id_sequence.call, slug: 'ann-random', name: 'Ann Random', last_name: 'Ann', first_name: 'Random' },
   { uuid: '2c8a51e2-291f-4f0d-94ea-ec010c222fbc', user_id: id_sequence.call, slug: 'roy-lurker', name: 'Roy Lurker', last_name: 'Roy', first_name: 'Lurker' },
@@ -155,10 +155,10 @@ source.take(5000).map do |row|
 
   statuses << {
     profile_id: owner,
-    object_id: item['_id'],
+    object_id: item_inventory[:_id],
     fullname: 'app.statuses.items.published',
     scope: 'app.statuses.items',
-    name: 'published',
+    name: 'app.statuses.items.published',
     timestamp: now
   }
   item_detail_en_id = id_sequence.call

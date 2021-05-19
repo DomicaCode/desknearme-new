@@ -12,6 +12,19 @@ query search(
     results {
       id
       type: table
+      content_type: property(name: "content_type")
+
+      owner: related_record(
+        table: "relationship"
+        join_on_property: "id"
+        foreign_property: "r_id"
+        filter: { properties: { name: "name" value: "owner" } }
+      ) {
+        id
+        profile: related_record(table: "profile", join_on_property: "l_id") {
+          id
+        }
+      }
     }
   }
 }

@@ -1,5 +1,9 @@
 en:
   app:
+    groups:
+      content:
+        back: Return to the list
+        new: New
     relationships:
       posts:
         follow: Follow
@@ -12,8 +16,10 @@ en:
         list: Questions
         new: Ask Question
         add: Add Question
-        edit: Edit Question
-        edit_answer: Edit Answer
+        add_heading: New post
+        edit: Edit
+        edit_heading: Edit my post
+        edit_answer: Edit
         empty_state:
           title: You haven't added any questions yet.
           subtitle: Create your first one now!

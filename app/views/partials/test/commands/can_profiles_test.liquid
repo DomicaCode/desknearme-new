@@ -41,16 +41,16 @@
 %}
 
 {% liquid
-  assign ctx = '{"constants": {"CHECKER_USERS": "admin2@example.com"}}' | parse_json
-  assign profile = '{"id":"1000", "type": "profile", "user": {"email": "admin2@example.com"} }' | parse_json
+  assign profile = '{"id":"1000", "type": "profile", "user": {"email": "admin3@example.com"}, "permissions": {"checker": true} }' | parse_json
+  hash_assign profile['permissions'] = profile.permissions | json
 
-  function result = 'lib/can', actor: profile, do: 'be_checker', object: profile, context: ctx
+  function result = 'lib/can', actor: profile, do: 'be_checker', object: profile
   include 'test/assertions/valid_object', contract: contract, object: result, field_name: 'be_checker'
 %}
 
 {% liquid
-  assign ctx = '{"constants": {"CHECKER_USERS": "admin2@example.com"}}' | parse_json
-  assign profile = '{"id":"1000", "type": "profile", "user": {"email": "admin3@example.com"} }' | parse_json
+  assign profile = '{"id":"1000", "type": "profile", "user": {"email": "admin3@example.com"}, "permissions": {} }' | parse_json
+  hash_assign profile['permissions'] = profile.permissions | json
 
   function result = 'lib/can', actor: profile, do: 'be_checker', object: profile, context: ctx
   include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'be_checker'

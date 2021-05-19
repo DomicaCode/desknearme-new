@@ -16,9 +16,13 @@
 
 {% liquid
   assign offline_stores = 'Blue store,Red store' | split: ','
-  function seller = 'test/fixtures/organization', name: "organization 5888", offline_stores: offline_stores
+  if seller == blank
+    function seller = 'test/fixtures/organization', name: "organization 5888", offline_stores: offline_stores
+  endif
   function complex = 'lib/commands/items/create_complex', object: item_data, owner: seller.id
   include 'test/assertions/valid_object', contract: contract, object: complex, field_name: 'complex'
+
+  function status = 'lib/commands/statuses/create', object_id: complex.item_inventory.id, name: 'app.statuses.items.published', profile_id: seller.id
 
   function item = 'lib/queries/items/find', id: complex.item.id
 

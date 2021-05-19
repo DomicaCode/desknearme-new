@@ -1,7 +1,7 @@
 mutation create_item_complex(
   $item_id: ID!
   $item_inventory_id: ID!
-  $item_detail_id: ID!
+  $item_detail_ids: [ID!]!
 ) {
   item: record_update(
     id: $item_id
@@ -19,11 +19,13 @@ mutation create_item_complex(
     }
   ) { id }
 
-  item_detail: record_update(
-    id: $item_detail_id
+  item_details: records_update_all(
+    table: "item_detail"
+    filter: { id: { value_in: $item_detail_ids } }
+    sync: true
     record: {
       table: "item_detail"
       properties: { name: "item_id", value: $item_id }
     }
-  ) { id }
+  ) { count }
 }

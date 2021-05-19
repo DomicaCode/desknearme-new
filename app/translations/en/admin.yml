@@ -33,6 +33,7 @@ en:
         title: Approval Processes
         attr:
           description: Description
+          name: Name
           status: Status
           changed_at: changed at
         show:
@@ -40,6 +41,10 @@ en:
           accept: Accept
           reject: Reject
           approve_or_reject: Approve or reject request
+          old: Old
+          new: New
+          property: Property
+          items_unpublish: 'Unpublish Item: <a href="%{item_url}" target="_blank">%{item_name}</a>'
         list:
           by: by
         update:
@@ -47,7 +52,39 @@ en:
           run_failed: Request accepted but can't execute, please contact support.
           rejected: Request was rejected
           failed: Can't update request
+      users:
+        list:
+          permissions: Permissions
+        permissions:
+          actions:
+            admin: Admin - can access reports
+            superadmin: Superadmin - can access everything
+            maker: Maker
+            checker: Checker
+          update:
+            changed: Permissions changed
+      setup:
+        enable: Enable
+        disable: Disable
+        save: Save
+        saved: Saved
+      auth:
+        title: Authentication
+        required_2fa: Two Factor Authentication on login for merchants and admins
+        enabled: Required
+        disabled: Not required
+        checker_users: Users that can accept processes
+      hcaptcha:
+        title: Require hCaptcha
+      password_policy:
+        title: Require complex password (lowercase, uppercase, number)
+      inventory_acceptance:
+        title: Require acceptance for item inventory changes
+
+
   admin:
+    check_all: Check all
+    uncheck_all: Uncheck all
     navigation:
       dashboard: Dashboard
       sales: Sales
@@ -58,6 +95,7 @@ en:
       activities: Activities
       conversations: Conversations
       processes: Approval Processes
+      settings: Settings
     sales:
       title: Income
       orders: Orders

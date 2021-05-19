@@ -1,15 +1,25 @@
 {% liquid
   assign can = false
 
+  assign permissions = actor.permissions | default: '{}' | parse_json
+  assign superadmins = context.constants.superadmins | split: ','
+  if superadmins contains actor.user.email or permissions.superadmin
+    assign superadmin = true
+  endif
+
   case do
   when 'be_admin'
-    assign superadmins = context.constants.superadmins | split: ','
-    if superadmins contains actor.user.email
+    if permissions.admin or superadmin
       return true
     endif
+  when 'be_superadmin'
+    return superadmin
   when 'be_checker'
-    assign checker_users = context.constants.CHECKER_USERS | split: ','
-    if checker_users contains actor.user.email
+    if permissions.checker or superadmin
+      return true
+    endif
+  when 'be_maker'
+    if permissions.maker or superadmin
       return true
     endif
   when 'required_2fa'

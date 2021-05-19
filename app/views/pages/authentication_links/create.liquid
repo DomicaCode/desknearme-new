@@ -2,7 +2,7 @@
 method: post
 ---
 {% liquid
-  function object = 'lib/commands/authentication_links/create', email: context.params.authentication_link.email, host: context.location.host
+  function object = 'lib/commands/authentication_links/create', email: context.params.authentication_link.email, host: context.location.host, hcaptcha_params: context.params
 
   if object.valid
     function email = 'lib/commands/emails/auth-link', object: object
@@ -17,6 +17,8 @@ method: post
       log email.errors, type: 'ERROR: authentication_links/create email'
       include 'redirect_to', url: '/', notice: 'app.errors.something-went-wrong'
     endif
+  elsif object.erorrs.hcaptcha
+    include 'theme/simple/authentication_links/new', object: object
   elsif object.token == blank
     log object, type: 'reset-password-user-not-found'
     include 'redirect_to', url: '/', notice: 'app.authentication_links.created'

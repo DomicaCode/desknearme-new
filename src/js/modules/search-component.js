@@ -3,6 +3,7 @@ window.searchComponent = function () {
     spinner: false,
     frame: null,
     isSidebarOpen: false,
+    isSellersExpanded: false,
     init(){
       this.watchScreen();
       this.handleBack();

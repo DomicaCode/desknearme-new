@@ -1,4 +1,7 @@
 de:
+  languages:
+    en: Englisch
+    de: Deutsche
   app:
     hero:
       shop: Finden Sie Ihre Traumuhr

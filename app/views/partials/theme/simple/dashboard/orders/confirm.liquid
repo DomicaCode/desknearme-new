@@ -21,12 +21,12 @@
         <div class="relative">
           <div class="absolute top-0 -bottom-10 -start-10.5 -z-10 border-s-2"></div>
           {% render 'theme/simple/dashboard/orders/section_header', number: 1, title: 'app.orders.checkout.contact_title', subtitle: 'app.orders.checkout.contact_subtitle'  %}
-          {% render 'theme/simple/dashboard/orders/shipping_contact_show', object: orders.results[0] %}
+          {% render 'theme/simple/dashboard/orders/confirm/shipping_contact_show', object: orders.results[0] %}
           {% render 'theme/simple/dashboard/orders/section_header', number: 2, title: 'app.orders.checkout.shipping_title', subtitle: 'app.orders.checkout.shipping_subtitle'  %}
-          {% render 'theme/simple/dashboard/orders/shipping_method_show', orders: orders.results, object: object %}
+          {% render 'theme/simple/dashboard/orders/confirm/shipping_method_show', orders: orders.results, object: object %}
         </div>
         {% render 'theme/simple/dashboard/orders/section_header', number: 3, title: 'app.orders.checkout.payment_title', subtitle: 'app.orders.checkout.payment_subtitle'  %}
-        {% render 'theme/simple/dashboard/orders/payment_method_show', object: orders.results[0] %}
+        {% render 'theme/simple/dashboard/orders/confirm/payment_method_show', object: orders.results[0] %}
 
         <div class="mt-6 gap-5 flex justify-between">
           <a href="/dashboard/buy/cart" class="button button-secondary">
@@ -45,7 +45,7 @@
         <div class="p-6 border-2">
           {% liquid
             for order in orders.results
-              render 'theme/simple/dashboard/orders/show_no_edit_short', order: order, first_item: forloop.first
+              render 'theme/simple/dashboard/orders/order_short', order: order, first_item: forloop.first
             endfor
           %}
         </div>

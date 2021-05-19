@@ -72,6 +72,7 @@ query search(
         ...profile
       }
 
+      seller_id: property(name: "seller")
       seller: related_record(
         join_on_property: "seller"
         foreign_property: "id"

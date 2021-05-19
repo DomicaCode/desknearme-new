@@ -1,6 +1,5 @@
 {% liquid
-  assign graphql_query = 'items/search'
-  graphql r = graphql_query, args: query
+  graphql r = 'items/search', args: query
   include 'lib/handle_graphql_response', r: r, name: 'queries/search/execute'
 
   return r.items

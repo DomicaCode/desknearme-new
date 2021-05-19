@@ -21,7 +21,7 @@
     <section class="table">
 
       <header>
-        <div>{{ 'app.admin.processes.attr.description' | t }}</div>
+        <div>{{ 'app.admin.processes.attr.name' | t }}</div>
         <div>{{ 'app.admin.processes.attr.status' | t }}</div>
         <div>{{ 'app.admin.processes.attr.changed_at' | t }}</div>
       </header>
@@ -31,9 +31,9 @@
           <ul>
             <li>
               <div class="flex items-center">
-                <span class="lg:hidden">{{ 'app.admin.processes.attr.description' | t }}</span>
+                <span class="lg:hidden">{{ 'app.admin.processes.attr.name' | t }}</span>
                 <a href="/admin/processes/{{process.id}}">
-                  {% render 'theme/simple/admin/processes/description', process: process %}
+                  {% render 'theme/simple/admin/processes/name', process: process %}
                 </a>
               </div>
             </li>
@@ -41,16 +41,14 @@
               <div class="flex items-center">
                 <span class="lg:hidden">{{ 'app.admin.processes.attr.requested_by' | t }}</span>
                 <a href="/admin/processes/{{process.id}}">
-                  {{ process.status.name | t  }}
-                  {{ 'app.admin.processes.list.by' | t }}
-                  {{ process.status.profile.first_name }} {{ process.status.profile.last_name }}
+                  {% render 'theme/simple/admin/processes/status', process: process %}
                 </a>
               </div>
             </li>
             <li>
               <span class="lg:hidden">{{ 'app.admin.processes.attr.changed_at' | t }}</span>
               {% if process.status.created_at %}
-              {{ process.status.created_at | l: 'compact' }}
+                {{ process.status.created_at | l: 'compact' }}
               {% endif %}
             </li>
           </ul>

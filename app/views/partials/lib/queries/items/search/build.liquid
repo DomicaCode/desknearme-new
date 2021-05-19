@@ -49,13 +49,12 @@
     hash_assign query['status'] = 'app.statuses.items.' | append: status
   endif
   if statuses
-    assign statuses = statuses | split: ','
     assign full_statuses = '[]' | parse_json
     for name in statuses
       assign full_name = 'app.statuses.items.' | append: name
       assign full_statuses =  full_statuses | add_to_array: full_name
     endfor
-    hash_assign query['status'] = null
+    hash_assign query['status'] = full_statuses
     hash_assign query['statuses'] = full_statuses
   endif
 %}

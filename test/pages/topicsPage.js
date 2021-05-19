@@ -6,9 +6,9 @@ export default class TopicsPage {
       addQuestion: Selector('a').withText('Add Question'),
       postQuestion: Selector('button').withText('Add Question'),
       postAnswer: Selector('button').withText("Post answer"),
-      editQuestion: Selector('a').withAttribute("title", "Edit Question"),
+      editQuestion: Selector('a').withAttribute("title", "Edit"),
       deleteQuestion: Selector('button').withAttribute("title", 'Delete'),
-      submitEdit:Selector('button').withText("Edit Question"),
+      submitEdit:Selector('button').withText("Edit"),
       reply: Selector('button').withText('Reply')
     }
     this.inputs = {

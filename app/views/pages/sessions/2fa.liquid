@@ -7,8 +7,9 @@ method: post
   function object = 'lib/commands/users/verify_otp', object: context.params.2fa
   if object.valid
     sign_in_rc user_id: object.id
-    include 'redirect_to', url: '/dashboard/sell/orders', notice: 'app.sessions.created'
+    function url = 'lib/after_sign_in_url', user_id: object.id
+    include 'redirect_to', default_url: url, notice: 'app.sessions.created'
   else
-    include 'theme/simple/sessions/2fa', object: object
+    include 'theme/simple/sessions/2fa_verify', object: object
   endif
 %}

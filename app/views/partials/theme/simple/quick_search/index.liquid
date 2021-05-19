@@ -1,11 +1,19 @@
 <div class="container mx-auto">
-  <div class="flex flex-wrap -mx-4 cards">
-    {% if records.results.size > 0 %}
-      {% for model in records.results %}
-        {% render 'theme/simple/quick_search/card', model: model %}
-      {% endfor %}
-    {% else %}
-      <p class="container my-8 text-lg">{{ 'app.search.no_items_found' | t }}</p>
-    {% endif %}
-  </div>
+  {% if records.results.size > 0 %}
+    {% assign sorted = records.results | group_by: 'type' %}
+    {% for type in sorted %}
+      <h2 class="title">{{ type[0] | capitalize | pluralize }}</h2>
+      <div class="grid grid-cols-3 gap-x-8 gap-y-6 cards mb-10">
+        {% for model in type[1] %}
+          {% if type[0] == 'profile' and model.slug == blank %}
+            {% continue %}
+          {% endif %}
+
+          {% render 'theme/simple/quick_search/card', model: model %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="container my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
+  {% endif %}
 </div>

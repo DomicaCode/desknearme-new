@@ -45,6 +45,7 @@ query search(
       language: property(name: "language")
       default_address_id: property(name: "default_address_id")
       otp_configured: property_boolean(name: "otp_configured")
+      permissions: property_json(name: "permissions")
 
       default_address: related_record(
         table: "address"

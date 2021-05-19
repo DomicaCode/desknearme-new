@@ -1,5 +1,6 @@
 {% liquid
   function object = 'modules/chat/lib/commands/conversations/find_or_create/build', object: object, current_profile: current_profile
+
   if object.conversation_id
     function conversation = 'modules/chat/lib/queries/conversations/find_by_participant', id: object.conversation_id, participant_id: current_profile.id, include_messages: true
   else
@@ -8,6 +9,8 @@
       function conversation = 'modules/chat/lib/commands/conversations/create', object: object, current_profile: current_profile
     endunless
   endif
+
+  function conversation = 'modules/chat/lib/commands/conversations/find_or_create/check', object: conversation, current_profile: current_profile
 
   return conversation
 %}

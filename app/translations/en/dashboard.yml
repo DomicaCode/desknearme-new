@@ -24,4 +24,5 @@ en:
       sell-orders: Sold
       returns: Returns
       sales: Sales Report
-      setup_two_factor: Setup Two Factor
+      enable_additional_security: Enable additional login security
+      setup_two_factor: Setup two-factor authentication

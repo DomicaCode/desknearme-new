@@ -14,5 +14,5 @@ metadata:
   function orders = 'lib/queries/orders/search', page: context.params.page, limit: 20, buyer: current_profile.id, withStatuses: true, lang: context.language, status: active_statuses
 
   render 'theme/simple/ui/breadcrumbs', breadcrumbs: context.page.metadata.breadcrumbs, value: orders.total_entries
-  include 'theme/simple/dashboard/orders/index', orders: orders, role: 'buyer', page: context.params.page
+  include 'theme/simple/dashboard/orders/list_buyer', orders: orders, role: 'buyer', page: context.params.page
 %}

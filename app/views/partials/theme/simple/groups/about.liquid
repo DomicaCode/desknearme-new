@@ -1,13 +1,14 @@
+<div class="container">
 <div class="flex">
   <div class="w-2/3 p-5 bg-panel md:me-10">
-    <img class="object-cover object-center w-full h-64" src="{{ group.main_photo.photo.versions.uncropped | default: 'https://dummyimage.com/720x400' }}" alt="blog">
+    <img class="object-cover object-center w-full h-64" src="{{ group.main_photo.photo.versions.uncropped | default: 'https://ipsumimage.appspot.com720x400' }}" alt="blog">
 
     <h2 class="title">
       {{ group.name }}
     </h2>
 
     <div class="flex items-center my-5">
-      <img class="object-cover object-center w-16 h-16 me-5 rounded-full shadow-md" src="{{  group.owner.profile.avatar.photo.versions.small | default: 'https://dummyimage.com/100x100' }}" />
+      <img class="object-cover object-center w-16 h-16 me-5 rounded-full shadow-md" src="{{  group.owner.profile.avatar.photo.versions.small | default: 'https://ipsumimage.appspot.com/100x100' }}" />
       <a class="text-xl font-bold" href="/profile/{{ group.owner.profile.slug }}">
         {{ group.owner.profile.first_name }} {{ group.owner.profile.last_name }}
       </a>
@@ -31,9 +32,10 @@
     </div>
 
     {% if list.total_entries > list.results.size %}
-      <a href="/groups/members/{{ group.id }}" class="button button-secondary">
+      <a href="{% render 'link_to', group: group, action: 'members' %}" class="button button-secondary">
         {{ 'app.groups.view_all' | t }}
       </a>
     {% endif %}
   </div>
+</div>
 </div>

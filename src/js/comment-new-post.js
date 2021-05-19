@@ -11,10 +11,3 @@ showNewComments.forEach((showComment)=> {
     button.parentElement.closest('[data-comment-new-post]').querySelector('[data-comment-form]').classList.toggle('hidden')
   };
 });
-
-const answerButton = document.querySelectorAll('button[data-show-answer-btn]');
-answerButton.forEach((btn)=> {
-  btn.onclick = (e) => {
-    document.querySelector('[data-answer-form]').classList.toggle('hidden')
-  };
-});

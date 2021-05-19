@@ -52,6 +52,7 @@ You can preview the marketplace template on our demo site here:
     - [Consumers](#consumers)
   - [Custom validation error messages](#custom-validation-error-messages)
   - [Social Media / Community](#social-media--community)
+    - [groups](#groups)
     - [following](#following)
     - [activity feeds](#activity-feeds)
     - [activities](#activities)
@@ -358,6 +359,7 @@ let myNotification = new api.flash('[type]', '[content]', [settings]);
 | --- | --- |
 | `type` | **String**. The type of the notification to show, choosen from: `error`, `success` |
 | `content` | **String**. The message that will appear on the notification. |
+| `settigns` | **Object**. The settings that will overwrite defaults. |
 
 **Methods**
 | Name | Description |
@@ -371,6 +373,26 @@ An object that will pass optional user settings to overwrite the defaults. `{set
 | --- | --- |
 | `autohide` | **Bool**. If you want the notification to be hidden automatically after some time. Defaults to `true` for success messages and `false` for errors. |
 | `delay` | **Int**. The amount of miliseconds that the notification will wait before appearing on screen. |
+
+
+
+### Toggle all checkboxes in given container
+Checkes or unchecks all checkboxes in given container. __Available only in admin panel.__
+
+```js
+api.toggleList([container], [settings])
+```
+
+**Arguments**
+| Name | Description |
+| --- | --- |
+| `container` | **DOM node**. The element that holds the checkboxes that will be toggled |
+
+**Returns**
+| Name | Condition |
+| --- | --- |
+| `true` | If all the boxes were checked |
+| `false` | If all the boxes were unchecked |
 
 
 
@@ -394,6 +416,40 @@ See [commit/c4c046](https://github.com/mdyd-dev/product-marketplace-template/com
 
 
 ## Social Media / Community
+
+### Groups
+
+#### Permissions explained - group properties
+
+Note. This is a work in progress. Wording might change.  
+
+**boolean properties**: yes | no
+- ask_to_join - non-members can ask to join this group
+
+**role based**: anonynous | member (moderator admin etc)
+- meta_visible: _role_ can see groups's metadata (title, description)
+- content_visible: _role_ can see group's content (activity, content, members)
+- approve_request: _role_  can approve new members, if *anonymous* request gets auto approved
+- post_content: _role_ can post content to this group
+- invite_member: _role_ can invite new members
+
+##### sample groups
+
+    secret: 
+      ask_to_join: no
+      meta_visible: member
+      content_visible: member
+      approve_request: member
+      post_content: member
+      invite_member: member
+      
+    private: 
+      ask_to_join: yes
+      meta_visible: anonymous
+      content_visible: member
+      approve_request: member
+      post_content: member
+      invite_member: member
 
 ### following
 

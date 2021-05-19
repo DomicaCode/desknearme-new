@@ -19,7 +19,11 @@
       function object = 'lib/queries/activities/model', id: object_id
     endif
 
-    function event = 'lib/commands/events/create/build', type: type, actor: actor, object: object, target: target
+    if object.group_id
+      function attributed_to = 'lib/queries/activities/model', id: object.group_id
+    endif
+
+    function event = 'lib/commands/events/create/build', type: type, actor: actor, object: object, target: target, attributed_to: attributed_to
     function event = 'lib/commands/events/create/check', object: event
 
     if event.valid

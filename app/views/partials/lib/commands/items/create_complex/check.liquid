@@ -18,16 +18,29 @@
     endunless
   endif
 
-  function c = 'lib/validations/presence', c: c, object: object, field_name: 'name'
-  function c = 'lib/validations/presence', c: c, object: object, field_name: 'description'
-  function c = 'lib/validations/presence', c: c, object: object, field_name: 'lang'
+
+  function c = 'lib/validations/length', c: c, object: object, field_name: 'details', minimum: 1
+  for lang in object.details
+    assign detail = lang[1]
+    assign cd = '{ "errors": {}, "valid": true }' | parse_json
+    if detail.lang == 'en' or detail.name != blank or detail.description != blank
+      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'name'
+      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'description'
+      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'lang'
+    endif
+    hash_assign detail['errors'] = cd.errors
+    hash_assign detail['valid'] = cd.valid
+    if cd.valid != true
+      hash_assign c['valid'] = false
+    endif
+  endfor
 
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'owner'
+  function c = 'lib/validations/number',   c: c, object: object, field_name: 'quantity', greater_than: 0
+  function c = 'lib/validations/number',   c: c, object: object, field_name: 'max_in_one_order', greater_than: 0
   comment
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'sku'
   endcomment
-  function c = 'lib/validations/number',   c: c, object: object, field_name: 'quantity', greater_than: 0
-  function c = 'lib/validations/number',   c: c, object: object, field_name: 'max_in_one_order', greater_than: 0
 
 
   hash_assign object['valid'] = c.valid

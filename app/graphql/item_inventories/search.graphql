@@ -9,6 +9,7 @@ query search(
   $c__status: String
   $statuses: [String!]
   $lang: String!
+  $withAllLangs: Boolean = false
 ) {
   item_inventories: records(
     per_page: $limit
@@ -46,8 +47,6 @@ query search(
       quantity: property_int(name: "quantity")
       max_in_one_order: property_int(name: "max_in_one_order")
 
-      c__status: property(name: "c__status")
-
       item: related_record(
         table: "item"
         join_on_property: "item_id"
@@ -60,6 +59,7 @@ query search(
         price: property_int(name: "price")
         return_days: property_int(name: "return_days")
         currency: property(name: "currency")
+        item_inventory_id: property(name: "item_inventory_id")
 
         item_detail: related_record(
           table: "item_detail"
@@ -75,10 +75,24 @@ query search(
           lang: property(name: "lang")
         }
 
+        item_details: related_records(
+          table: "item_detail"
+          join_on_property: "id"
+          foreign_property: "item_id"
+
+        ) @include(if: $withAllLangs) {
+          id
+          type: table
+          name: property(name: "name")
+          description: property(name: "description")
+          tags: property_array(name: "tags")
+          lang: property(name: "lang")
+        }
+
         photos: related_records(
           table: "photo"
-          join_on_property: "uuid"
-          foreign_property: "object_uuid"
+          join_on_property: "photo_ids"
+          foreign_property: "id"
         ) {
           id
           photo: property_upload(name: "photo") {
@@ -108,6 +122,16 @@ query search(
         delivery_fee: property_int(name: "delivery_fee")
       }
 
+      status: related_record(
+        join_on_property: "id"
+        foreign_property: "object_id"
+        table: "status"
+        sort: { created_at: { order: ASC } }
+      ) {
+        id
+        created_at
+        name: property(name: "name")
+      }
     }
   }
 }

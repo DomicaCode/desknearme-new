@@ -3,6 +3,9 @@ en:
     formats:
       long: '%a, %b %e, %Y at %H:%M'
       compact: '%b %d %Y at %H:%M'
+  languages:
+    en: english
+    de: german
   app:
     chat:
       setup:
@@ -12,10 +15,11 @@ en:
       disabled: Denied. Chat is currently disabled, if you think you got this error by mistake contact our support.
     home:
       feeds:
-        comments: People posting
-        groups: People gathering
-        items: People selling
-        profiles: People joining
+        comments: New comments
+        posts: New posts
+        groups: New groups
+        items: New items
+        profiles: New members
         categories: Popular categories
         promoted_items: Today's Deals
     relationships:
@@ -49,6 +53,7 @@ en:
     status: Status
     name: Name
     cancel: Cancel
+    number: Number
     authentication_links:
       created: Please check your inbox. If the provided email was correct, you'll receive some instructions on how to reset your password.
     confirm-delete: Are you sure you want to delete this item?

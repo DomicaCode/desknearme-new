@@ -7,12 +7,17 @@ method: post
 
   function object = 'lib/commands/items/create_complex', object: context.params.item, owner: current_profile.id
   if object.valid
-    include 'lib/commands/events/create', type: 'item_created', actor_id: current_profile.id, object_id: object.item.id
-    function status = 'lib/commands/statuses/create', object_id: object.item_inventory.id, name: 'app.statuses.items.published', scope: 'app.statuses.items', profile_id: current_profile.id
-    include 'lib/commands/events/create', type: 'status_created', actor_id: current_profile.id, object_id: status.id, target_id: status.object_id
-
-    function url = 'link_to', item: object.item
-    include 'redirect_to', url: url, notice: 'app.items.created'
+    include 'lib/commands/events/create', type: 'item_created', actor_id: current_profile.id, object_id: object.item_id
+    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish', object: object, current_profile: current_profile
+    if publish_object.valid != true
+      log publish_object, type: 'ERROR: items publish'
+    endif
+    if publish_object.require_acceptance
+      include 'redirect_to', url: '/dashboard/sell/items', notice: 'app.items.need_to_be_accepted_before_create_publish'
+    else
+      function url = 'link_to', item: object.item
+      include 'redirect_to', url: url, notice: 'app.items.created'
+    endif
   else
     function filters = 'lib/queries/search/filters', query: context.params
     function presigned_url = 'lib/queries/presigned_url'

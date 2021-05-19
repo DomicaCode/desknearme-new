@@ -12,10 +12,10 @@ mutation update(
   $invite_member: String
   $content_type: String
 ) {
-  model_update(
+  record_update(
     id: $id
-    model: {
-      model_schema_name: "group"
+    record: {
+      table: "group"
       properties: [
         { name: "name", value: $name }
         { name: "summary", value: $summary }

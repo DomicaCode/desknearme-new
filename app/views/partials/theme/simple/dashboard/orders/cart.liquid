@@ -36,7 +36,7 @@
 
       {% liquid
         for order in orders.results
-          include 'theme/simple/dashboard/orders/show_edit', order: order, role: 'buyer'
+          include 'theme/simple/dashboard/orders/cart/order_edit', order: order, role: 'buyer'
         endfor
       %}
 
@@ -59,6 +59,6 @@
       </li>
     </ul>
 
-    {% include 'theme/simple/dashboard/orders/actions/buyer', orders: orders.results %}
+    {% include 'theme/simple/dashboard/orders/cart/checkout_button', orders: orders.results %}
   </div>
 {% endif %}

@@ -20,8 +20,8 @@ const toggleFollowing = (event) => {
   toggleFollowingUser(action, event.target.dataset.followUser)
 
   followButtons
-    .filter(e => e.dataset.followUser == event.target.dataset.followUser)
-    .forEach(b => setButtonState(b))
+    .filter(evt => evt.dataset.followUser == event.target.dataset.followUser)
+    .forEach(btn => setButtonState(btn))
 }
 
 followButtons.forEach(button => button.addEventListener('click', toggleFollowing, true))

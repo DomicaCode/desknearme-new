@@ -15,18 +15,22 @@
 {% endif %}
 
 {% liquid
-  if type == "boolean"
+  case type
+  when "boolean"
     if value == "true"
       return true
     else
       return false
     endif
-  elsif type == "integer"
+  when "integer"
     assign value = value | plus: 0
+    return value
+  when "array"
+    assign value = value | split: ','
     return value
   else
     return value
-  endif
+  endcase
 %}
 
 

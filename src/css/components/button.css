@@ -8,6 +8,7 @@
     with icon
   small secondary
   compact
+  admin buttons
 */
 
 
@@ -170,4 +171,22 @@ button:focus-visible {
 .button-compact {
   @apply
     px-1;
+}
+
+
+
+/* admin buttons
+============================================================================ */
+.button-options {
+  @apply
+    px-2
+    flex
+    items-center
+    border
+    bg-panel
+    rounded
+    uppercase
+    font-bold
+    text-interaction
+    hover:text-interaction-hover;
 }

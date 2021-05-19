@@ -11,9 +11,9 @@ mutation create_post(
   $accepted_post_id: String
   $c__score: Int
 ) {
-  model_create(
-    model: {
-      model_schema_name: "post"
+  record_create(
+    record: {
+      table: "post"
       properties: [
         { name: "uuid" value: $uuid }
         { name: "parent_id", value: $parent_id }
@@ -33,6 +33,8 @@ mutation create_post(
     created_at
     deleted_at
 
+    type: table
+
     parent_id: property(name: "parent_id")
     group_id: property(name: "group_id")
     creator_id: property(name: "creator_id")
@@ -44,5 +46,16 @@ mutation create_post(
     accepted_post_id: property(name: "accepted_post_id")
     c__score: property_int(name: "c__score")
     slug: property(name: "slug")
+
+    group: related_record(
+      table: "group"
+      join_on_property: "group_id"
+      foreign_property: "id"
+    ) {
+      id
+      type: table
+      name: property(name: "name")
+    }
+
   }
 }

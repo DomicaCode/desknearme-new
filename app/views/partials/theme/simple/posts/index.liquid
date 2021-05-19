@@ -14,9 +14,9 @@
     endif
 
     for post in posts.results
-      render 'theme/simple/posts/summary', post: post
+      render 'theme/simple/groups/content/summary', post: post, content_type: group.content_type, context: context
     else
-     include 'theme/simple/posts/empty_state'
+     render 'theme/simple/posts/empty_state'
     endfor
   %}
 </div>

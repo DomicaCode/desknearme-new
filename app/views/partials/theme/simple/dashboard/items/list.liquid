@@ -6,6 +6,10 @@
 
     <div class="flex items-center justify-between">
       <h2 class="bigtitle">{{ 'app.items.list' | t }}</h2>
+      <a href="/dashboard/items/new" class="button button-icon-right button-small">
+        {{ 'app.items.add' | t }}
+        {% render 'theme/simple/ui/icon', icon: 'plus' %}
+      </a>
 
       {% capture 'filters' %}
         <div class="py-4 px-7">

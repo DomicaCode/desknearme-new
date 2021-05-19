@@ -57,4 +57,5 @@ fragment profile on Record {
   last_name: property(name: "last_name")
   slug: property(name: "slug")
   uuid: property(name: "uuid")
+  type: table
 }

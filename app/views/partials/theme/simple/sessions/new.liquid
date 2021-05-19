@@ -1,9 +1,7 @@
 <section class="my-10 container items-center">
   <h2 class="bigtitle text-center">{{ 'app.login_form.log_in' | t }}</h2>
 
-  <form action="/sessions/create" method="post" class="card w-full md:w-96 mx-auto"
-    onsubmit="document.getElementById('password').value = btoa(document.getElementById('password').value)"
-  >
+  <form action="/sessions/create" method="post" class="card w-full md:w-96 mx-auto">
     {% render 'authenticity_token', context: context %}
 
     <fieldset>

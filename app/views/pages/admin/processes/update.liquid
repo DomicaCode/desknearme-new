@@ -15,7 +15,7 @@ layout: admin
   function object = 'lib/commands/processes/update', object: context.params.process, profile: current_profile
   if object.valid
     if object.action == 'accept'
-      function object = 'lib/commands/processes/run', object: process, current_profile: current_profile
+      function object = 'lib/commands/processes/run', object: process
       if object.valid
         include 'redirect_to', url: '/admin/processes', notice: 'app.admin.processes.update.run_succeeded'
       else

@@ -3,6 +3,7 @@
 
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'id'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'quantity'
+  function c = 'lib/validations/number',   c: c, object: object, field_name: 'quantity', greater_than: -1
   function c = 'lib/validations/number',   c: c, object: object, field_name: 'max_in_one_order', greater_than: 0
 
   hash_assign object['valid'] = c.valid

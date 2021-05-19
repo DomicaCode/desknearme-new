@@ -12,9 +12,9 @@ mutation create_group(
   $invite_member: String
   $content_type: String
 ) {
-  model_create(
-    model: {
-      model_schema_name: "group"
+  record_create(
+    record: {
+      table: "group"
       properties: [
         { name: "uuid", value: $uuid }
         { name: "name", value: $name }

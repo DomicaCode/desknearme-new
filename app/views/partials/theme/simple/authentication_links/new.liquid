@@ -12,6 +12,9 @@
       {% include 'theme/simple/field_error', errors: object.errors.email %}
     </fieldset>
 
+
+    {% include 'hcaptcha', object: object %}
+
     <fieldset class="mt-5 text-center">
       <button class="button">{{ 'app.account.reset_password.send_link' | t }}</button>
     </fieldset>

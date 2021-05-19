@@ -11,6 +11,8 @@ query search(
   $sort: RecordsSortInput = { created_at: { order: DESC } }
   $withStatuses: Boolean = false
   $withOrders: Boolean = false
+  $withInventoryItem: Boolean = false
+  $withAllLangs: Boolean = false
   $lang: String!
   $price_min: String
   $price_max: String
@@ -71,6 +73,7 @@ query search(
       cover_photo_url: property(name: "cover_photo_url")
       slug: property(name: "slug")
       promoted: property_boolean(name: "promoted")
+      photo_ids: property_array(name: "photo_ids")
 
       item_detail: related_record(
         table: "item_detail"
@@ -78,6 +81,21 @@ query search(
         foreign_property: "item_id"
         filter: { properties: { name: "lang", value: $lang } }
       ) {
+        id
+        type: table
+        name: property(name: "name")
+        description: property(name: "description")
+        tags: property_array(name: "tags")
+        lang: property(name: "lang")
+      }
+
+      item_details: related_records(
+        table: "item_detail"
+        join_on_property: "id"
+        foreign_property: "item_id"
+        sort: { properties: { name: "lang", order: ASC } }
+
+      ) @include(if: $withAllLangs) {
         id
         type: table
         name: property(name: "name")
@@ -154,6 +172,27 @@ query search(
             }
           }
         }
+
+        item: related_record(
+          table: "item"
+          join_on_property: "item_id"
+          foreign_property: "id"
+        ) @include(if: $withInventoryItem) {
+          id
+          type: table
+          uuid: property(name: "uuid")
+          item_detail: related_record(
+            table: "item_detail"
+            join_on_property: "id"
+            foreign_property: "item_id"
+            filter: { properties: { name: "lang", value: $lang } }
+          ) {
+            id
+            type: table
+            name: property(name: "name")
+            description: property(name: "description")
+          }
+        }
       }
 
       status: related_record(
@@ -178,8 +217,8 @@ query search(
 
       photos: related_records(
         table: "photo"
-        join_on_property: "uuid"
-        foreign_property: "object_uuid"
+        join_on_property: "photo_ids"
+        foreign_property: "id"
       ) {
         id
         photo: property_upload(name: "photo") {

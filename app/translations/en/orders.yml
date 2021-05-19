@@ -119,6 +119,7 @@ en:
         qtd: Qtd
         quantity: Quantity
         category: Category
+        unit: Unit
         unit_price: Unit price
         total_price: Total price
         return_info: Return info
@@ -234,15 +235,17 @@ en:
         change: Change
         cta_button: Confirm
         errors:
-          order_changed: Order has changed, please review
+          order_changed: It seems that at least one of the items you try to buy is not valid anymore.
       line-items:
         created: Item added to shopping cart
         errors:
           quantity-too-big: 'The quantity you’ve choosen is not available.'
           quantity-no-items: 'item is no longer available'
-          failed-to-create: Failed to add item to shopping cart
-          item-changed: item changed since you have added it to cart
+          failed-to-create: Failed to add the item to the shopping cart
+          item-changed: We are sorry, the item has changed since you had added it to the cart. Please remove it to proceed.
           wrong-order-status: 'Updating line-item of %{status} order if not allowed.'
+          item-outdated: This item has been modified by the Merchant and it cannot be bought anymore.
+          item-not-published: The item is not available for sale anymore.
       payment_types:
         example: Example Payment Gateway
         stripe: Stripe

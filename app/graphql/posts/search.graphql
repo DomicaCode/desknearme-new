@@ -65,12 +65,18 @@ query search(
         ...comment
       }
 
-      parent: related_record(
-        table: "post"
-        join_on_property: "parent_id"
-        foreign_property: "id"
-      ) {
+      group: related_record(table: "group" join_on_property: "group_id" foreign_property: "id") {
         id
+        type: table
+        name: property(name: "name")
+        content_type: property(name: "content_type")
+      }
+
+      parent: related_record(table: "post" join_on_property: "parent_id" foreign_property: "id") {
+        id
+        type: table
+        group_id: property(name: "group_id")
+        body: property(name: "body")
       }
 
       posts: related_records(
@@ -89,6 +95,7 @@ query search(
         uuid: property(name: "uuid")
         parent_id: property(name: "parent_id")
         creator_id: property(name: "creator_id")
+        group_id: property(name: "group_id")
         title: property(name: "title")
         body: property(name: "body")
         upvote_profile_ids: property_array(name: "upvote_profile_ids")

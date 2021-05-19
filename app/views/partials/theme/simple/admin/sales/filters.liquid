@@ -14,8 +14,14 @@
     </div>
   </section>
 
-  <section class="mt-4 border rounded p-4">
-    <h4 class="-mx-4 px-4 pb-2 border-b uppercase font-bold">{{ 'app.search.organizations' | t }}</h4>
+  <section class="mt-4 border rounded p-4" x-data="{ allChecked: true }">
+    <header class="-mx-4 px-4 pb-2 flex justify-between border-b">
+      <h4 class="uppercase font-bold">{{ 'app.search.organizations' | t }}</h4>
+      <button x-on:click="allChecked = api.toggleList($el)" x-bind:title="allChecked ? '{{ 'admin.uncheck_all' | t }}' : '{{ 'admin.check_all' | t }}'" class="button-options">
+        <span x-cloak x-show="!allChecked">{% render 'theme/simple/ui/icon', icon: 'check', class: 'w-3' %}</span>
+        <span x-cloak x-show="allChecked">{% render 'theme/simple/ui/icon', icon: 'x', class: 'w-3' %}</span>
+      </button>
+    </header>
     <ul>
       {% for organization in organizations %}
         <li class="mt-2 flex items-start gap-2">
@@ -36,8 +42,14 @@
     </ul>
   </section>
 
-  <section class="mt-4 border rounded p-4">
-    <h4 class="-mx-4 px-4 pb-2 border-b uppercase font-bold">{{ 'app.search.statuses' | t }}</h4>
+  <section class="mt-4 border rounded p-4" x-data="{ allChecked: false }">
+    <header class="-mx-4 px-4 pb-2 flex justify-between border-b">
+      <h4 class="uppercase font-bold">{{ 'app.search.statuses' | t }}</h4>
+      <button x-on:click="allChecked = api.toggleList($el)" x-bind:title="allChecked ? '{{ 'admin.uncheck_all' | t }}' : '{{ 'admin.check_all' | t }}'" class="button-options">
+        <span x-cloak x-show="!allChecked">{% render 'theme/simple/ui/icon', icon: 'check', class: 'w-3' %}</span>
+        <span x-cloak x-show="allChecked">{% render 'theme/simple/ui/icon', icon: 'x', class: 'w-3' %}</span>
+      </button>
+    </header>
     <ul>
       {% for status in statuses %}
         {% assign key = 'app.statuses.orders.' | append: status[0] %}

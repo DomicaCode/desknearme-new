@@ -1,6 +1,7 @@
 mutation create_process(
   $payload: String!
   $command: String!
+  $profile_id: String!
 ) {
   record_create(
     record: {
@@ -8,6 +9,7 @@ mutation create_process(
       properties: [
         { name: "payload" value: $payload }
         { name: "command" value: $command }
+        { name: "profile_id" value: $profile_id }
       ]
     }
   ){

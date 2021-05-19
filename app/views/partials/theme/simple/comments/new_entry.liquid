@@ -4,8 +4,9 @@
     assign images = true
   endif
 %}
+
 <form action="/comments" method="post" data-comment-new-post>
-  {% include 'authenticity_token', authenticity_token: authenticity_token %}
+  {% render 'authenticity_token', context: context %}
   <input type="hidden" name="comment[commentable_id]" value="{{ commentable.id }}" />
   <input type="hidden" name="comment[commentable_uuid]" value="{{ commentable.uuid }}" />
   <input type="hidden" name="comment[commentable_type]" value="{{ commentable_type }}" />
@@ -44,6 +45,6 @@
 
 {% liquid
   if images
-    include 'theme/simple/photos/uppy_form', object_uuid: uuid, presigned_url: presigned_url, user_id: current_profile.id, photo_type: 'main'
+    render 'theme/simple/photos/uppy_form', object_uuid: uuid, presigned_url: presigned_url, user_id: current_profile.id, photo_type: 'main'
   endif
 %}

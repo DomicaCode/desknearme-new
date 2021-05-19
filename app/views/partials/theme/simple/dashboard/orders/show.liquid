@@ -1,5 +1,12 @@
 {% liquid
   assign transaction = transactions.first
+  for t in transactions
+    if t.status.name == 'app.statuses.transactions.success'
+      assign transaction = t
+      break
+    endif
+  endfor
+
   if role == 'seller'
     assign back_url = '/dashboard/sell/orders/'
     assign user = order.buyer
@@ -9,7 +16,7 @@
     assign user = order.seller
     assign name = user.name
   elsif role == 'admin'
-    assign back_url = '/dashboard/buy/orders/'
+    assign back_url = '/admin/sales'
     assign name = 'Buyer: ' | append: order.buyer.first_name | append: ' ' | append: order.buyer.last_name | append: ' , Seller:' | append: order.seller.name
   endif
   assign cancelled = false
@@ -64,7 +71,7 @@
     {% liquid
       assign minutes_from_confirmation = order.status.created_at | to_time | time_diff: 'now' , 'm'
     %}
-    {% if minutes_from_confirmation > 5 %}
+    {% if transaction.status.name == 'app.statuses.transactions.failed' or minutes_from_confirmation > 5 %}
       <section class="card bg-warning-disabled border border-warning !shadow-none">
         <h3 class="subtitle mt-0 font-bold">{{ 'app.orders.checkout.not_finished.card_title' | t }}</h3>
         <p>{{ 'app.orders.checkout.not_finished.card_info' | t: payment_type: payment_type_label }}</p>
@@ -104,7 +111,7 @@
   {% endif %}
 
   <div class="{% if cancelled %}bg-gray-200{% endif %}">
-    {% if role == 'buyer' and order.order_delivery.status.name == 'app.statuses.order_deliveries.delivered' %}
+    {% if false and role == 'buyer' and order.order_delivery.status.name == 'app.statuses.order_deliveries.delivered' %}
       <h3 class="subtitle mt-8 font-bold">{{ 'app.orders.checkout.review_title' | t }}</h3>
       <section class="card md:flex justify-between items-center">
         <div>
@@ -216,7 +223,7 @@
         {{ 'app.orders.checkout.delivery_info' | t }}
         {% if role == 'seller' %}
           {% if order.status.name == 'app.statuses.orders.paid' %}
-            {% include 'theme/simple/dashboard/orders/order_delivery_form', order: order, object: order.order_delivery, cancelled: cancelled %}
+            {% include 'theme/simple/dashboard/orders/show/delivery_form', order: order, object: order.order_delivery, cancelled: cancelled %}
           {% else %}
             <input type="text" class="w-full mb-2" value="{{order.order_delivery.delivery_information}}" disabled />
             <span class="sidenote">{{ 'app.orders.checkout.already_delivered' | t }}</span>

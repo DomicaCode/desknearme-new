@@ -15,7 +15,7 @@ import {
   itemSearch,
   SellerMerchant
 } from './pages/fixtures'
-import { checkErrors, createGroup } from './pages/helper'
+import { checkErrors, createGroup, waitForSelector } from './pages/helper'
 
 fixture`Community aspects`.page(myUrl)
 
@@ -41,6 +41,8 @@ test('Groups', async (t) => {
     .expect(Selector('div').textContent)
     .contains('already taken')
     //checks if group exists
+    //
+  await t.navigateTo(myUrl + '/dashboard/posts')
     .click(dashboard.nav.myGroups)
   await checkErrors()
   await t
@@ -65,16 +67,18 @@ test('Activity', async (t) => {
     .click(activityFeed.buttons.send)
 
   await checkErrors()
+
   await t
     .click(topMenu.buttons.profileDropdown)
     .click(topMenu.profileDropdown.profile)
-    .expect(Selector('div').withText(commentText).exists)
-    .ok()
+
+  await waitForSelector(Selector('div').withText(commentText))
 })
 
 test('Add question and edit', async (t) => {
   await t
     .useRole(adminRole)
+    .navigateTo(myUrl + '/admin/groups/main') // temporary way of fixing main group
     .click(topMenu.buttons.addDropdown)
     .click(topMenu.addDropdown.addQuestion)
   await checkErrors()
@@ -100,7 +104,6 @@ test('Add answer', async (t) => {
     .useRole(buyerRole)
     .navigateTo(myUrl + '/posts')
     .click(link.withText('How to sell?'))
-    .click(topicsPage.buttons.reply)
     .click(Selector('div.CodeMirror-scroll'))
     .pressKey('a n s w e r')
     .click(topicsPage.buttons.postAnswer)
@@ -144,7 +147,7 @@ test('Delete question', async (t) => {
     .click(Selector('button').withAttribute('title', 'Delete'))
 })
 
-fixture`Chat`.page(myUrl)
+fixture.skip`Chat`.page(myUrl)
 
 test.page(myUrl + '/search')('Chat to merchant', async (t) => {
   await t.useRole(buyerRole)

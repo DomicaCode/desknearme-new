@@ -1,5 +1,5 @@
 {% liquid
-  assign quantity = object.quantity | plus: 0
+  assign quantity = object.quantity | to_positive_integer: 1
 %}
 {% parse_json object %}
   {

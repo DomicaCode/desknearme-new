@@ -7,7 +7,7 @@
     {% for record in list.results %}
       {% render 'theme/simple/groups/card', group: record, current_profile: current_profile %}
     {% else %}
-      <p class="text-lg">{{ 'app.search.no_items_found' | t }}</p>
+      <p class="text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
     {% endfor %}
   </div>
 </div>

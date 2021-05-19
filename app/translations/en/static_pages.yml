@@ -17,12 +17,12 @@ en:
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
         ullamcorper risus ullamcorper, condimentum felis sed, vulputate nunc.
         Nulla in tempor lectus, tempus ultricies magna.
-      person1-name: Person
-      person2-name: Person
-      person3-name: Person
-      person1-position: Position
-      person2-position: Position
-      person3-position: Position
+      person1-name: Person one
+      person2-name: Person two
+      person3-name: Person three
+      person1-position: Position one
+      person2-position: Position two
+      person3-position: Position three
       person1-description: >-
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
         ullamcorper risus ullamcorper, condimentum felis sed, vulputate nunc.
@@ -39,7 +39,7 @@ en:
       terms-of-service: TERMS OF SERVICE
       last-updated: 'These Terms of Service were last updated on September 1, 2020.'
       content: >-
-        * PlatformOS ("platformOS," "we," "us," and/or "our") provides its
+        PlatformOS ("platformOS," "we," "us," and/or "our") provides its
         services (described below) to you through its mobile applications and
         other software made available by platformOS ("Software") and its website
         located at http://www.platformOS.com (the "Site") (collectively, such
@@ -62,7 +62,8 @@ en:
         agree to abide by these or any future Terms of Service, do not use or
         access (or continue to use or access) the Service.
 
-        * PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN AN
+
+        PLEASE READ THESE TERMS OF SERVICE CAREFULLY AS THEY CONTAIN AN
         AGREEMENT TO ARBITRATE AND OTHER IMPORTANT INFORMATION REGARDING YOUR
         LEGAL RIGHTS, REMEDIES AND OBLIGATIONS. THE AGREEMENT TO ARBITRATE
         REQUIRES (WITH LIMITED EXCEPTION) THAT YOU SUBMIT CLAIMS YOU HAVE
@@ -77,12 +78,14 @@ en:
         AGREEMENT BETWEEN YOU AND platformOS. IF YOU DO NOT ACCEPT THESE TERMS
         OF SERVICE, YOU CANNOT USE THE SERVICE.
 
-        * In addition, when using certain services, you shall be subject to any
+
+        In addition, when using certain services, you shall be subject to any
         additional terms, policies or guidelines applicable to such services
         that may be posted on the Service from time to time, including, without
         limitation,
 
-        * You agree that platformOS, in its sole discretion, may suspend or
+
+        You agree that platformOS, in its sole discretion, may suspend or
         terminate your account (or any part thereof) or use of the Service and
         remove and discard any items or content within the Service, for any
         reason, including, without limitation, for lack of use or if pOS
@@ -101,7 +104,8 @@ en:
         not be liable to you or any third-party for any termination of your
         access to the Service.
 
-        * User Disputes
+
+        ### User Disputes
 
         You agree that you are solely responsible for your interactions
         (including any purchase and sale transactions) with any other user in
@@ -113,7 +117,7 @@ en:
       privacy-policy: PRIVACY POLICY
       last-updated: 'This Privacy Policy was last updated on October 21, 2020.'
       content: >-
-        * Welcome to the service provided by platformOS. ("pOS","we", "us" and/or
+        Welcome to the service provided by platformOS. ("pOS","we", "us" and/or
         "our"). This privacy policy has been created to provide information
         about our company, our website and the services we provide (including
         through our mobile applications) (collectively, the "Services") to our
@@ -121,10 +125,12 @@ en:
         with respect to information, including personally identifiable data
         ("Personal Data"), that is collected from users of the Services.
 
-        * When you interact with us through the Services, we may collect Personal
+
+        When you interact with us through the Services, we may collect Personal
         Data and other information from you, as further described below:
 
-        * We collect Personal Data from you when you voluntarily provide such
+
+        We collect Personal Data from you when you voluntarily provide such
         information, such as when you register for access to our Services and/or
         third party services (for example, username and email address provided
         by services such as Facebook), provide us with credit card and other

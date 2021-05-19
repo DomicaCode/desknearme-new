@@ -29,13 +29,11 @@
         {% for organization in organizations.results %}
           <ul>
             <li>
-              <div class="flex items-center">
-                <span class="lg:hidden">{{ 'app.organizations.attr.id' | t }}</span>
-                <a href="/admin/organizations/{{organization.id}}">
-                  <img src="{{ organization.logo.url }}" alt="" class="w-10 me-5">
-                  {{ organization.name }}
-                </a>
-              </div>
+              <span class="lg:hidden">{{ 'app.organizations.attr.id' | t }}</span>
+              <a href="/admin/organizations/{{organization.id}}" class="flex items-center">
+                <img src="{{ organization.logo.url }}" alt="" class="w-10 me-5">
+                {{ organization.name }}
+              </a>
             </li>
             <li>
               <span class="lg:hidden">{{ 'app.organizations.attr.created_at' | t }}</span>

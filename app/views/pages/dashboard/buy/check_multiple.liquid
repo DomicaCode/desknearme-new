@@ -6,12 +6,12 @@ method: post
   include 'lib/profile_present_or_redirect', profile: current_profile, allow_anonymous: true
 
   function orders = 'lib/queries/orders/search', buyer: current_profile.id, ids: context.params.ids, limit: 200
-  function object = 'lib/commands/orders/check_multiple', orders: orders.results
+  function object = 'lib/commands/orders/check_multiple', orders: orders
 
-  unless object.valid
-    assign error = object.errors.base | join: ', '
-    include 'redirect_to', url: '/dashboard/buy/cart', error: error
-  endunless
-
-  redirect_to '/dashboard/buy/shipping'
+  if object.valid
+    redirect_to '/dashboard/buy/review'
+  else
+    include 'lib/flash/publish', error: 'app.orders.confirm.errors.order_changed', force_clear: true
+    include 'theme/simple/dashboard/orders/cart', orders: object.orders
+  endif
 %}

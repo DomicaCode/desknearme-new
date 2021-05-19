@@ -6,13 +6,10 @@
 
   <div class="flex flex-col w-64 mb-6 text-center">
     <div>
-      {% render 'theme/simple/ui/avatar', profile: object, class: 'w-48 h-48 mx-auto text-4xl' %}
+      {% render 'theme/simple/ui/avatar', profile: object, size: 200, class: 'w-48 h-48 mx-auto text-4xl' %}
     </div>
     <div class="mt-10">
       {% render 'theme/simple/photos/uppy_area' %}
-    </div>
-    <div class="mt-10">
-      <a href='/dashboard/profile/2fa/new'>{{'app.p-dashboard.setup_two_factor' | t}}</a>
     </div>
   </div>
 
@@ -23,37 +20,45 @@
 
       <div class="lg::w-1/2">
         <div class="mb-6">
-          <label class="block mb-2 cursor-pointer" for="name">{{ 'app.profiles.username' | t }}</label>
+          <label class="block mb-2 cursor-pointer" for="name">{{ 'app.profiles.username' | t }}:</label>
           <input id="name" name="profile[name]" value="{{ object.name }}" type="text" maxlength="45" class="w-full form-input" autocomplete="nickname">
           {% render 'theme/simple/field_error', errors: object.errors.name %}
         </div>
 
         <div class="mb-6">
-          <label class="block mb-2 cursor-pointer" for="email">{{ 'app.users.form.email' | t }}</label>
+          <label class="block mb-2 cursor-pointer" for="email">{{ 'app.users.form.email' | t }}:</label>
           <input id="email" name="profile[email]" value="{{ object.user.email }}" type="text" maxlength="45" class="w-full form-input" autocomplete="email">
           {% render 'theme/simple/field_error', errors: object.errors.email %}
         </div>
 
         <div class="mb-6">
-          <label class="block mb-2 cursor-pointer" for="first-name">{{ 'app.profiles.first_name' | t }}</label>
+          <label class="block mb-2 cursor-pointer" for="first-name">{{ 'app.profiles.first_name' | t }}:</label>
           <input id="first-name" name="profile[first_name]" value="{{ object.first_name }}" type="text" maxlength="45" class="w-full form-input" autocomplete="given-name">
           {% render 'theme/simple/field_error', errors: object.errors.first_name %}
         </div>
 
         <div class="mb-6">
-          <label class="block mb-2 cursor-pointer" for="last-name">{{ 'app.profiles.last_name' | t }}</label>
+          <label class="block mb-2 cursor-pointer" for="last-name">{{ 'app.profiles.last_name' | t }}:</label>
           <input id="last-name" name="profile[last_name]" value="{{ object.last_name }}" type="text" maxlength="45" class="w-full form-input"  autocomplete="family-name">
           {% render 'theme/simple/field_error', errors: object.errors.last_name %}
         </div>
       </div>
 
       <div class="mb-6">
-        <label class="block mb-2 cursor-pointer" for="bio">{{ 'app.profiles.bio' | t }}</label>
+        <label class="block mb-2 cursor-pointer" for="bio">{{ 'app.profiles.bio' | t }}:</label>
         <textarea id="bio" name="profile[bio]" aria-invalid="false" rows="5" class="w-full form-input" autocomplete="bio">{{ object.bio }}</textarea>
         {% render 'theme/simple/field_error', errors: object.errors.bio %}
       </div>
 
-      <div class="flex mt-4">
+      <div class="mt-6">
+        {{ 'app.p-dashboard.enable_additional_security' | t }}:<br>
+        <a href="/dashboard/profile/2fa/new" class="mt-2 button button-secondary button-icon-left">
+          {% render 'theme/simple/ui/icon', icon: 'keys' %}
+          {{ 'app.p-dashboard.setup_two_factor' | t }}
+        </a>
+      </div>
+
+      <div class="mt-4 text-right">
         <button type="submit" class="text-sm button">{{ 'app.save' | t }}</button>
       </div>
 
@@ -67,5 +72,6 @@
   user_id: user.id,
   photo_type: 'avatar',
   note: 'Image up to 2MB',
-  max_number_of_files: 1
+  max_number_of_files: 1,
+  update_img_selector: '[data-avatar]'
 %}

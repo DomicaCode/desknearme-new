@@ -18,7 +18,8 @@ method: post
     else
       function res = 'lib/commands/profiles_anonymous/convert_models', anonymous_session_id: context.session.anonymous_session_id, profile: profile
       sign_in_rc user_id: profile.user.id
-      include 'redirect_to', notice: 'app.sessions.created'
+      function url = 'lib/after_sign_in_url', user_id: profile.user.id
+      include 'redirect_to', default_url: url  notice: 'app.sessions.created'
     endif
   else
     include 'theme/simple/sessions/new', object: object

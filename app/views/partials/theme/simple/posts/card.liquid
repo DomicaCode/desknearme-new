@@ -19,19 +19,17 @@
         <date datetime="{{ post.created_at }}" class="block text-sm text-content-sidenote">{{ post.created_at | l: 'compact' }}</date>
       </header>
 
-      <div class="mb-5 markdown">
-        {{ post.body | default: '' | markdownify }}
+      <div class="mb-5 prose">
+        {{ post.body | default: '' | markdown }}
       </div>
 
       <footer class="self-end mt-auto">
         {% if root_post.id == post.id and root_post.creator.id == current_profile.id %}
-          <a href="/dashboard/posts/edit?id={{ post.id }}" class="button button-secondary button-small">
+          <a href="/groups/{{post.group_id}}/content/{{ post.id }}/edit" class="button button-secondary button-small">
             {{ 'app.models.posts.edit' | t }}
           </a>
         {% elsif root_post.creator.id != current_profile.id and current_profile and root_post.id == post.id %}
           <div class="flex flex-row-reverse items-center justify-between w-full">
-            <button class="cursor-pointer button button-primary" data-show-answer-btn>{{ 'app.models.posts.reply' | t }}</button>
-
             <form action="#" x-data="relationship()" x-init="init()" x-on:submit.prevent>
               <input type="hidden" name="l_id" value="{{ current_profile.id }}">
               <input type="hidden" name="r_id" value="{{ post.id }}">

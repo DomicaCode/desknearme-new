@@ -18,6 +18,7 @@ en:
           The system has determined that <span class="font-semibold">your
           item</span> has <span class="font-semibold">orders</span>. Editing is
           not allowed.
+        publish_failed: Publishing item failed %{error}
       all: All
       by: By
       shipping_types:
@@ -35,25 +36,37 @@ en:
       list: Inventory
       new: New Item
       none: You don't have any items in your Inventory yet.
-      old_version: You are viewing old version of an item.
-      see_actual_version: See actual offer
+      old_version: This is an archived item that has been updated since
+      see_new_version: We have a new version of this item if you want to check it out
+      go_to_new_version: See the updated item
       sold-out: Sold out
       discount: '%{promo} off'
       updated: Item updated
       yours: My items
       inventory: Inventory
       manage_inventory: Manage Inventory
+      add: Add Item
+      need_to_be_accepted_before_publish: Item needs to be accepted before publish
+      need_to_be_accepted_before_create_publish: Item created but needs to be accepted before publish
+      need_to_be_accepted_before_unpublish: Item will be unpublished after confirmation
+      item_unpublished: This item was removed.
+      confirm-publish: Are you sure you want to publish item? It will be available to buy.
+      publish: Publish
+      published: Item Published
       form:
         name: Name
         sku: SKU
         photos: Photos
         category: Category
         description: Description
-        price: 'Price (%{currency})'
-        quantity: Quantity
-        max_quantity: Max Qty
-        submit: Submit
-        return_days: Return days
+        price: Price
+        quantity: Available quantity
+        max_quantity: Maximum quantity in a single order
+        submit_new_version: Submit New Version
+        submit: Save
+        return_days: Returns available for
+        days: days
+        invalid: Invalid
       ordered_times:
         other: 'Ordered %{count} times'
         one: 'Ordered %{count} time'

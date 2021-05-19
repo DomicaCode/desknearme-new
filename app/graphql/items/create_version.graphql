@@ -7,10 +7,9 @@ mutation create_version(
   $tax_rate: String
   $category: String
   $owner: String!
-  $tags: [String]
-  $lang: String!
-  $name: String!
-  $description: String!
+  $photo_ids: [String!]
+
+  $details_input: [CustomizationImport!]!
 ) {
   item: record_create(
     record: {
@@ -24,23 +23,16 @@ mutation create_version(
         { name: "uuid", value: $uuid }
         { name: "tax_rate", value: $tax_rate }
         { name: "owner", value: $owner }
+        { name: "photo_ids", value_array: $photo_ids }
       ]
     }
   ) {
     id
   }
 
-  item_detail: record_create(
-    record: {
-      table: "item_detail"
-      properties: [
-        { name: "lang", value: $lang }
-        { name: "name", value: $name }
-        { name: "description", value: $description }
-        { name: "tags", value_array: $tags }
-      ]
-    }
+  item_details: import_models(
+    models: $details_input
   ) {
-    id
+    ids
   }
 }

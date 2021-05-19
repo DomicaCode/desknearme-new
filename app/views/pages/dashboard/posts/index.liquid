@@ -14,5 +14,5 @@ metadata:
   function posts = 'lib/queries/posts/search', limit: 100, parent_id_exists: false, creator_id: current_profile.id
 
   render 'theme/simple/ui/breadcrumbs', breadcrumbs: context.page.metadata.breadcrumbs, value: posts.total_entries
-  include 'theme/simple/dashboard/posts/index', posts: posts
+  render 'theme/simple/dashboard/posts/index', posts: posts, context: context, current_profile: current_profile
 %}

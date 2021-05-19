@@ -17,5 +17,7 @@ properties:
     type: integer
   - name: promoted
     type: boolean
+  - name: photo_ids
+    type: array
 
   - name: c__status

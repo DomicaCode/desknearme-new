@@ -3,7 +3,7 @@
   {
     "username": "user name",
     "email": "test@example.com",
-    "password": "password",
+    "password": {{ "password" | base64_encode | json }},
     "agreed": "true"
   }
 {% endparse_json %}

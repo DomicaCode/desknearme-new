@@ -36,3 +36,7 @@ en:
       must_be_selected: Must be selected
       matches: not valid format
       not_truthy: not true
+      password:
+        lowercase: 'must include at least one lower case'
+        uppercase: 'must include at least one upper case'
+        number: 'must include at least one number'

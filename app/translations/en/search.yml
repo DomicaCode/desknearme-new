@@ -33,7 +33,7 @@ en:
         created_at_asc:  Oldest first
         created_at_desc: Most Recent
     quick_search:
-      name: Search...
+      name: Search in everything
       type:
         profile: Profile
         group: Group

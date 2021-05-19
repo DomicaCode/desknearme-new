@@ -16,6 +16,7 @@ query search($id: ID, $limit: Int = 1) {
       last_name: property(name: "last_name")
       uuid: property(name: "uuid")
       parent_id: property(name: "parent_id")
+      group_id: property(name: "group_id")
       slug: property(name: "slug")
       description: property(name: "description")
       body: property(name: "body")

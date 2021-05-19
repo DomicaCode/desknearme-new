@@ -13,10 +13,10 @@ mutation update_post(
   $c__answers: Int
   $slug: String
 ) {
-  model_update(
+  record_update(
     id: $id
-    model: {
-      model_schema_name: "post"
+    record: {
+      table: "post"
       properties: [
         { name: "uuid" value: $uuid }
         { name: "title", value: $title }
@@ -42,6 +42,7 @@ mutation update_post(
     id
     created_at
     updated_at
+    type: table
     parent_id: property(name: "parent_id")
     creator_id: property(name: "creator_id")
     title: property(name: "title")
@@ -53,12 +54,20 @@ mutation update_post(
     c__score: property_int(name: "c__score")
     c__answers: property_int(name: "c__answers")
     slug: property(name: "slug")
-    parent: related_model(
-      model_schema_name: "post"
+    parent: related_record(
+      table: "post"
       join_on_property: "parent_id"
       foreign_property: "id"
     ) {
       id
+
+      group: related_record(
+        table: "group"
+        join_on_property: "group_id"
+        foreign_property: "id"
+      ) {
+        id
+      }
     }
   }
 }

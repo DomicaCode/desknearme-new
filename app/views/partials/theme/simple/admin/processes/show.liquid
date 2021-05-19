@@ -7,13 +7,27 @@
 </header>
 
 <div>
-  <div class="px-4 py-2 font-semibold">{{ 'processes.attr.description' | t }}</div>
+  <div class="py-2 font-semibold">{{ 'app.admin.processes.attr.name' | t }}</div>
+  <div>
+    {% render 'theme/simple/admin/processes/name', process: process %}
+  </div>
+</div>
+
+<div>
+  <div class="py-2 font-semibold">{{ 'app.admin.processes.attr.status' | t }}</div>
+  <div>
+    {% render 'theme/simple/admin/processes/status', process: process %}
+  </div>
+</div>
+
+<div>
+  <div class="py-2 font-semibold">{{ 'app.admin.processes.attr.description' | t }}</div>
   <div>
     {% render 'theme/simple/admin/processes/description', process: process %}
   </div>
 </div>
 
-<div>
+<div class="mt-10">
   {% case process.status.name %}
   {% when 'app.statuses.processes.requested' %}
     <h2 class="subtitle pb-3">

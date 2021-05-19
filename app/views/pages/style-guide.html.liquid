@@ -258,6 +258,10 @@ metadata:
             <dd class="table-cell font-mono styleGuide-size"></dd>
           </div>
           <div class="table-row">
+            <dt class="pe-5 table-cell">Font Weight:</dt>
+            <dd class="table-cell font-mono styleGuide-fontWeight"></dd>
+          </div>
+          <div class="table-row">
             <dt class="pe-5 table-cell">Line height:</dt>
             <dd class="table-cell font-mono styleGuide-lineHeight"></dd>
           </div>
@@ -288,6 +292,10 @@ metadata:
           <div class="table-row">
             <dt class="pe-5 table-cell">Size:</dt>
             <dd class="table-cell font-mono styleGuide-size"></dd>
+          </div>
+          <div class="table-row">
+            <dt class="pe-5 table-cell">Font Weight:</dt>
+            <dd class="table-cell font-mono styleGuide-fontWeight"></dd>
           </div>
           <div class="table-row">
             <dt class="pe-5 table-cell">Line height:</dt>
@@ -321,6 +329,10 @@ metadata:
             <dd class="table-cell font-mono styleGuide-size"></dd>
           </div>
           <div class="table-row">
+            <dt class="pe-5 table-cell">Font Weight:</dt>
+            <dd class="table-cell font-mono styleGuide-fontWeight"></dd>
+          </div>
+          <div class="table-row">
             <dt class="pe-5 table-cell">Line height:</dt>
             <dd class="table-cell font-mono styleGuide-lineHeight"></dd>
           </div>
@@ -352,6 +364,10 @@ metadata:
             <dd class="table-cell font-mono styleGuide-size"></dd>
           </div>
           <div class="table-row">
+            <dt class="pe-5 table-cell">Font Weight:</dt>
+            <dd class="table-cell font-mono styleGuide-fontWeight"></dd>
+          </div>
+          <div class="table-row">
             <dt class="pe-5 table-cell">Line height:</dt>
             <dd class="table-cell font-mono styleGuide-lineHeight"></dd>
           </div>
@@ -381,6 +397,10 @@ metadata:
           <div class="table-row">
             <dt class="table-cell">Size:</dt>
             <dd class="table-cell font-mono styleGuide-size"></dd>
+          </div>
+          <div class="table-row">
+            <dt class="pe-5 table-cell">Font Weight:</dt>
+            <dd class="table-cell font-mono styleGuide-fontWeight"></dd>
           </div>
           <div class="table-row">
             <dt class="pe-5 table-cell">Line height:</dt>
@@ -1082,5 +1102,83 @@ metadata:
         {% render 'theme/simple/ui/badge', class: 'bg-confirmation', label: 'badge' %}
       </section>
     </div>
+
+    <div class="mt-16 flex gap-10">
+      <section class="w-1/3">
+        <h4 class="subtitle">Prose - readable formatting long/user input content</h4>
+      </section>
+      <section class="w-2/3 border relative overflow-hidden styleGuide-example">
+
+        <div class="prose">
+
+          <h1>Heading 1 (.bigtitle)</h1>
+          <h2>Heading 2 (.title)</h2>
+          <h3>Heading 3 (.subtitle)</h3>
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+
+          <blockquote>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. At voluptate, totam expedita facilis in velit, et quasi ut non, ipsum modi tempora ipsa error maiores rem adipisci. Soluta, ut quibusdam?
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur harum tenetur velit explicabo pariatur debitis quasi soluta quam alias in porro, nulla illo iusto excepturi adipisci vel ex aut incidunt!
+          </blockquote>
+
+          <p><b>Lorem ipsum dolor sit amet </b><i>consectetur adipisicing elit</i>. Nihil, odio possimus. Dolorem odit eum doloribus. Explicabo aspernatur ducimus accusantium repellendus voluptas nemo illum cum? Possimus tenetur esse veritatis temporibus laboriosam.</p>
+
+          <ul>
+            <li>UL List item</li>
+            <li>UL List item</li>
+            <li>UL List item</li>
+          </ul>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, odio possimus. Dolorem odit eum doloribus. Explicabo aspernatur ducimus accusantium repellendus voluptas nemo illum cum? Possimus tenetur esse veritatis temporibus laboriosam.</p>
+
+          <ol>
+            <li>OL List item</li>
+            <li>OL List item</li>
+            <li>OL List item</li>
+          </ol>
+
+          <pre><code>function highlight() {
+  let x = document.querySelectorAll("pre > code");
+  return x.highlight();
+}</code></pre>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Template</td>
+                <td>{{ 'now' | to_date }}</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Community</td>
+                <td>{{ 'now' | to_date }}</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Mesh</td>
+                <td>{{ 'now' | to_date }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <img src="{{ 'images/person1.jpg' | asset_url }}" alt="Person">
+          <img src="{{ 'images/person1.jpg' | asset_url }}" alt="Person">
+          <img src="{{ 'images/person1.jpg' | asset_url }}" alt="Person">
+        </div>
+
+      </section>
+    </div>
+
+
 
 </section>

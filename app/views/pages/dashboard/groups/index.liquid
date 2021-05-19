@@ -5,6 +5,11 @@ metadata:
       url: /dashboard
     - label: app.groups.list
 ---
+
+{% comment %}
+  USER's GROUP LISTING
+{% endcomment %}
+
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_redirect', profile: current_profile

@@ -18,7 +18,7 @@ if(cart){
   import(/* webpackChunkName: "cart" */ './cart');
 }
 
-const syntaxHighlighting = document.querySelector('.hljs');
+const syntaxHighlighting = document.querySelector('pre > code');
 if (syntaxHighlighting) {
   import(/* webpackChunkName: "syntax-highlighting" */ './syntax-highlighting');
 }
@@ -66,9 +66,4 @@ if (groupJoinButtons.length > 0) {
 const userFollowButtons = document.querySelectorAll('button[data-follow-user]');
 if (userFollowButtons.length > 0) {
   import(/* webpackChunkName: "user-follow" */ './user-follow');
-}
-
-const itemStatusSelectors = document.querySelectorAll('select[data-item-status-object-id]');
-if (itemStatusSelectors.length > 0) {
-  import(/* webpackChunkName: "item-status-create" */ './item-status-create');
 }
