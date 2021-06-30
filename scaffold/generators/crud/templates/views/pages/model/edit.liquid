@@ -1,5 +1,5 @@
 {% liquid
   function object = 'lib/queries/<%= modelNamePlural %>/find', id: context.params.id
 
-  include 'theme/simple/<%= modelNamePlural %>/edit', object: object
+  render 'theme/simple/<%= modelNamePlural %>/edit', object: object, context: context
 %}

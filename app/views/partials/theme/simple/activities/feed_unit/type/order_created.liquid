@@ -1,5 +1,10 @@
+{% function url = 'link_to', object: payload.object, namespace: namespace %}
+
 {{ payload.type | t: actor: payload.actor.username,
      object_id: payload.object.id,
      target: payload.target.name,
+     target_type: "Order",
+     status: "status",
+     url: url,
      target_id: payload.target.id,
      scope: 'app.activities.types' }}

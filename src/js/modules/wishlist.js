@@ -5,28 +5,6 @@ function getJSONFromForm(el) {
   return JSON.stringify(Object.fromEntries(fd));
 }
 
-window.wishlist = function () {
-  return {
-    init($dispatch) {
-      const profileId = this.$el.dataset.id;
-
-      if (!profileId) {
-        return false;
-      }
-
-      fetch('/api/wishlists/show.json?profile_id=' + profileId)
-        .then((res) => res.json())
-        .then((res) => {
-          window.wishlistIds = res;
-          $dispatch('wishlist-ready');
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    },
-  };
-};
-
 window.wishItem = function () {
   return {
     exists: false,

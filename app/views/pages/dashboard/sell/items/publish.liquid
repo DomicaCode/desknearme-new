@@ -7,7 +7,8 @@ method: put
 
   function item_inventory = 'lib/queries/item_inventories/find', id: context.params.id, owner: current_profile.id
   hash_assign item_inventory['name'] = item_inventory.item.item_detail.name
-  function object = 'lib/commands/processes/wrap', command: 'items/publish', object: item_inventory, current_profile: current_profile
+  function require_acceptance = 'lib/queries/constants/find' name: "INVENTORY_REQUIRE_ACCEPTANCE", type: "boolean"
+  function object = 'lib/commands/processes/wrap', command: 'items/publish', object: item_inventory, current_profile: current_profile, require_acceptance: require_acceptance
   if object.valid
     if object.require_acceptance
       include 'redirect_to', url: '/dashboard/sell/items', notice: 'app.items.need_to_be_accepted_before_publish'

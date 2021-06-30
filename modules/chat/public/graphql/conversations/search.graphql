@@ -52,10 +52,10 @@ query search(
 
 fragment profile on Record {
   id
+  type: table
   name: property(name: "name")
   first_name: property(name: "first_name")
   last_name: property(name: "last_name")
   slug: property(name: "slug")
   uuid: property(name: "uuid")
-  type: table
 }

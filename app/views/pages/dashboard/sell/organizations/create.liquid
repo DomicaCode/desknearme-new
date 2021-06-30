@@ -6,10 +6,11 @@ method: post
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_redirect', profile: current_profile
 
+  hash_assign current_profile['contact_emails'] = current_profile.user.email
   function organization = 'lib/commands/organizations/create', object: current_profile
   if organization.valid
     assign now = 'now' | to_time
-    function rel = 'lib/commands/relationships/create', name: 'membership', l_id: current_profile.id, r_id: organization.id, l_at: now, r_at: now
+    function rel = 'lib/commands/relationships/create', name: 'organization_membership', l_id: current_profile.id, r_id: organization.id, l_at: now, r_at: now
 
     include 'redirect_to', url: '/dashboard/items/new', notice: 'app.organizations.start_selling'
   else

@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+export URL="https://getmarketplace-alpha.staging.oregon.platform-os.com/tests/run?name="
+export URL="https://ab-dg.staging.oregon.platform-os.com/tests/run?name="
+
+inotifywait -e close_write -m -r -q --format '%f' app/views/partials/ | while read FILE
+do
+  FILE=$(basename "$FILE" .liquid)
+  echo $FILE changed
+  sleep 1
+  w3m -dump -cols 120 -no-graph -T "text/plain" "$URL$FILE"
+done

@@ -9,7 +9,9 @@ slug: orders/line_items
   function item = 'lib/queries/items/find', id: context.params.line_item.item_id, lang: context.language
   function order = 'lib/commands/line_items/find_or_create_order', item: item, current_profile: current_profile
 
-  if order.id
+  function can_purchase = "lib/can", actor: current_profile, do: "purchase", object: item
+
+  if order.id and can_purchase.valid
     unless order.currency
       hash_assign order['currency'] = item.currency
     endunless
@@ -32,8 +34,8 @@ slug: orders/line_items
     endif
 
   else
-    assign error_message = 'app.orders.line-items.errors.failed-to-create' | t
-    assign error_message = error_message | append: ', ' | append: order.status
+    assign error_message = 'app.orders.line-items.errors.failed-to-create'
+    assign error_message = error_message
 
     function url = 'link_to', item: item
     include 'redirect_to', url: url, error: error_message

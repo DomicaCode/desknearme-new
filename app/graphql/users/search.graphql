@@ -28,12 +28,14 @@ query search(
       email
       created_at
       uuid: property(name: "uuid")
+      attempts: property_int(name: "attempts")
+      locked_at: property(name: "locked_at")
       token: temporary_token(valid_for: $valid_for) @include(if: $with_token)
 
       profile: related_record(table: "profile" join_on_property: "id" foreign_property: "user_id"){
         id
         created_at
-
+        type: table
         uuid: property(name: "uuid")
         slug: property(name: "slug")
 

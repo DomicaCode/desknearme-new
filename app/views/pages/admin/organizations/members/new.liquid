@@ -8,7 +8,7 @@ layout: admin
   include 'lib/profile_must_be', profile: current_profile, action: 'be_admin'
   include 'lib/profile_must_be', profile: current_profile, action: 'be_maker', return_url: '/admin/organizations'
 
-  function organization = 'lib/queries/organizations/find', id: context.params.id, with_members: true
+  function organization = 'lib/queries/organizations/find', slug: context.params.id, with_members: true
   include 'lib/present_or_404', property: organization.id
 
   render 'theme/simple/admin/organizations/members/new', organization: organization, context: context

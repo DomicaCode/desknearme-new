@@ -1,4 +1,4 @@
-mutation update($profile_anonymous_id: ID! $profile_id: String!){
+mutation convert_wishlist($profile_anonymous_id: ID! $profile_id: String!){
   records_update_all(
     table: "relationship"
     filter: {

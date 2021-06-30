@@ -6,15 +6,8 @@ slug: groups/:id/members
 
   assign group_id = context.params.id | split: '-' | last
   function group = 'lib/queries/groups/find', id: group_id, with_owner: false
+  include 'lib/can_do_or_unauthorized', object: group, do: "see_content", actor: current_profile
 
-  function can = "lib/can", actor: current_profile, do: "see_meta", object: group
-  unless can.valid
-    assign group = null
-  endunless
-  include 'lib/present_or_404', property: group.id
-
-  function list = 'lib/queries/relationships/search_by_right', limit: 20, name: 'membership', r_id: group_id
-
-  render 'theme/simple/groups/header', group: group, tab: 'members', current_profile: current_profile
-  include 'theme/simple/groups/members', group: group, current_profile: current_profile, list: list, context: context
+  function list = 'lib/queries/relationships/search_by_right', limit: 20, name: 'membership', r_id: group_id, include_related: true
+  render 'theme/simple/groups/members', group: group, current_profile: current_profile, list: list, tab: 'members', context: context
 %}

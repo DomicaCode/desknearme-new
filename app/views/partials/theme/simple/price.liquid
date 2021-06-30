@@ -8,5 +8,10 @@
     no_cents_if_whole: boolean (whether or not to display cents if there are none, i.e. 10$ vs 10.00$)
 
 {% endcomment %}
-{% assign options = '{ "with_currency": false, "symbol": true, "no_cents_if_whole": true }' | parse_json %}
-{{ amount_cents | pricify_cents: currency, options }}
+{% liquid
+  assign options = '{ "with_currency": false, "symbol": true, "no_cents_if_whole": true }' | parse_json
+  assign price_text = amount_cents | pricify_cents: currency, options
+
+  echo price_text
+  return price_text
+%}

@@ -6,6 +6,11 @@
 {% liquid
   function object = 'lib/commands/activities/publish/build', uuid: uuid, type: type, ids: ids
   function object = 'lib/commands/activities/publish/check', object: object
-  function object = 'lib/commands/activities/publish/execute', object: object
+
+  if object.valid
+    function object = 'lib/commands/activities/publish/execute', object: object
+  else
+    log object, type: 'Failed publishing event'
+  endif
   return object
 %}

@@ -33,7 +33,7 @@
               <div class="flex items-center">
                 <span class="lg:hidden">{{ 'app.admin.processes.attr.name' | t }}</span>
                 <a href="/admin/processes/{{process.id}}">
-                  {% render 'theme/simple/admin/processes/name', process: process %}
+                  {% render 'theme/simple/processes/name', process: process %}
                 </a>
               </div>
             </li>
@@ -41,7 +41,7 @@
               <div class="flex items-center">
                 <span class="lg:hidden">{{ 'app.admin.processes.attr.requested_by' | t }}</span>
                 <a href="/admin/processes/{{process.id}}">
-                  {% render 'theme/simple/admin/processes/status', process: process %}
+                  {% render 'theme/simple/processes/status', process: process %}
                 </a>
               </div>
             </li>

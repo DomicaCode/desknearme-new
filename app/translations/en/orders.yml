@@ -22,20 +22,37 @@ en:
       line_item_returns:
         new: New return
         header: Return item
-        accept: Accept
+        accept: Approve
         reject: Reject
         accept_reject: Accept/Reject
         returned: Mark as returned and refund payment
         return_details: Return details
         edit:
-          title: Accept or Reject return
+          return_request_desc: Detailed information from the customer about the reason.
           amount_returned: Total amount to be returned
+          return_approved: Return approved
+          return_approved_desc: >-
+            - Client’s return request is based on valid reasons
+
+            - The client returned the item
+
+            Send request to the transaction provider to refund the client’s money.
+          return_rejected: Return rejected
+          return_rejected_desc: >-
+            Client sent enough information but the reasons are not eligible for return request.
+          return_rejected_reason: Reason of rejecting the return request
+          item_status: Item status is
+          return_date: Return date
         updated: Return status updated
         form:
-          intro: >-
-            Please fill out the form with detailed information about the reason and the shape of the product. We will inform you when the merchant accepts your return request.
+          return_request: Return request
+          return_request_desc: Fill out the form with detailed information about the reason
+          product_return_refund: Product return and refund
+          product_return_refund_desc:
+            seller: Review the return request and discuss the details and the return process with the client via chat.
+            buyer: After you sent the return request the merchant reviews your request get into contact with you via chat and give you detailed information about the next steps.
           quantity: Quantity
-          reason: Reason for return
+          reason: Why do you want to return the item?
           reason_details: Detailed information
           accept: Send return request
           date: Order date
@@ -65,6 +82,8 @@ en:
       order_delivery:
         form:
           delivery_information: Delivery information
+        errors:
+          invalid_status: Order must be confirmed by merchant
       transactions:
         errors:
           no_orders: There are no pending orders to be paid
@@ -142,6 +161,12 @@ en:
         auto_cancellation_hours:
           one: '%{count} hour after confirmation at'
           other: '%{count} hours after confirmation at'
+        mark_in_progress: Accept
+        items: Items
+        complete: Mark as completed
+        new_order: Order acceptance
+        order_delivered: Order delivery
+        order_completed: Order completion
       cart:
         title: My Cart
         empty: There are no items in your cart
@@ -236,6 +261,12 @@ en:
         cta_button: Confirm
         errors:
           order_changed: It seems that at least one of the items you try to buy is not valid anymore.
+      mark_in_progress:
+        errors:
+          invalid_status: Order needs to be paid before confirming
+      mark_completed:
+        errors:
+          invalid_status: Order need to be delivered before completing
       line-items:
         created: Item added to shopping cart
         errors:
@@ -261,10 +292,10 @@ en:
         delivery_price: Delivery price
         total: Total
         status: Status
-    sellers:
-      title: All of your favoure merchants
-      subtitle: Take your pick from our featured Merchants.
-      become:
-        title: Become a Partner
-        subtitle: Partner with Arab Bank and grow your business.
-        contact: Contact us
+      sellers:
+        title: All of your favorite merchants
+        subtitle: Take your pick from our featured Merchants.
+        become:
+          title: Become a Partner
+          subtitle: Partner with us and grow your business.
+          contact: Contact us

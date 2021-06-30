@@ -19,8 +19,6 @@
     include 'test/register_error', contract: contract, field_name: 'contract', key: profile.errors
   endif
 
-  log profile, type: 'showme'
-
   if profile.uuid == blank
     include 'test/register_error', contract: contract, field_name: 'profile.uuid', key: 'app.test.should.not.be_blank'
   endif

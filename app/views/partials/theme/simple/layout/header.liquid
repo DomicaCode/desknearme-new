@@ -5,12 +5,12 @@
   endif
 
 %}
-<header class="py-3 shadow mb-10">
+<header class="py-3 shadow mb-10 bg-white">
   <div class="container flex flex-wrap items-center">
 
     <a class="flex items-center order-1 font-light" href="/">
       {% render 'theme/simple/ui/logo' %}
-      {% render 'theme/simple/ui/icon', icon: 'home', class: 'text-white w-5 h-5 ms-3' %}
+      {% render 'theme/simple/ui/icon', icon: 'home', class: 'w-6 ms-4' %}
     </a>
 
     {% comment %} desktop search {% endcomment %}
@@ -23,7 +23,6 @@
 
     <nav class="order-4 w-full md:w-auto md:ms-auto">
       <ul class="flex flex-wrap items-center justify-center w-full">
-
 
         {% comment %} mobile search {% endcomment %}
         <li class="-ms-3 md:ms-auto lg:ms-0 me-auto md:me-0 lg:hidden">
@@ -53,7 +52,7 @@
             x-data="unreadCount()" x-init="init()">
             {% render 'theme/simple/ui/icon', icon: 'bell', class: 'w-6' %}
             <span x-cloak x-show="unreadCount" x-text="unreadCount > 9 ? '9+' : unreadCount"
-              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-700 rounded-full">
+              class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-content-inverted bg-red-700 rounded-full">
             </span>
           </a>
         </li>
@@ -94,42 +93,42 @@
         </li>
         {% endif %}
 
-
-        <div style="display: inherit"
-          {% if profile %} x-data="navigationStats()" x-init="init()" {% endif %}
-        >
-          {% comment %} chat {% endcomment %}
-          {% if registered_profile %}
-          <li>
-            <a href="/inbox" class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover" title="{{ 'app.header.chat' | t }}" id="notifications-chat" data-current-user-id="{{ profile.id }}" data-current-user-slug="{{ profile.slug }}">
-              {% render 'theme/simple/ui/icon', icon: 'commentText', class: 'w-6' %}
-              <span id="notification-bell"
-                class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white rounded-full bg-interaction"
-                x-cloak x-show="inboxUnread" x-text="inboxUnread"
-              >
-              </span>
-            </a>
-          </li>
-          {% endif %}
-
-
-          {% comment %} cart {% endcomment %}
-          <li>
-            <a href="/dashboard/buy/cart" title="{{ 'app.header.cart' | t }}"
-              class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover"
-            >
-              {% render 'theme/simple/ui/icon', icon: 'shoppingCart', class: 'w-6' %}
-              {% if profile %}
-                <span
-                  class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white rounded-full bg-interaction"
-                  x-cloak x-show="cartQuantity" x-text="cartQuantity"
-                  data-cart-counter>
+        <li class="flex">
+          <ul style="display: inherit"
+            {% if profile %} x-data="navigationStats()" x-init="init($dispatch)" {% endif %}
+          >
+            {% comment %} chat {% endcomment %}
+            {% if registered_profile %}
+            <li>
+              <a href="/inbox" class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover" title="{{ 'app.header.chat' | t }}" id="notifications-chat" data-current-user-id="{{ profile.id }}" data-current-user-slug="{{ profile.slug }}">
+                {% render 'theme/simple/ui/icon', icon: 'commentText', class: 'w-6' %}
+                <span id="notification-bell"
+                  class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-content-inverted rounded-full bg-interaction"
+                  x-cloak x-show="inboxUnread" x-text="inboxUnread"
+                >
                 </span>
-              {% endif %}
-            </a>
-          </li>
-        </div>
+              </a>
+            </li>
+            {% endif %}
 
+
+            {% comment %} cart {% endcomment %}
+            <li>
+              <a href="/dashboard/buy/cart" title="{{ 'app.header.cart' | t }}"
+                class="relative block p-3 focus:outline-none focus:text-interaction hover:text-interaction-hover"
+              >
+                {% render 'theme/simple/ui/icon', icon: 'shoppingCart', class: 'w-6' %}
+                {% if profile %}
+                  <span
+                    class="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-content-inverted rounded-full bg-interaction"
+                    x-cloak x-show="cartQuantity" x-text="cartQuantity"
+                    data-cart-counter>
+                  </span>
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+        </li>
 
         {% comment %} profile {% endcomment %}
         {% if registered_profile %}
@@ -145,9 +144,12 @@
                 <li>
                   <a href="/dashboard" class="block py-3 px-7 md:rounded-t-md hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.dashboard' | t }}</a>
                 </li>
-
+                <li>
+                  <a href="/my/feed" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.my_feed' | t }}</a>
+                </li>
                 <li class="border-t"><a href="/dashboard/sell/items" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.selling' | t }}</a></li>
                 <li class="border-t"><a href="/dashboard/buy/orders" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.purchases' | t }}</a></li>
+                <li><a href="/dashboard/reviews/items" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.reviews' | t }}</a></li>
                 {% function can_be_admin = "lib/can", actor: profile, do: "be_admin", object: profile %}
                 {% if can_be_admin.valid %}
                   <li class="border-t"><a href="/admin" class="block py-3 px-7 hover:bg-interaction hover:text-content-inverted transition-colors">{{ 'app.header.admin' | t }}</a></li>
@@ -173,9 +175,11 @@
 
         {% comment %} login button {% endcomment %}
         {% unless registered_profile %}
-          <a href="/sessions/new" class="button button-small ms-3">
-            {{ 'app.login' | t }}
-          </a>
+          <li class="ms-2">
+            <a href="/sessions/new" class="button button-small ms-3">
+              {{ 'app.login' | t }}
+            </a>
+          </li>
         {% endunless %}
 
         {% render 'theme/simple/layout/language_switch', context: context, class: 'p-3' %}

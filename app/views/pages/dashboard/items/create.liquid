@@ -8,7 +8,8 @@ method: post
   function object = 'lib/commands/items/create_complex', object: context.params.item, owner: current_profile.id
   if object.valid
     include 'lib/commands/events/create', type: 'item_created', actor_id: current_profile.id, object_id: object.item_id
-    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish', object: object, current_profile: current_profile
+    function require_acceptance = 'lib/queries/constants/find' name: "INVENTORY_REQUIRE_ACCEPTANCE", type: "boolean"
+    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish', object: object, current_profile: current_profile, require_acceptance: require_acceptance
     if publish_object.valid != true
       log publish_object, type: 'ERROR: items publish'
     endif
@@ -24,6 +25,6 @@ method: post
     function photos = 'lib/queries/photos/search', object_uuid: object.uuid
     function default_currency = 'lib/queries/constants/find' name: "CURRENCY", context: context
 
-    include 'theme/simple/dashboard/items/new', item: object, lib: filters, presigned_url: presigned_url, photos: photos.results, default_currency
+    render 'theme/simple/dashboard/items/new', item: object, lib: filters, presigned_url: presigned_url, photos: photos.results, default_currency: default_currency, context: context
   endif
 %}

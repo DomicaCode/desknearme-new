@@ -26,6 +26,7 @@
         <div>{{ 'app.users.attr.last_name' | t }}</div>
         <div>{{ 'app.users.attr.email' | t }}</div>
         <div>{{ 'app.users.attr.created_at' | t }}</div>
+        <div>{{ 'app.users.attr.attempts' | t }}</div>
         <div>{{ 'app.admin.users.list.permissions' | t }}</div>
       </header>
 
@@ -34,7 +35,9 @@
           <ul>
             <li>
               <span class="lg:hidden">{{ 'app.users.attr.id' | t }}</span>
-              {{ user.profile.id }}
+              <a href="{% render 'link_to', object: user.profile, namespace: 'admin' %}">
+                {{ user.profile.id }}
+              </a>
             </li>
             <li>
               <span class="lg:hidden">{{ 'app.users.attr.first_name' | t }}</span>
@@ -51,6 +54,19 @@
             <li>
               <span class="lg:hidden">{{ 'app.users.attr.created_at' | t }}</span>
               {{ user.created_at | l: 'compact' }}
+            </li>
+            <li>
+              <span class="lg:hidden">{{ 'app.users.attr.attepmts' | t }}</span>
+              {% if user.locked_at or user.attempts < 1 %}
+                {{ 'app.admin.users.unlocking.locked' | t: date: user.locked_at  }}
+                <form action="/admin/users/{{user.id}}/unlock" method="post">
+                  {% render 'authenticity_token', context: context %}
+                  <input type="hidden" name="_method" value="put" />
+                  <button type="submit" class="text-sm">{{ 'app.admin.users.unlocking.unlock' | t }}</button>
+                </form>
+              {% else %}
+                {{ user.attempts | default: context.constants.LOGIN_ATTEMPTS_COUNTER }}/{{ context.constants.LOGIN_ATTEMPTS_COUNTER }}
+              {% endif %}
             </li>
             <li>
               <span class="lg:hidden">{{ 'app.admin.users.list.permissions' | t }}</span>

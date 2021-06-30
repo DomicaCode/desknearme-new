@@ -7,6 +7,6 @@ method: post
   if object.valid
     include 'redirect_to', url: '/<%= modelNamePlural %>'
   else
-    include 'theme/simple/<%= modelNamePlural %>/new', object: object
+    render 'theme/simple/<%= modelNamePlural %>/new', object: object, context: context
   endif
 %}

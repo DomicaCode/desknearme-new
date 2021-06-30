@@ -10,24 +10,39 @@ en:
         buyer:
           confirmed: waiting for payment
           paid: in progress
+          in_progress: in progress
           delivered: delivered
           cancelled_buyer: cancelled by you
           cancelled_seller: cancelled by merchant
           returned: returned
+          completed: completed
         seller:
           paid: new
+          in_progress: in progress
           delivered: delivered
           cancelled_buyer: cancelled by buyer
           cancelled_seller: cancelled by you
           returned: returned
+          completed: completed
+        admin:
+          confirmed: waiting for payment
+          paid: in progress
+          in_progress: in progress
+          delivered: delivered
+          cancelled_buyer: cancelled by buyer
+          cancelled_seller: cancelled by merchant
+          returned: returned
+          completed: completed
       orders:
         placed: new
         confirmed: confirmed
         paid: paid
+        in_progress: in progress
         delivered: delivered
         cancelled_seller: cancelled by seller
         cancelled_buyer: cancelled by buyer
         returned: returned
+        completed: completed
       items:
         published: Published
         unpublished: Unpublished
@@ -46,3 +61,8 @@ en:
         requested: Requested
         accepted: Accepted
         rejected: Rejected
+        cancelled: Cancelled
+      reviews:
+        new: New
+        filled: Filled
+        dismissed: Dismissed

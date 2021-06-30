@@ -21,34 +21,37 @@ const getXmlValue = (source, tagName) => {
     : ''
 };
 
-const markdownEditor = document.querySelector('[data-markdown-editor]');
-const easyMDE = new EasyMDE({
-  element: markdownEditor,
-  // TODO: fix preview, and uncomment preview icon
-  // previewClass: 'markdown',
-  showIcons: ['code', 'upload-image'],
-  hideIcons: ['image', 'side-by-side', 'fullscreen', 'preview'],
-  uploadImage: true,
-  status: ["upload-image", "autosave"],
-  imageUploadFunction: async function(file, success, error) {
-    const data = new FormData(_form);
-    data.set('file', file, file.name);
-    const response = await fetch(_form.action, {method: _form.method, body: data});
-    if (response.ok){
-      const xmlResponse = await response.text();
-      const url = getXmlValue(xmlResponse, 'Location');
-      const photo = await createPhoto(url);
-      const photoUrl = photo.photo.versions.uncropped.replace(/\s/g, '%20');
-      success(photoUrl);
-    } else {
-      error("Can't upload an image");
+const markdownEditors = Array.from(document.querySelectorAll('[data-markdown-editor]'));
+markdownEditors.forEach((markdownEditor) => {
+  const easyMDE = new EasyMDE({
+    element: markdownEditor,
+    // TODO: fix preview, and uncomment preview icon
+    // previewClass: 'markdown',
+    showIcons: ['code', 'upload-image'],
+    hideIcons: ['image', 'side-by-side', 'fullscreen', 'preview'],
+    uploadImage: true,
+    status: false,
+    minHeight: markdownEditor.rows * 1.8 + 'rem',
+    imageUploadFunction: async function(file, success, error) {
+      const data = new FormData(_form);
+      data.set('file', file, file.name);
+      const response = await fetch(_form.action, {method: _form.method, body: data});
+      if (response.ok){
+        const xmlResponse = await response.text();
+        const url = getXmlValue(xmlResponse, 'Location');
+        const photo = await createPhoto(url);
+        const photoUrl = photo.photo.versions.uncropped.replace(/\s/g, '%20');
+        success(photoUrl);
+      } else {
+        error("Can't upload an image");
+      }
     }
+  });
+
+  const elementId = markdownEditor.attributes.id.value;
+  const label = document.querySelector(`label[for="${elementId}"]`);
+
+  if(label){
+    label.onclick = function () { easyMDE.codemirror.focus(); };
   }
 });
-
-const elementId = markdownEditor.attributes.id.value;
-document.querySelector(`label[for="${elementId}"]`).onclick = function () { easyMDE.codemirror.focus(); };
-
-
-
-

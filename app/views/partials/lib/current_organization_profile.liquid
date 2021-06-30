@@ -9,13 +9,16 @@
     return null
   endif
 
-  function rels = 'lib/queries/relationships/search_by_left', l_id: current_profile.id, name: 'membership', model: ['profile','organization'], include_related: true
+  assign models = '["profile","organization"]' | parse_json
+  function rels = 'lib/queries/relationships/search_by_left', l_id: current_profile.id, name: 'organization_membership', model: models, include_related: true
   if rels.total_entries > 1
     log 'Current user has multiple organizations assigned. It is not supported in this version. Returning first.', type: 'WARNING'
     return rels.results.first.r
   elsif rels.total_entries == 0
     return current_profile
   else
-    return rels.results.first.r
+    assign organization = rels.results.first.r
+    hash_assign organization['representative'] = current_profile
+    return organization
   endif
 %}

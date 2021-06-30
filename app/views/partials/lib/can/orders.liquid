@@ -8,7 +8,7 @@
     endif
 
     assign status = order.status.name
-    if status == 'app.statuses.orders.delivered'
+    if status == 'app.statuses.orders.delivered' or status == 'app.statuses.orders.completed'
       return true
     endif
   endcase

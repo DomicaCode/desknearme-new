@@ -1,16 +1,15 @@
 {% liquid
-  if id == empty
+  if id == blank
+    log '(items) ID cannot be blank when searching for audience'
     return null
   endif
 
   graphql r = 'activities/items/audience', id: id, limit: 10000
+  assign item = r.records.results.first
 
-  if r.errors
-    log r, type: 'showme'
-    break
-  endif
+  assign audience = '{}' | parse_json
+  hash_assign audience['organization'] = item.owner.id
+  hash_assign audience['profile'] = item.owner.members | map: 'id'
 
-  assign ids = r.records.results | map: 'owner' | map: 'id'
-
-  return ids
+  return audience
 %}

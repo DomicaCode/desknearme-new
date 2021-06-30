@@ -6,22 +6,17 @@ method: post
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_not_authenticated', profile: current_profile
 
-  assign now = 'now' | to_time
+  assign data = context.params
+  hash_assign data['l_id'] = data['l_id'] | default: current_profile.id
+  hash_assign data['type'] = 'relationship'
 
-  assign l_id = context.params.l_id
-  assign r_id = context.params.r_id
-  assign name = context.params.name
+  function can = "lib/can", actor: current_profile, do: 'create', object: data
+  unless can.valid
+    include 'theme/json/shared/not_authenticated'
+    break
+  endunless
 
-  function relation = 'lib/queries/relationships/find', name: name, l_id: l_id, r_id: r_id
-  if relation == blank
-    function object = 'lib/commands/relationships/create', name: name, l_id: l_id, r_id: r_id, l_at: now, r_at: now
-    if object.valid
-      include 'lib/commands/events/create', type: 'relationship_created', actor_id: l_id, target_id: r_id
-    endif
-  else
-    assign object = relation
-    hash_assign object['valid'] = true
-  endif
+  function object = 'lib/commands/relationships/create_with_events', object: data
 
-  render 'theme/json/items/index', response: object
+  render 'theme/json/shared/show', object: object
 %}

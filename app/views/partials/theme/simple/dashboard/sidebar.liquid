@@ -32,6 +32,14 @@
       {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/items/new", label: 'app.p-dashboard.list-an-item' %}
       {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/sell/line_item_returns", label: 'app.p-dashboard.returns' %}
       {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/sell/sales", label: 'app.p-dashboard.sales' %}
+      {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/sell/organizations/edit", label: 'app.p-dashboard.sell-settings' %}
+
+      {% liquid
+        function require_acceptance = 'lib/queries/constants/find' name: "INVENTORY_REQUIRE_ACCEPTANCE", type: "boolean"
+        if require_acceptance
+          include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/sell/processes", label: 'app.p-dashboard.approval_requests'
+        endif
+      %}
     </div>
 
     <div class="mb-5">
@@ -62,7 +70,7 @@
         <span class="mx-4 font-medium">{{ 'app.p-dashboard.community' | t }}</span>
       </span>
 
-      {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard", label: 'app.p-dashboard.your-feed' %}
+      {% include 'theme/simple/dashboard/sidebar_link', href: "/my/feed", label: 'app.p-dashboard.your-feed' %}
       {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/groups", label: 'app.p-dashboard.my-groups' %}
       {% include 'theme/simple/dashboard/sidebar_link', href: "/dashboard/posts", label: 'app.p-dashboard.posts' %}
     </div>

@@ -3,10 +3,10 @@
   function seller_b = 'test/fixtures/organization', name: "organization 5889"
   function buyer = 'test/fixtures/profile', user_id: "6901"
   function anon = 'test/fixtures/profile', user_id: "6902"
-  function item_a = 'test/fixtures/item', seller: seller
-  function item_b = 'test/fixtures/item', seller: seller
-  function item_c_b = 'test/fixtures/item', seller: seller_b
-  function item_b_b = 'test/fixtures/item', seller: seller_b
+  function item_a = 'test/fixtures/item', seller: seller, contract: contract
+  function item_b = 'test/fixtures/item', seller: seller, contract: contract
+  function item_c_b = 'test/fixtures/item', seller: seller_b, contract: contract
+  function item_b_b = 'test/fixtures/item', seller: seller_b, contract: contract
   assign line_params = '{"quantity": 1}' | parse_json
   assign line_params2 = '{"quantity": 2}' | parse_json
   function order_anon_item_b_b = 'lib/commands/line_items/find_or_create_order', item: item_b_b, current_profile: anon
@@ -19,11 +19,8 @@
   function order_buyer_item_b = 'lib/commands/line_items/find_or_create_order', item: item_b, current_profile: buyer
   function line_item = 'lib/commands/line_items/create', item: item_b, params: line_params, current_profile: buyer, order: order_buyer_item_b
 
-
   function line_item_anon_c = 'lib/commands/line_items/create', item: item_c_b, params: line_params2, current_profile: anon, order: order_anon_item_b
-  log line_item_anon_c, type: 'c'
   function line_item = 'lib/commands/line_items/create', item: item_c_b, params: line_params, current_profile: buyer, order: order_buyer_item_b
-  log line_item, type: 'c'
 
   function object = 'lib/commands/profiles_anonymous/convert_orders', profile_anonymous: anon, profile: buyer
 

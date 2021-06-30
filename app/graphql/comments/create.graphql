@@ -6,9 +6,9 @@ mutation create_comment(
   $title: String
   $body: String!
 ) {
-  model_create(
-    model: {
-      model_schema_name: "comment"
+  record_create(
+    record: {
+      table: "comment"
       properties: [
         { name: "uuid" value: $uuid }
         { name: "commentable_uuid" value: $commentable_uuid }
@@ -30,5 +30,23 @@ mutation create_comment(
     creator_id: property(name: "creator_id")
     title: property(name: "title")
     body: property(name: "body")
+
+    creator: related_record(table: "profile", join_on_property: "creator_id"){
+      ...profile
+    }
+  }
+}
+
+fragment profile on Record {
+  id
+  name: property(name: "name")
+  first_name: property(name: "first_name")
+  last_name: property(name: "last_name")
+  slug: property(name: "slug")
+  avatar: related_record(table: "photo", join_on_property: "uuid", foreign_property: "object_uuid", filter: { properties: { name: "photo_type", value: "avatar"}}) {
+    photo: property_upload(name: "photo") {
+      url
+      versions
+    }
   }
 }

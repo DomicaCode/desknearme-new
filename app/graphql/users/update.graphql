@@ -1,6 +1,17 @@
-mutation update($id: ID!, $email: String) {
-  user_update: user_update(id: $id, user: { email: $email }) {
+mutation users_update($id: ID!, $email: String, $attempts: Int $decrement_attempts: Int $locked_at: String) {
+  user_update: user_update(
+    id: $id,
+    user: {
+      email: $email
+      properties: [
+        { name: "attempts" value_int: $attempts decrement: $decrement_attempts }
+        { name: "locked_at" value: $locked_at }
+      ]
+    }
+  ) {
     id
     email
+    attempts: property_int(name: "attempts")
+    locked_at: property(name: "locked_at")
   }
 }

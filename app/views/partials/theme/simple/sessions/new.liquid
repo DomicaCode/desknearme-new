@@ -1,8 +1,10 @@
-<section class="my-10 container items-center">
-  <h2 class="bigtitle text-center">{{ 'app.login_form.log_in' | t }}</h2>
+<h1 class="pagetitle">{{ 'app.login_form.log_in' | t }}</h1>
 
-  <form action="/sessions/create" method="post" class="card w-full md:w-96 mx-auto">
+<section class="container">
+  <form action="/sessions/create" method="post" class="card-lg w-full md:w-96 mx-auto">
     {% render 'authenticity_token', context: context %}
+
+    {% render 'theme/simple/field_error', errors: object.errors.base %}
 
     <fieldset>
       <label for="email">{{ 'app.login_form.email' | t }}</label>

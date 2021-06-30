@@ -13,7 +13,7 @@ export default class ActivityFeed {
       message: Selector('textarea'),
     }
     this.buttons = {
-      send: Selector('button').withText('Send'),
+      send: Selector('button').withText('Post'),
     }
   }
 }

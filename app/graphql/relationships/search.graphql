@@ -1,9 +1,10 @@
 query records(
   $model: [String!] = ["profile", "group", "post", "organization", "item"]
-  $name: String!
+  $name: String
   $r_id: String
   $l_id: String
   $limit: Int!
+  $include_related: Boolean = false
 ){
   records(
     per_page: $limit
@@ -25,10 +26,10 @@ query records(
       r_accepted_at: property(name: "r_accepted_at")
       l_accepted_at: property(name: "l_accepted_at")
 
-      l: related_record(foreign_property: "id" join_on_property: "l_id" table: $model) {
+      l: related_record(foreign_property: "id" join_on_property: "l_id" table: $model) @include(if: $include_related) {
         ...record
       }
-      r: related_record(foreign_property: "id" join_on_property: "r_id" table: $model) {
+      r: related_record(foreign_property: "id" join_on_property: "r_id" table: $model) @include(if: $include_related) {
         ...record
       }
     }

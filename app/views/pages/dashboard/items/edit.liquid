@@ -21,5 +21,5 @@ metadata:
   function default_currency = 'lib/queries/constants/find' name: "CURRENCY", context: context
 
   render 'theme/simple/ui/breadcrumbs', breadcrumbs: context.page.metadata.breadcrumbs
-  include 'theme/simple/dashboard/items/edit', item: object, lib: filters, presigned_url: presigned_url, user: context.current_user, default_currency
+  render 'theme/simple/dashboard/items/edit', item: object, lib: filters, presigned_url: presigned_url, user: context.current_user, default_currency: default_currency, context: context
 %}

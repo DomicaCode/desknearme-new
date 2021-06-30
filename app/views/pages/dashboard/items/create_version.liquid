@@ -14,7 +14,8 @@ method: post
     assign publish_object = '{}' | parse_json
     hash_assign publish_object['new_item'] = object.item
     hash_assign publish_object['old_item'] = item_inventory.item
-    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish_version', object: publish_object, current_profile: current_profile
+    function require_acceptance = 'lib/queries/constants/find' name: "INVENTORY_REQUIRE_ACCEPTANCE", type: "boolean"
+    function publish_object = 'lib/commands/processes/wrap', command: 'items/publish_version', object: publish_object, current_profile: current_profile, require_acceptance: require_acceptance
     if publish_object.require_acceptance
       include 'redirect_to', url: '/dashboard/sell/items', notice: 'app.items.need_to_be_accepted_before_publish'
     else
@@ -22,11 +23,14 @@ method: post
       include 'redirect_to', url: url, notice: 'app.items.updated'
     endif
   else
-    function object = 'lib/commands/items/build_new_version', item_inventory: item_inventory
     function filters = 'lib/queries/search/filters', query: context.params
     function presigned_url = 'lib/queries/presigned_url'
     function default_currency = 'lib/queries/constants/find' name: "CURRENCY", context: context
 
-    include 'theme/simple/dashboard/items/edit', item: object, lib: filters, presigned_url: presigned_url, default_currency
+    function item_inventory = 'lib/queries/item_inventories/find', id: context.params.item.item_inventory_id, owner: current_profile.id, lang: context.language
+    function photos = 'lib/queries/photos/search', object_uuid: object.uuid
+    assign photos = item_inventory.item.photos | concat: photos.results
+
+    render 'theme/simple/dashboard/items/edit', item: object, lib: filters, presigned_url: presigned_url, default_currency: default_currency, context: context, photos: photos
   endif
 %}

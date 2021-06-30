@@ -2,13 +2,14 @@
   <h1 class="bigtitle">{{ 'app.orders.sellers.title' | t }}</h1>
   <h2 class="subtitle">{{ 'app.orders.sellers.subtitle' | t }}</h2>
 </section>
-<section class="container py-12 px-4 text-center">
-  <div class="flex flex-wrap -mx-8">
-  {% for seller in organizations %}
-    <div class="md:w-1/4">
-      <a href="#"><img class="my-2 mx-3 border-8 border-white hover:border-gray" src="{{ seller.logo.url }}" alt="{{ seller.name }}" /></a>
-    </div>
-  {% endfor %}
+<section class="container">
+  <div class="w-full lg:mt-0 grid grid-cols-2 lg:grid-cols-4 gap-6">
+    {% for org in organizations %}
+      {% function org_url = 'link_to', object: org %}
+      <a href="{{ org_url }}" class="card flex items-center justify-center hover:shadow-cardHover hover:border-warning grayscale hover:grayscale-0 !transition">
+        <img src="{{ org.logo.photo.url }}" alt="{{ org.name }}" class="max-h-16">
+      </a>
+    {% endfor %}
   </div>
 </section>
 <section class="container py-12 px-4 text-center">

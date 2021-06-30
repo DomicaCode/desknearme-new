@@ -6,6 +6,7 @@
     hash_assign object['uuid'] = '' | uuid
   endunless
 %}
+
 <div id="reply-form">
   <form action="{% render 'link_to', object: post, action: 'reply' %}#reply-form" method="post" class="w-full">
     {% render 'authenticity_token', context: context %}

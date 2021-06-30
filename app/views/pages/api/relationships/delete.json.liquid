@@ -6,22 +6,10 @@ method: delete
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_not_authenticated', profile: current_profile
 
-  assign now = 'now' | to_time
+  assign data = context.params
+  hash_assign data['l_id'] = data['l_id'] | default: current_profile.id
 
-  assign l_id = context.params.l_id
-  assign r_id = context.params.r_id
-  assign name = context.params.name
+  function object = 'lib/commands/relationships/delete_with_events', object: data
 
-  function relation = 'lib/queries/relationships/find', name: name, l_id: l_id, r_id: r_id
-  if relation
-    function object = 'lib/commands/relationships/delete', object: relation
-
-    if object.valid
-      include 'lib/commands/events/create', type: 'relationship_deleted', actor_id: l_id, target_id: r_id
-    endif
-  else
-    response_status 422
-  endif
-
-  render 'theme/json/items/index', response: object
+  render 'theme/json/shared/show', object: object
 %}

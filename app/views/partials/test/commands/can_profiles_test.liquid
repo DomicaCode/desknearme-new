@@ -21,7 +21,7 @@
   assign profile = '{"id":"1000", "type": "profile", "user": {"email": "seller@example.com"}, "organizations": [{"id": "3000"}]}' | parse_json
 
   function result = 'lib/can', actor: profile, do: 'required_2fa', object: profile, context: ctx
-  include 'test/assertions/valid_object', contract: contract, object: result, field_name: 'be_admin'
+  include 'test/assertions/valid_object', contract: contract, object: result, field_name: 'required_2fa enabled'
 %}
 
 {% liquid
@@ -29,7 +29,7 @@
   assign profile = '{"id":"1000", "type": "profile", "user": {"email": "seller@example.com"}, "organizations": [{"id": "3000"}]}' | parse_json
 
   function result = 'lib/can', actor: profile, do: 'required_2fa', object: profile, context: ctx
-  include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'be_admin'
+  include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'required_2fa disabled'
 %}
 
 {% liquid
@@ -37,7 +37,7 @@
   assign profile = '{"id":"1000", "type": "profile", "otp_configured": true }' | parse_json
 
   function result = 'lib/can', actor: profile, do: 'required_2fa', object: profile, context: ctx
-  include 'test/assertions/valid_object', contract: contract, object: result, field_name: 'be_admin'
+  include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'required_2fa disabled otp configured'
 %}
 
 {% liquid

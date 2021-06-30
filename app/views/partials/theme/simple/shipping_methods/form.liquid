@@ -13,11 +13,17 @@
     save_default_address:
     default_address
 {% endcomment %}
+{% liquid
+  assign shipping_types = seller.shipping_types
+  if shipping_types.size == 0
+    function shipping_types = 'lib/queries/orders/default_shipping_types'
+  endif
+%}
 <div class="{{ wrapper_classes }}" x-data="{shippingType: {{ object.shipping_type | json }}}">
   {{ title | t }}
   {% render 'theme/simple/field_error', errors: object.errors.shipping_type %}
 
-  {% if seller.shipping_types contains 'personal_pickup' %}
+  {% if shipping_types contains 'personal_pickup' %}
     <div class="mt-2 flex items-center gap-2">
       <input
         type="radio"
@@ -42,7 +48,7 @@
     </div>
   {% endif %}
 
-  {% if seller.shipping_types contains 'delivery' %}
+  {% if shipping_types contains 'delivery' %}
     <div class="mt-2 flex items-center gap-2">
       <input
         type="radio"

@@ -1,9 +1,8 @@
 <h1 class="bigtitle">
-  {{ 'app.items.edit' | t }} - {{item.details.en.name}}
+  {{ 'app.items.edit' | t }} - {{ item.details.en.name }}
 </h1>
 
-{% include 'theme/simple/dashboard/items/form', item: item, default_currency %}
-
+{% render 'theme/simple/dashboard/items/form', item: item, default_currency: default_currency, context: context, lib: lib, presigned_url: presigned_url, photos: photos %}
 
 <h1 class="bigtitle">{{ 'app.items.manage_inventory' | t }}</h1>
-{% include 'theme/simple/dashboard/items/edit_inventory', item: item %}
+{% render 'theme/simple/dashboard/items/edit_inventory', item: item, context: context %}

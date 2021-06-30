@@ -1,4 +1,4 @@
-mutation update($id: ID!, $quantity: ID!){
+mutation change_line_item_quantity($id: ID!, $quantity: ID!){
   record_update(
     id: $id
     record: {

@@ -4,6 +4,12 @@
     {% render 'theme/simple/ui/icon', icon: 'usersMoney', class: 'w-6 relative top-0.5 text-content-sidenote' %}
     {{ 'admin.navigation.organizations' | t }}
   </h2>
+
+  <a href="/admin/organizations/new" class="button button-icon-right button-small">
+    {{ 'app.admin.organizations.list.add' | t }}
+    {% render 'theme/simple/ui/icon', icon: 'plus' %}
+  </a>
+
   <div class="flex gap-4">
       <div class="pe-4 border-frame text-center">
         <strong class="subtitle leading-tight">{{ organizations.total_entries }}</strong>
@@ -30,8 +36,8 @@
           <ul>
             <li>
               <span class="lg:hidden">{{ 'app.organizations.attr.id' | t }}</span>
-              <a href="/admin/organizations/{{organization.id}}" class="flex items-center">
-                <img src="{{ organization.logo.url }}" alt="" class="w-10 me-5">
+              <a href="{% render 'link_to', object: organization, namespace: 'admin' %}" class="flex items-center">
+                <img src="{{ organization.logo.photo.url }}" alt="" class="w-10 me-5">
                 {{ organization.name }}
               </a>
             </li>

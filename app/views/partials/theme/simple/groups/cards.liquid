@@ -5,7 +5,7 @@
 
   <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 md:gap-5">
     {% for record in list.results %}
-      {% render 'theme/simple/groups/card', group: record, current_profile: current_profile %}
+      {% render 'theme/simple/groups/card', group: record, current_profile: current_profile, context: context %}
     {% else %}
       <p class="text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
     {% endfor %}

@@ -1,6 +1,6 @@
 {% liquid
   function profile = 'test/fixtures/profile', user_id: "6999"
-  function item = 'test/fixtures/item', quantity: 1
+  function item = 'test/fixtures/item', quantity: 1, contract: contract
   function order = 'test/fixtures/order', item: item, current_profile: profile
 
   function orders = 'lib/queries/orders/search', buyer: profile.id, limit: 100

@@ -16,6 +16,18 @@
        return true
       endif
     endif
+  when 'purchase'
+    if context.constants.ONLY_BUYERS_CAN_PURCHASE == 'true'
+      if actor.organizations.size > 0
+        return false
+      elsif actor.permissions != blank and actor.permissions != '{}'
+        return false
+      else
+        return true
+      endif
+    else
+      return true
+    endif
   endcase
 
   return can

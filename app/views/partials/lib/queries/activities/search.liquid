@@ -1,5 +1,6 @@
 {% liquid
-  graphql r = 'activities/search', feed: feed, feed_id: feed_id, limit: limit
+  assign page = page | to_positive_integer: 1
+  graphql r = 'activities/search', feed: feed, feed_id: feed_id, limit: limit, page: page
 
   return r.activities
 %}

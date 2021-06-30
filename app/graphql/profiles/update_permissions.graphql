@@ -1,4 +1,4 @@
-mutation update(
+mutation update_permissions(
   $id: ID!
   $permissions: String!
 ) {

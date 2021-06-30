@@ -1,6 +1,8 @@
 en:
   app:
     account:
+      locked: Account locked
+      locked_until: Account locked until %{date}
       created: Your account has been created
       reset_password:
         title: Reset password
@@ -8,6 +10,7 @@ en:
           Please provide your registered email address and we will send you a
           link that will enable you to reset the password.
         send_link: Reset password
+        expired_link: The reset password link you’ve entered is invalid or has expired.
     login: Log in
     logout: 'Log out %{user}'
     login_form:
@@ -43,9 +46,12 @@ en:
         following: Following
         followers: Followers
         products: Products
+      suggested_profiles: Suggested users to follow
     users:
       new: new user
       list: Users
+      follow: Follow
+      unfollow: Unfollow
       create_account: Create an Account
       form:
         id: ID
@@ -68,6 +74,8 @@ en:
         followers: Followers
         profile: Profile
         name: Name
+        locked_at: Locked At
+        attempts: Login attempts
     sessions:
       created: Logged in
       destroyed: Logged out
@@ -80,6 +88,9 @@ en:
         otp_code: The code you’ve entered is not valid. Please retry or try again if the code has expired.
       new:
         enter_password: Please enter your password as a first authentication step.
+        your_password: 'Your password:'
+        next: Next
+        back: Back
         confirm_and_enable: Confirm and Enable Two Factor
         two_factor_authentication: Two-factor authentication
         scan_qr_code: Scan QR Code

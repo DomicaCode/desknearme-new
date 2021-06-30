@@ -8,7 +8,6 @@
   size - the size of the avatar you need in pixels (int)
 {% endcomment %}
 
-
 {% liquid
   if size <= 100 or size == nil
     assign version = 'tiny'
@@ -18,7 +17,8 @@
     assign version = 'uncropped'
   endif
 
-  assign avatar_url = profile.avatar.photo.versions[version]
+  assign photos = profile.avatar.photo.versions | default: profile.photo.url.versions
+  assign avatar_url = photos[version]
   assign size = size | default: 32
 %}
 

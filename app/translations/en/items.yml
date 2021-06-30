@@ -1,9 +1,5 @@
 en:
   app:
-    currency:
-      setup:
-        title: The site's currency
-        save: Save
     item: Item
     list-your-item: List your item
     your-items: Your items
@@ -21,6 +17,7 @@ en:
         publish_failed: Publishing item failed %{error}
       all: All
       by: By
+      organization_user_rating: "- user rating %{score}%"
       shipping_types:
         available: Available shipping methods
         delivery: Home delivery (%{shipping_cost} shipping cost)
@@ -46,13 +43,16 @@ en:
       inventory: Inventory
       manage_inventory: Manage Inventory
       add: Add Item
-      need_to_be_accepted_before_publish: Item needs to be accepted before publish
-      need_to_be_accepted_before_create_publish: Item created but needs to be accepted before publish
-      need_to_be_accepted_before_unpublish: Item will be unpublished after confirmation
-      item_unpublished: This item was removed.
-      confirm-publish: Are you sure you want to publish item? It will be available to buy.
+      need_to_be_accepted_before_publish: Your request to modify the item has been successfully submitted and is currently reviewed.
+      need_to_be_accepted_before_create_publish: Your request to create the item has been successfully submitted and is currently reviewed.
+      need_to_be_accepted_before_unpublish: Your request to unpublish the item has been successfully submitted and is currently reviewed.
+      item_unpublished: The item has been successfully unpublished.
+      confirm-publish: Are you sure you want to publish the item and make it possible for anyone to buy it?
       publish: Publish
       published: Item Published
+      product_rating_count:
+        other: '%{count} product ratings'
+        one: '%{count} product rating'
       form:
         name: Name
         sku: SKU

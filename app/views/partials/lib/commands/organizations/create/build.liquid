@@ -1,14 +1,28 @@
-{% assign uuid = '' | uuid %}
+{% liquid
+  function default_currency = 'lib/queries/constants/find' name: "CURRENCY"
+%}
 {% parse_json object %}
   {
-    "uuid":           {{ uuid | json }},
-    "contact_emails": {{ object.user.email | json }},
+    "uuid":           {{ object.uuid | json }},
+    "contact_emails": {{ object.contact_emails | json }},
     "name":           {{ object.name | default: uuid | json }},
-    "offline_stores": {{ object.offline_stores | json }},
-    "delivery_fee": {{ object.delivery_fee | default: 0 }}
+    "slug":           {{ object.slug | json }},
+    "shipping_types": {{ object.shipping_types | json }},
+    "offline_stores": {{ object.offline_stores | default: '' | split: ';' | json }},
+    "delivery_fee":   {{ object.delivery_fee | plus: 0 | amount_to_fractional: default_currency | default: 0 }},
+    "promoted": {{ object.promoted | matches: 'promoted' | json }}
   }
 {% endparse_json %}
 
 {% liquid
+
+  if object.slug == blank
+    function slug = 'generate_slug', title: object.name
+    hash_assign object['slug'] = slug
+  endif
+
+  if object.uuid == blank
+    hash_assign object['uuid'] = '' | uuid
+  endif
   return object
 %}

@@ -7,9 +7,14 @@
 
   if data.old_quantity == 0 and data.new_quantity > 0
     hash_assign data['status_name'] = 'app.statuses.items.published'
+  elsif data.new_quantity > 0 and item_inventory.c__status == 'app.statuses.items.unavailable'
+    hash_assign data['status_name'] = 'app.statuses.items.published'
   elsif data.new_quantity == 0 and data.old_quantity > 0
     hash_assign data['status_name'] = 'app.statuses.items.unavailable'
+  elsif data.new_quantity == 0 and item_inventory.c__status == 'app.statuses.items.published'
+    hash_assign data['status_name'] = 'app.statuses.items.unavailable'
   endif
+
 
   return data
 %}

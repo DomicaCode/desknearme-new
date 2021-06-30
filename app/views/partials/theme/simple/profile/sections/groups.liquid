@@ -1,7 +1,35 @@
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-5">
-  {% for record in list.results %}
-    {% render 'theme/simple/groups/card', group: record, current_profile: current_profile %}
-  {% else %}
-    <p class="text-lg">{{ 'app.groups.no_groups_found' | t }}</p>
-  {% endfor %}
+<section>
+
+  <header class="mb-4 flex justify-between items-center">
+    <h2 class="title">{{ 'app.groups.my_groups' | t }}</h2>
+    {% if list.total_entries != 0 %}<a href="/groups/new" class="button">{{ 'app.groups.new_group' | t }}</a>{% endif %}
+  </header>
+
+  {% if list.total_entries == 0 %}
+    <div class="p-4 bg-panel-highlight rounded text-center">
+      {{ 'app.groups.no_groups_found' | t }}<br>
+      <a href="/groups/new" class="mt-4 button">{{ 'app.groups.new_group' | t }}</a>
+    </div>
+  {% endif %}
+
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for record in list.results %}
+      {% render 'theme/simple/groups/card', group: record, current_profile: current_profile, member: true %}
+    {% endfor %}
+  </div>
+
 </section>
+
+
+{% if list.suggested.total_entries > 0 %}
+  <section class="mt-8">
+    <h2 class="title">{{ 'app.groups.suggested_groups' | t }}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for record in list.suggested.results %}
+        {% render 'theme/simple/groups/card', group: record, current_profile: current_profile, member: false, context: context %}
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

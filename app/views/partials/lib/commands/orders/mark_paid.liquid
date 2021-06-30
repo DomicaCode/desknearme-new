@@ -1,8 +1,17 @@
 {% liquid
   for order in orders
-    function status = 'lib/commands/statuses/create', profile_id: profile_id, object_id: order.id, name: 'app.statuses.orders.paid', scope: 'app.statuses.orders'
-    if status.valid
-      include 'lib/commands/events/create', type: 'status_created', actor_id: profile_id, object_id: status.id, target_id: status.object_id
+    function status_paid = 'lib/commands/statuses/create', profile_id: profile_id, object_id: order.id, name: 'app.statuses.orders.paid', scope: 'app.statuses.orders'
+
+    assign merchant_auto_confirm = true
+    if merchant_auto_confirm != true
+      if status_paid.valid
+        include 'lib/commands/events/create', type: 'status_created', actor_id: profile_id, object_id: status_paid.id, target_id: status_paid.object_id, delay: 0
+      endif
+    else
+      function status_in_progress = 'lib/commands/statuses/create', profile_id: profile_id, object_id: order.id, name: 'app.statuses.orders.in_progress', scope: 'app.statuses.orders'
+      if status_in_progress.valid
+        include 'lib/commands/events/create', type: 'status_created', actor_id: profile_id, object_id: status_in_progress.id, target_id: status_in_progress.object_id, delay: 0
+      endif
     endif
   endfor
 

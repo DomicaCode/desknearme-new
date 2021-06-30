@@ -1,6 +1,6 @@
 {% if posts.results.size > 0 %}
   <div class="mb-5 text-right">
-    <a href="/dashboard/posts/new" class="button button-icon-right">
+    <a href="/posts/new" class="button button-icon-right">
       {{ 'app.models.posts.add' | t }}
       {% render 'theme/simple/ui/icon', icon: 'plus' %}
     </a>
@@ -69,5 +69,5 @@
 
   </section>
 {% else %}
-    {% render 'theme/simple/posts/empty_state' %}
+  {% render 'theme/simple/posts/empty_state' %}
 {% endif %}

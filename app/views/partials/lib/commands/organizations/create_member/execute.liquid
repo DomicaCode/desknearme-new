@@ -6,7 +6,7 @@
     if profile.valid
       hash_assign object['profile'] = profile
       assign now = 'now' | to_time
-      function rel = 'lib/commands/relationships/create', name: 'membership', l_id: profile.id, r_id: object.organization_id, l_at: now, r_at: now
+      function rel = 'lib/commands/relationships/create', name: 'organization_membership', l_id: profile.id, r_id: object.organization_id, l_at: now, r_at: now
     endif
   endif
   if user.valid != true or profile.valid != true or rel.valid != true

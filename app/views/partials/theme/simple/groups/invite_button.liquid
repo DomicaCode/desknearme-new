@@ -1,9 +1,6 @@
 {% function can = "lib/can", actor: current_profile, do: "invite", object: group %}
-
 {% if can.valid %}
-
-<a class="mx-3 button button-primary" href="{% render 'link_to', object: group, action: 'invite' %}">
-  Invite member
-</a>
-
+  <a class="{{ class }}" href="{% render 'link_to', object: group, action: 'invite' %}">
+    {{ label | t  }}
+  </a>
 {% endif %}

@@ -6,11 +6,15 @@ en:
           subtitle: Original post
       no_members_found: This group has no members
       no_invitations_found: This group has no pending invitations
-      no_groups_found: You have no groups
+      no_groups_found: Join groups below or create your own based on your special interest.
       list: Groups
       group: Group
-      owner: ', Owner'
+      my_groups: My groups
+      suggested_groups: Suggested groups
+      owner: 'Owner'
+      created: Created
       description: Description
+      code_of_conduct: Rules
       members: Members
       view_all: View all
       name: Name
@@ -20,11 +24,15 @@ en:
       add: Add group
       deleted: Group has been deleted
       new: New
-      new_group: New Group
+      new_group: Create a group
       edit: 'Edit Group: '
       empty_state: You haven’t added any groups yet. <br> Create your first one now!
       join: Ask to join
+      invite: Invite
+      invite_new_member: Invite new member
       already_joined: Already joined
+      joined: Joined group
+      left: You have left the group
       leave: Leave group
       permissions_explanation:
         intro: Choose what and which users will able to see and do in regards to this group.
@@ -41,20 +49,44 @@ en:
         votable: Users <b>%{can}</b> vote on posts
         followable: Users <b>%{can}</b> follow posts
         featurable: Users <b>%{can}</b> mark posts as featured
+        true: can
+        false: cannot
       nav:
         activity: Activity
         about: About
         members: Members
+        group_type: "%{type} group"
+        created: Created
+        admins: Admin(s)
       form:
-        name: Name
+        group_info: Group Info
+        group_info_subtitle: Your group description is a great chance to set the first impression for new members.  Please explain the intent of your group clearly to help new members understand how to best contribute and engage.
+        name: Group name
+        privacy: Group privacy
+        category: Related Community
+        category_tip: Select one of your communities that this group relates to.
         content_type: Content type
         content_types:
           question: Question
           post: Post
           announcement: Announcement
-        summary: Summary (displayed on list)
-        photo: Main Photo
+        content: Content
+        summary: Short description
+        summary_tip: Describe in a sentence what your group is about, appearing on the cover pic. Max 140 characters.
+        photo: Cover picture
         description: Description
-        submit: Submit
+        description_tip: Describe the purpose of your group in detail
+        code_of_conduct: Rules
+        code_of_conduct_tip: Describe the code of conduct that helps the group members what is the accepted behaviour.
+        submit: Create group
+        update: Update group
+        tags: Tags
+        tags_help: Select tags from list to categorise your group
+        chars: chars
       errors:
         description_too_short: 'Description is too short, it has to be longer than %{size} chars'
+        at_least_one_conent_type: choose at least one content type
+      content_empty_state:
+        title: There is no content in this group yet
+        subtitle: You can contribute to the group by adding new content
+        add_content: Add content

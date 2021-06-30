@@ -1,6 +1,6 @@
 {% parse_json buyer %} {"id": "5666"} {% endparse_json %}
 {% liquid
-  function item = 'test/fixtures/item'
+  function item = 'test/fixtures/item', contract: contract
   function order = 'test/fixtures/order', current_profile: buyer, item: item
 %}
 {% comment %} test {% endcomment %}

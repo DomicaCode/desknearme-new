@@ -4,7 +4,7 @@
 
 <div class="sm:flex">
 
-  <div class="flex flex-col w-64 mb-6 text-center">
+  <div class="flex flex-col w-64 mb-6 text-center" data-photo-upload-avatar data-photo-upload-base>
     <div>
       {% render 'theme/simple/ui/avatar', profile: object, size: 200, class: 'w-48 h-48 mx-auto text-4xl' %}
     </div>
@@ -69,9 +69,7 @@
 {% render 'theme/simple/photos/uppy_form',
   object_uuid: object.uuid,
   presigned_url: presigned_url,
-  user_id: user.id,
   photo_type: 'avatar',
   note: 'Image up to 2MB',
-  max_number_of_files: 1,
-  update_img_selector: '[data-avatar]'
+  max_number_of_files: 1
 %}

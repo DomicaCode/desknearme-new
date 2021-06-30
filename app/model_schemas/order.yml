@@ -8,6 +8,8 @@ properties:
     type: integer
   - name: total_price_cents
     type: integer
+  - name: delivery_fee
+    type: integer
   - name: currency
   - name: shipping_first_name
   - name: shipping_last_name

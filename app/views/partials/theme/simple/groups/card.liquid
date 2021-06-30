@@ -1,41 +1,48 @@
-<div class="relative overflow-hidden rounded-lg bg-panel">
-  <a class="text-gray-700" href="{% render 'link_to', group: group %}" title="{{ group.name }}">
+<article class="card !p-0 relative">
+
+  <a href="{% render 'link_to', group: group %}" title="{{ group.name }}">
     {% function type_badge = 'theme/simple/groups/type_badge', group: group %}
     <span class="absolute p-3">
       {% print type_badge %}
     </span>
-
-    <img class="object-cover object-center w-full lg:h-48 md:h-36" src="{{ group.main_photo.photo.versions.small | default: 'https://ipsumimage.appspot.com/720x400' }}" alt="blog">
+    <img class="object-cover object-center w-full lg:h-48 md:h-36 rounded-t" src="{{ group.main_photo.photo.versions.small | default: 'https://ipsumimage.appspot.com/720x400' }}" alt="">
   </a>
 
-  <div class="p-6">
-    <h1 class="text-lg font-medium">
-      <a href="{% render 'link_to', group: group %}" class="flex items-center w-full">
-        {{ group.name }}
-        {% render 'theme/simple/ui/icon', icon: 'dashRight', class: 'ms-auto w-4 h-4' %}
-      </a>
-    </h1>
+  <div class="p-4 break-words">
+    <h3 class="subtitle !font-bold">
+      <a href="{% render 'link_to', group: group %}" class="flex items-center w-full">{{ group.name }}</a>
+    </h3>
 
+    {% if group.tags[0] %}
+      <ul class="mb-2 flex gap-1 flex-wrap">
+        {% for tag in group.tags %}
+          <li class="px-2 py-1 bg-panel-highlight rounded sidenote uppercase">
+            #{{ tag }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 
-    <p class="my-3 leading-relaxed break-all">{{ group.summary }}</p>
-
-    <div class="flex flex-wrap items-center">
-
-      <!--
-      <span class="inline-flex items-center py-1 ml-auto text-sm leading-none border-r-2 pe-3 me-3 lg:ml-auto md:ms-0">
-        <svg class="w-4 h-4 me-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>1.2K
-      </span>
-      -->
-      <!--
-      <span class="inline-flex items-center text-sm">
-        <svg class="w-4 h-4 me-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
-        </svg>6
-      </span>
-      -->
-    </div>
+    {{ group.summary | truncatewords: 7 }}
   </div>
-</div>
+
+  <footer class="p-4 flex flex-wrap items-center sidenote text-content-sidenote">
+    <span class="inline-flex items-center gap-1 border-r-2 pe-3 me-3">
+      {{ group.c__members_count | default: 0 }} {{ 'app.groups.members' | t | downcase }}
+    </span>
+
+    <span class="inline-flex items-center">
+      <svg class="w-4 h-4 me-1" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+        <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path>
+      </svg>
+      {{ group.c__posts_count | default: 0 }}
+    </span>
+
+    {% if member != true %}
+      <span class="ms-auto">
+        {% render 'theme/simple/groups/join_button', class: 'button-small', group: group, current_profile: current_profile, member: member, context: context %}
+      </span>
+    {% endif %}
+  </footer>
+
+</article>

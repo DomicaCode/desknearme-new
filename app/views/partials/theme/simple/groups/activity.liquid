@@ -1,17 +1,18 @@
-<div class="container">
-  {% liquid
-    if current_profile.id
-      render 'theme/simple/comments/new_entry', commentable: group, commentable_type: 'group', placeholder: "What's new?", context: context, presigned_url: presigned_url
-    endif
-  %}
+<section class="mt-8 flex flex-col gap-4"
+  x-frames-target="feed"
+>
+  {% if list.total_entries > 0 %}
+    {% liquid
+      for activity in list.results
+        render 'theme/simple/activities/feed_unit', payload: activity.payload, current_profile: current_profile, namespace: namespace, context: context
+      endfor
 
-  <section class="text-gray-900 body-font">
-    <div class="grid grid-cols-1 gap-6 my-6 md:py-5">
-      {% for record in list.results %}
-        {% render 'theme/simple/activities/feed_unit', payload: record.payload, current_profile: current_profile %}
-      {% else %}
-        <p class="container my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
-      {% endfor %}
-    </div>
-  </section>
-</div>
+      if list.has_next_page
+        function group_url = 'link_to', object: group, action: 'frame'
+        render 'theme/simple/load_more', page: page, url: group_url
+      endif
+    %}
+  {% else %}
+    <p class="container my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
+  {% endif %}
+</section>

@@ -20,6 +20,7 @@ mutation create_transaction(
     }
   ){
     id
+    type: table
     created_at
     deleted_at
 

@@ -8,10 +8,13 @@ properties:
     type: boolean
   - name: offline_stores
     type: array
-  - name: logo
-    type: upload
   - name: shipping_types
     type: array
   - name: delivery_fee
     type: integer
   - name: language
+
+  - name: c__rating_score
+    type: float
+  - name: c__rating_count
+    type: integer

@@ -31,45 +31,80 @@
 
 <h2 class="bigtitle">{{ heading | t }}</h2>
 
-<div class="flex flex-wrap  groups-center">
-  <form action="{{ form_url }}" method="post" class="w-full md:w-2/3" novalidate>
-    {% render 'authenticity_token', context: context %}
-    <input type="hidden" name="_method" value="{{method}}">
-    <input type="hidden" name="post[group_id]" value="{{ group.id }}">
+<form action="{{ form_url }}" method="post" class="w-full md:w-2/3">
+  {% render 'authenticity_token', context: context %}
+  <input type="hidden" name="_method" value="{{method}}">
+  <input type="hidden" name="post[group_id]" value="{{ group.id }}">
 
-    {% if object.id %}
-      <input type="hidden" name="post[id]" value="{{ object.id }}">
-    {% endif %}
-    <input type="hidden" name="post[uuid]" value="{{ object.uuid }}">
+  {% if object.id %}
+    <input type="hidden" name="post[id]" value="{{ object.id }}">
+  {% endif %}
+  <input type="hidden" name="post[uuid]" value="{{ object.uuid }}">
 
-    {% if editing_root %}
-      <div class="mt-5">
-        <label class="block" for="title">{{ 'app.models.posts.form.title' | t }}</label>
-        <input class="w-2/3 form-input" type="text" id="title" name="post[title]" value="{{ object.title }}" />
-        {% render 'theme/simple/field_error', errors: object.errors.title %}
-        {% render 'theme/simple/ui/form-tip', content_key: 'app.models.posts.form.title_help' %}
-      </div>
-    {% endif %}
+  {% if editing_root %}
+    <fieldset class="mt-6">
+      <label class="mb-1 block cursor-pointer" for="title">{{ 'app.models.posts.form.title' | t }}</label>
+      <input class="w-2/3" type="text" id="title" name="post[title]" value="{{ object.title }}" required minlength="3" maxlength="130" />
+      {% render 'theme/simple/field_error', errors: object.errors.title %}
+    </fieldset>
+  {% endif %}
 
-    <div class="mt-5">
-      <label class="block" for="body">{{ 'app.models.posts.form.body' | t }}</label>
-      <textarea class="w-2/3 form-input" id="body" name="post[body]" data-markdown-editor>{{ object.body }}</textarea>
-      {% render 'theme/simple/field_error', errors: object.errors.body %}
-      {% render 'theme/simple/ui/form-tip', content_key: 'app.models.posts.form.body_help' %}
+  <div class="mt-6">
+    <label class="mb-1 block cursor-pointer" for="body">{{ 'app.models.posts.form.body' | t }}</label>
+    <textarea class="w-2/3" id="body" name="post[body]" rows="5" data-markdown-editor>{{ object.body }}</textarea>
+    {% render 'theme/simple/field_error', errors: object.errors.body %}
+  </div>
+
+  {% if editing_root %}
+    <div class="mt-6">
+      <label class="mb-1 block cursor-pointer" for="tags">{{ 'app.models.posts.form.tags' | t }}</label>
+      <input class="w-2/3" type="text" id="tags" name="post[tags]" value="{{ object.tags | join: ',' }}" pattern="^[A-Za-z0-9-]*$" data-tags-input>
+      {% render 'theme/simple/field_error', errors: object.errors.tags %}
+      {% render 'theme/simple/ui/form-tip', content_key: 'app.models.posts.form.tags_help' %}
     </div>
+  {% endif %}
 
-    {% if editing_root %}
-      <div class="mt-3">
-        <label class="block" for="tags">{{ 'app.models.posts.form.tags' | t }}</label>
-        <input class="w-2/3 form-input" type="text" id="tags" name="post[tags]" value="{{ object.tags | join: ',' }}" pattern="^[A-Za-z0-9-]*$" data-tags-input />
-        {% render 'theme/simple/field_error', errors: object.errors.tags %}
-        {% render 'theme/simple/ui/form-tip', content_key: 'app.models.posts.form.tags_help' %}
+
+  {% if object.id == blank %}
+    <div class="mt-6">
+      <label class="block">{{ 'app.models.posts.form.content_type' | t }}</label>
+      {% function post_templates = 'lib/queries/posts/post_templates' %}
+      <div x-data="{ templates: {{ post_templates | json }}, content_type: '{{ group.content_types.first | default: 'question' }}' }">
+        <div class="grid grid-cols-3">
+          <div>
+            {% for content_type in post_templates %}
+              {% render 'theme/simple/dashboard/posts/content_type', object: object, content_type: content_type[0], template: content_type[1] %}
+            {% endfor %}
+          </div>
+
+          <div class="col-span-2">
+            <div class="card">
+              <ul class="space-y-1">
+                {% assign scope = 'app.groups.content_types_explanation' %}
+                {% assign template = post_templates.post %}
+                {% for action in template %}
+                <li>
+                  <span x-show="templates[content_type].{{action[0]}}">
+                    {% assign can = 'true' | t: scope: scope %}
+                    {{ action[0] | t: can: can, scope: scope }}
+                  </span>
+                  <span x-show="!templates[content_type].{{action[0]}}">
+                    {% assign can = 'false' | t: scope: scope %}
+                    {{ action[0] | t: can: can, scope: scope }}
+                  </span>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-    {% endif %}
+    </div>
+  {% endif %}
 
-    <button class="mt-8 button">{{ submit_label | t }}</button>
-  </form>
-</div>
+  <button class="mt-8 button">{{ submit_label | t }}</button>
+</form>
+
 {% render 'theme/simple/photos/s3_form',
   object_uuid: object.uuid,
   presigned_url: presigned_url,

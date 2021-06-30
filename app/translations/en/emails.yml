@@ -62,6 +62,7 @@ en:
             total_price: Total price
             payment_method: Payment method
             order_summary: Order summary
+            order_id: Order ID
         cancelled_buyer:
           buyer:
             subject: '%{site_name} You have cancelled your Order %{order_id}'

@@ -1,10 +1,10 @@
 import { Selector, Role } from 'testcafe';
-import NewSessionForm from './newsession'
+import LogInForm from './login'
 import TopMenuBtns from './topmenu'
-import { John, Admin, SellerRandomUser, myUrl, loginConfirmation, SellerMerchant, RandomPerson } from './fixtures'
+import { John, Admin, SellerRandomUser, myUrl, loginConfirmation, SellerMerchantB, SellerMerchantA, RandomPerson } from './fixtures'
 
 const topMenu = new TopMenuBtns()
-const loginForm = new NewSessionForm()
+const loginForm = new LogInForm()
 
 export const buyerRole = Role(myUrl + "/sessions/new", async (t) => {
   await t
@@ -31,8 +31,15 @@ export const adminRole = Role(myUrl + "/sessions/new", async (t) => {
 
 export const merchantRole = Role(myUrl + "/sessions/new", async (t) => {
   await t
-    .typeText(loginForm.inputs.email, SellerMerchant.email)
-    .typeText(loginForm.inputs.password, SellerMerchant.password)
+    .typeText(loginForm.inputs.email, SellerMerchantB.email)
+    .typeText(loginForm.inputs.password, SellerMerchantB.password)
+    .click(loginForm.buttons.logIn)
+})
+
+export const merchantRoleA = Role(myUrl + "/sessions/new", async (t) => {
+  await t
+    .typeText(loginForm.inputs.email, SellerMerchantA.email)
+    .typeText(loginForm.inputs.password, SellerMerchantA.password)
     .click(loginForm.buttons.logIn)
 })
 

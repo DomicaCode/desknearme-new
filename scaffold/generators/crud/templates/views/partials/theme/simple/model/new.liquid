@@ -1,3 +1,4 @@
-<h3 class="title">{{ 'app.models.<%= modelNamePlural %>.new' | t }}</h3>
-
-{% include 'theme/simple/<%= modelNamePlural %>/form', <%= modelName %>: <%= modelName %> %}
+<div class="container">
+  <h3 class="title">{{ 'app.<%= modelNamePlural %>.new.new' | t }}</h3>
+  {% render 'theme/simple/<%= modelNamePlural %>/form', object: object, context: context %}
+</div>

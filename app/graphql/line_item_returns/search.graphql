@@ -7,6 +7,7 @@ query search(
   $quantity: String
   $reason: String
   $reason_details: String
+  $reject_reason: String
   $shipping_type: String
   $shipping_pickup_point: String
   $shipping_address_id: String
@@ -26,6 +27,7 @@ query search(
         { name: "quantity", value: $quantity }
         { name: "reason", value: $reason }
         { name: "reason_details", value: $reason_details }
+        { name: "reject_reason", value: $reject_reason }
         { name: "shipping_type", value: $shipping_type }
         { name: "shipping_pickup_point", value: $shipping_pickup_point }
         { name: "shipping_address_id", value: $shipping_address_id }
@@ -54,6 +56,7 @@ query search(
       quantity: property_int(name: "quantity")
       reason: property(name: "reason")
       reason_details: property(name: "reason_details")
+      reject_reason: property(name: "reject_reason")
       shipping_type: property(name: "shipping_type")
       shipping_pickup_point: property(name: "shipping_pickup_point")
       shipping_address_id: property(name: "shipping_address_id")
@@ -108,6 +111,7 @@ query search(
           price: property_int(name: "price")
           return_days: property_int(name: "return_days")
           cover_photo_url: property(name: "cover_photo_url")
+          category: property(name: "category")
           item_detail: related_record(
             table: "item_detail"
             join_on_property: "id"

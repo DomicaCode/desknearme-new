@@ -1,7 +1,7 @@
 {% liquid
   case order.shipping_type
   when 'delivery'
-    assign cost = order.seller.delivery_fee
+    assign cost = order.delivery_fee | default: order.seller.delivery_fee
   when 'personal_pickup'
     assign cost = 0
   else

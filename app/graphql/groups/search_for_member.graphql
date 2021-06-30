@@ -29,12 +29,15 @@ query search($id: ID, $limit: Int = 20, $member_id: String) {
       name: property(name: "name")
       summary: property(name: "summary")
       description: property(name: "description")
+      c__members_count: property_int(name: "c__members_count")
+      c__posts_count: property_int(name: "c__posts_count")
       main_photo: related_record(table: "photo", join_on_property: "uuid", foreign_property: "object_uuid") {
         photo: property_upload(name: "photo") {
           url
           versions
         }
       }
+      tags: property_array(name: "tags")
     }
   }
 }

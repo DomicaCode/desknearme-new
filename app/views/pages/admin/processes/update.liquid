@@ -12,7 +12,7 @@ layout: admin
   function process = 'lib/queries/processes/find', id: context.params.process.id
   include 'lib/present_or_404', property: process.id
 
-  function object = 'lib/commands/processes/update', object: context.params.process, profile: current_profile
+  function object = 'lib/commands/processes/update', object: context.params.process, profile: current_profile, process: process
   if object.valid
     if object.action == 'accept'
       function object = 'lib/commands/processes/run', object: process

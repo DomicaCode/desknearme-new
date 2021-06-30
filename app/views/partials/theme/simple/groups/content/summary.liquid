@@ -6,9 +6,9 @@
   endif
 %}
 
-<article class="card mb-10 flex">
-  <div id="post-{{post.id}}"></div>
-  {% if content_type == 'question' %}
+<article class="card mb-4 flex">
+  <div id="refid-{{post.id}}"></div>
+  {% if post.votable %}
     <aside class="pe-4 flex flex-col flex-shrink-0 items-center">
       <span class="w-12 h-12 flex items-center justify-center border rounded-lg {{ score_css }}">
         {{ post.c__score | default: 0 }}
@@ -35,7 +35,11 @@
 
     <h3 class="title">
       <a href="{% render 'link_to', object: post %}">
-        {{ post.title }}
+        {% if post.title %}
+          {{ post.title }}
+        {% else %}
+          {{ post.body | markdownify | strip_html | truncatewords: 4 }}
+        {% endif %}
       </a>
     </h3>
 

@@ -3,6 +3,7 @@ query search(
   $limit: Int = 20
   $uuid: String
   $commentable_uuid: String
+  $commentable_uuids: [String]
   $commentable_type: String
   $creator_id: String
   $query: String
@@ -14,7 +15,7 @@ query search(
       table: { value: "comment" }
       properties: [
         { name: "uuid" value: $uuid }
-        { name: "commentable_uuid" value: $commentable_uuid }
+        { name: "commentable_uuid" value: $commentable_uuid, value_in: $commentable_uuids }
         { name: "commentable_type" value: $commentable_type }
         { name: "creator_id" value: $creator_id }
         { name: "title" contains: $query }
@@ -42,6 +43,7 @@ query search(
       }
 
       photos: related_records(table: "photo", join_on_property: "uuid", foreign_property: "object_uuid") {
+        id
         photo: property_upload(name: "photo") {
           url
           versions

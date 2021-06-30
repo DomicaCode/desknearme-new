@@ -107,6 +107,9 @@
                   when 'app.statuses.orders.paid'
                     assign status_class = 'bg-warning-disabled border-warning'
                     assign status_label = 'app.statuses.orders_for_role.seller.paid' | t
+                  when 'app.statuses.orders.in_progress'
+                    assign status_class = 'bg-warning-disabled border-warning'
+                    assign status_label = 'app.statuses.orders_for_role.seller.in_progress' | t
                   when 'app.statuses.orders.delivered'
                     assign status_class = 'bg-confirmation-disabled border-confirmation'
                     assign status_label = 'app.statuses.orders_for_role.seller.delivered' | t
@@ -119,6 +122,9 @@
                   when 'app.statuses.orders.returned'
                     assign status_class = 'bg-warning-disabled border-warning'
                     assign status_label = 'app.statuses.orders_for_role.seller.returned' | t
+                  when 'app.statuses.orders.completed'
+                    assign status_class = 'bg-confirmation-disabled border-confirmation'
+                    assign status_label = 'app.statuses.orders_for_role.seller.completed' | t
                 endcase
               %}
               <span class="px-2 py-1 inline-block rounded border {{ status_class }} leading-normal uppercase" data-tc="order-status">{{ status_label }}</span>

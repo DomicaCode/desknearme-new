@@ -3,7 +3,8 @@
   assign order = data.order
   assign shipped_at = order.order_delivery.status.created_at | l
   assign pickup_until = order.order_delivery.status.created_at | l: 'day_month_year'
-  function seller_url = 'link_to', organization: order.seller
+  function order_url = 'link_to_url', object: order, type: 'buyer_order'
+  function seller_url = 'link_to_url', object: order.seller
 %}
 
 <p>
@@ -27,7 +28,7 @@
 <h2 class="mt subtitle">{{ 'app.emails.orders.delivered.buyer.order_summary' | t }}</h2>
 
 <div class="mt">
-  <b>{{ order.seller.name }}</b> (<a href="{{ seller_url }}">{{ 'app.emails.orders.delivered.buyer.contact_link' | t: name: order.seller.name }}</a>)<br>
+  <b>{{ order.seller.name }}</b> (<a href="{{ order_url }}">{{ 'app.emails.orders.delivered.buyer.contact_link' | t: name: order.seller.name }}</a>)<br>
   <span class="sidenote">{{ 'app.emails.orders.delivered.buyer.order_id' | t }}: {{ order.id }}</span>
 </div>
 
@@ -52,7 +53,7 @@
 
 <div class="mt-2">
   <i>{{ 'app.emails.orders.delivered.buyer.delivery' | t }}</i>:<br>
-  {{ 'app.models.orders.form.shipping_type_' | append: order.shipping_type | t }} – {% render 'theme/simple/price', amount_cents: order.total_shipping_cost_cents, currency: order.currency %}<br>
+  {{ order.shipping_type | t: scope: 'app.orders.checkout.delivery_type' }} – {% render 'theme/simple/price', amount_cents: order.total_shipping_cost_cents, currency: order.currency %}<br>
   {% render 'theme/simple/emails/delivery', shipping_address: order.shipping_address, pickup_point: data.order.shipping_pickup_point %}
 </div>
 
@@ -93,5 +94,5 @@
 <div class="mt border"></div>
 
 <p class="mt">
-  <a href="{{ seller_url }}">{{ 'app.emails.orders.delivered.buyer.contact_info' | t: name: order.seller.name }}</a>
+  <a href="{{ order_url }}">{{ 'app.emails.orders.delivered.buyer.contact_info' | t: name: order.seller.name }}</a>
 </p>

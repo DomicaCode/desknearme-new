@@ -11,6 +11,7 @@ query search(
     total_entries
     results {
       id
+      created_at
       type: table
       content_type: property(name: "content_type")
 

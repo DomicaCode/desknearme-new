@@ -1,28 +1,27 @@
-{% liquid
-  assign tags = object.tags | downcase | split: ',' | uniq
-  assign slugged_tags = '' | split: ','
-
-  for tag in tags
-    assign slugged_tag = tag | slugify
-    assign slugged_tags = slugged_tags | add_to_array: slugged_tag
-  endfor
-
-  assign slugged_tags = slugged_tags | uniq
-%}
-{% parse_json object %}
+{% parse_json data %}
   {
     "id": {{ object.id | json }},
     "parent_id": {{ object.parent_id | json }},
     "group_id": {{ object.group_id | json }},
     "creator_id": {{ current_profile.id | json }},
     "title": {{ object.title | json }},
+    "uuid": {{ object.uuid | json }},
     "body": {{ object.body | json }},
-    "tags": {{ slugged_tags | json }},
-    "uuid": {{ '' | uuid | json }},
+    "content_type": {{ object.content_type | json }},
     "c__score": 0
   }
 {% endparse_json %}
 
 {% liquid
-  return object
+  function slugged_tags = 'lib/slugify_tags', tags: object.tags
+  hash_assign data['tags'] = slugged_tags
+  if data['uuid'] == blank
+    hash_assign data["uuid"] = '' | uuid | json
+  endif
+  function post_templates = 'lib/queries/posts/post_templates'
+  assign template = post_templates[object.content_type]
+  hash_assign data['template'] = template
+  assign data = data | hash_merge: template
+
+  return data
 %}

@@ -1,12 +1,11 @@
-{% assign MINIMAL_PRICE = 10 | amount_to_fractional: object.currency %}
-{% assign MAXIMAL_PRICE = 100000 | amount_to_fractional: object.currency %}
-
 {% liquid
+  assign MINIMAL_PRICE = 10 | amount_to_fractional: object.currency
+  assign MAXIMAL_PRICE = 100000 | amount_to_fractional: object.currency
   assign c = '{ "errors": {}, "valid": true }' | parse_json
 
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'uuid'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'item_inventory_id'
-  function c = 'lib/validations/number', c: c, object: object, field_name: 'price', greater_than_or_equal: MINIMAL_PRICE, less_than_or_equal: MAXIMAL_PRICE
+  function c = 'lib/validations/price', c: c, object: object, field_name: 'price', minimal_price: MINIMAL_PRICE, maximal_price: MAXIMAL_PRICE, currency: object.currency
   function c = 'lib/validations/number', c: c, object: object, field_name: 'return_days', greater_than_or_equal: 0
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'currency'
   if object.category == blank
@@ -23,11 +22,9 @@
   for lang in object.details
     assign detail = lang[1]
     assign cd = '{ "errors": {}, "valid": true }' | parse_json
-    if detail.lang == 'en' or detail.name != blank or detail.description != blank
-      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'name'
-      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'description'
-      function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'lang'
-    endif
+    function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'name'
+    function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'description'
+    function cd = 'lib/validations/presence', c: cd, object: detail, field_name: 'lang'
     hash_assign detail['errors'] = cd.errors
     hash_assign detail['valid'] = cd.valid
     if cd.valid != true

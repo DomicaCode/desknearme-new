@@ -52,6 +52,11 @@ query search(
       downvote_profile_ids: property_array(name: "downvote_profile_ids")
       accepted_post_id: property(name: "accepted_post_id")
       slug: property(name: "slug")
+      commentable: property_boolean(name: "commentable")
+      replyable: property_boolean(name: "replyable")
+      votable: property_boolean(name: "votable")
+      followable: property_boolean(name: "followable")
+      featurable: property_boolean(name: "featurable")
 
       c__score: property_int(name: "c__score")
       c__answers: property_int(name: "c__answers")

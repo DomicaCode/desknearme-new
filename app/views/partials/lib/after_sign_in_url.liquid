@@ -7,7 +7,7 @@
     if be_admin.valid
       assign url = '/admin'
     else
-      assign url = '/'
+      assign url = context.constants.AFTER_LOGIN_REDIRECT | default: '/'
     endif
   endif
   return url

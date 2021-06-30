@@ -5,7 +5,7 @@
 {% endparse_json %}
 
 {% liquid
-  assign params = '{"title": "ooo oo", "body":"foo ooo ooo ooo", "uuid": "12345", "group_id": "2137" }' | parse_json
+  assign params = '{"title": "ooo oo", "body":"foo ooo ooo ooo", "uuid": "12345", "group_id": "2137", "content_type": "post"  }' | parse_json
   function post = 'lib/commands/posts/create', object: params, current_profile: profile
   function pc = 'test/assertions/valid_object', contract: contract, object: post, field_name: 'post'
   assign params = '{}' | parse_json

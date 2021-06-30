@@ -46,6 +46,8 @@ query search(
       sku: property(name: "sku")
       quantity: property_int(name: "quantity")
       max_in_one_order: property_int(name: "max_in_one_order")
+      c__rating_count: property_int(name: "c__rating_count")
+      c__rating_score: property_float(name: "c__rating_score")
 
       item: related_record(
         table: "item"
@@ -113,11 +115,6 @@ query search(
         name: property(name: "name")
         first_name: property(name: "first_name")
         last_name: property(name: "last_name")
-        logo: property_upload(name: "logo") {
-          url
-          file_name
-          extension
-        }
         shipping_types: property_array(name: "shipping_types")
         delivery_fee: property_int(name: "delivery_fee")
       }

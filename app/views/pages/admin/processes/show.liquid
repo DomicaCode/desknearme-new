@@ -11,13 +11,6 @@ layout: admin
   function process = 'lib/queries/processes/find', id: context.params.id
   include 'lib/present_or_404', property: process.id
 
-  if process.command == 'items/publish_version'
-    assign payload = process.payload | parse_json
-    function new_item = 'lib/queries/items/find', id: payload.new_item.id, withAllLangs: true
-    function old_item = 'lib/queries/items/find', id: payload.old_item.id, withAllLangs: true
-    hash_assign process['new_item'] = new_item
-    hash_assign process['old_item'] = old_item
-  endif
-
+  function process = 'lib/queries/processes/load_diffs', process: process
   include 'theme/simple/admin/processes/show', process: process
 %}

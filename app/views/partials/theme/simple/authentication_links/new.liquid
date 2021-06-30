@@ -1,7 +1,7 @@
-<section class="my-10 container items-center">
-  <h2 class="bigtitle text-center">{{ 'app.account.reset_password.title' | t }}</h2>
+<h1 class="pagetitle">{{ 'app.account.reset_password.title' | t }}</h1>
 
-  <form action="/authentication_links/create" method="post" class="card w-full md:w-96 mx-auto">
+<section class="container">
+  <form action="/authentication_links/create" method="post" class="card-lg w-full md:w-96 mx-auto">
     {% include 'authenticity_token' %}
 
     <p>{{ 'app.account.reset_password.description' | t }}</p>
@@ -12,10 +12,10 @@
       {% include 'theme/simple/field_error', errors: object.errors.email %}
     </fieldset>
 
-
     {% include 'hcaptcha', object: object %}
 
     <fieldset class="mt-5 text-center">
       <button class="button">{{ 'app.account.reset_password.send_link' | t }}</button>
     </fieldset>
+  </form>
 </section>

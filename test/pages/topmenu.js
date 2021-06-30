@@ -6,7 +6,6 @@ export default class TopMenuBtns {
       logo: Selector('span').withText('MVP Marketplace'),
       addDropdown: Selector('header').find('button').withAttribute('title', 'Add content'),
       listItem: Selector('a').withText('Create item'),
-      addQuestion: Selector('a').withText('Add question'),
       profileDropdown: Selector('header nav > ul > li[data-tc="profile-menu-dropdown"] button').withAttribute('data-dropdown-toggle'),
       profile: Selector('header').find('a').withText('Profile'),
       selling: Selector('header').find('a').withText('Selling'),
@@ -18,7 +17,10 @@ export default class TopMenuBtns {
       groups: Selector('a').withText('Groups'),
       feed: Selector('a').withText('Feed'),
       chat: Selector('#notifications-chat'),
-      cart: Selector('a[title="Cart"]')
+      cart: Selector('a[title="Cart"]'),
+      publicProfile: Selector('nav a').withText('Public Profile'),
+      changeLanguageToDE: Selector('li a').withText('DE'),
+      changeLanguageToEN: Selector('li a').withText('EN')
     }
     this.addDropdown = {
       addPost: Selector('li a').withText('Add post'),
@@ -27,10 +29,13 @@ export default class TopMenuBtns {
       createItem:  Selector('li a').withText('Create item')
     }
     this.profileDropdown = {
-      profile: Selector('nav a').withText('Public Profile'),
-      admin: Selector('li a').withText('Admin'),
       dashboard: Selector('a').withText('Dashboard'),
-      selling: Selector('li a').withText('Selling')
+      myFeed: Selector('nav a').withText('My Feed'),
+      selling: Selector('li a').withText('Selling'),
+      purchases: Selector('li a').withText('Purchases'),
+      reviews: Selector('li a').withText('Reviews'),
+      logOut: Selector('li a').withText('Log out'),
+      admin: Selector('li a').withText('Admin')
     }
   }
 }

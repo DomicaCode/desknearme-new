@@ -4,7 +4,7 @@
 
   if object.valid
     for order in orders
-      function order_object = 'lib/commands/orders/confirm', order: order
+      function order_object = 'lib/commands/orders/confirm', order: order, current_profile: current_profile
       if order_object.valid == false
         log: order_object, type: 'orders#confirm error'
         hash_assign object['valid'] = false

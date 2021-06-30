@@ -1,5 +1,6 @@
 {% liquid
   if id == blank
+    log meta, type: 'Warning! searching for a record without ID'
     return null
   endif
 
@@ -24,10 +25,12 @@
 
   hash_assign model['photos'] = ri.records.results
 
-  function url = 'link_to', object: model
-  hash_assign model['url'] = url
-
-  hash_assign model['name'] = model['name'] | default: model['title'] | default: model['first_name']
+  if model.type == 'profile'
+    hash_assign model['name'] = model.first_name | append: " " | append: model.last_name
+    hash_assign model['organization'] = model | dig: 'memberships', 0, 'organization'
+  else
+    hash_assign model['name'] = model.name | default: model.title | default: model.first_name
+  endif
 
   return model
 %}

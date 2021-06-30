@@ -12,9 +12,13 @@ metadata:
   function current_profile = 'lib/current_organization_profile', user_id: context.current_user.id
   include 'lib/profile_organization_present_or_redirect', profile: current_profile
 
-  assign statuses = 'app.statuses.orders.paid,app.statuses.orders.delivered,app.statuses.orders.cancelled_seller,app.statuses.orders.returned' | split: ','
-  function order = 'lib/queries/orders/find', seller: current_profile.id, id: context.params.id, status: statuses, withStatuses: true
+  assign statuses = 'app.statuses.orders.paid,app.statuses.orders.in_progress,app.statuses.orders.delivered,app.statuses.orders.cancelled_seller,app.statuses.orders.returned,app.statuses.orders.completed' | split: ','
+  function order = 'lib/queries/orders/find', seller: current_profile.id, id: context.params.id, withStatuses: true, load_status_history: true
   include 'lib/present_or_404', property:  order.id
+  unless statuses contains order.status.name
+    include 'lib/present_or_404', property: null
+  endunless
+
 
   function transactions = 'lib/queries/transactions/search_by_order_ids', order_ids: order.id, limit: 20
   function chat_enabled = 'lib/queries/constants/find' name: "USE_WEBSOCKET_CHAT", type: "boolean", context: context

@@ -1,12 +1,10 @@
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_redirect', profile: current_profile
-%}
 
-{%
+  function categories = 'lib/queries/categories/search'
   function presigned_url = 'lib/queries/presigned_url'
-%}
 
-{%
-  render 'theme/simple/groups/new', presigned_url: presigned_url, current_profile: current_profile, context: context, presigned_url: presigned_url
+  function lib = 'lib/queries/groups/lib'
+  render 'theme/simple/groups/new', presigned_url: presigned_url, current_profile: current_profile, context: context, presigned_url: presigned_url, categories: categories.results, lib: lib
 %}

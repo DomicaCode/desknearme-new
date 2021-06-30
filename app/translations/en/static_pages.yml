@@ -1,6 +1,7 @@
 en:
   static-pages:
     about-us:
+      pagetitle: About Us
       our-story: Our mission
       our-story-subtitle: is to help people bring digital projects to life
       our-story-paragraph: 'PlatformOS was founded in 2014 by Adam Broadway in San Francisco,'

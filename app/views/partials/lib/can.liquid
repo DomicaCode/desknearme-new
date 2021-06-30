@@ -3,12 +3,20 @@
 
   if object and do
     case object.type
+    when 'relationship'
+      function valid = 'lib/can/relationships', actor: actor, relationship: object, do: do, context: context
     when 'group'
       function valid = 'lib/can/groups', actor: actor, group: object, do: do, context: context
+    when 'post'
+      function valid = 'lib/can/posts', actor: actor, post: object, do: do, context: context
     when 'item'
       function valid = 'lib/can/items', actor: actor, item: object, do: do, context: context
     when 'profile'
       function valid = 'lib/can/profiles', actor: actor, profile: object, do: do, context: context
+    when 'item_review', 'organization_review'
+      function valid = 'lib/can/reviews', actor: actor, review: object, do: do, context: context
+    when 'process'
+      function valid = 'lib/can/processes', actor: actor, process: object, do: do, context: context
     else
       assign valid = false
     endcase

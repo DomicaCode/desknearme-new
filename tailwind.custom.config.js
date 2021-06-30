@@ -12,11 +12,18 @@ module.exports = {
       },
       colors: {
         page: '#f3f4f6',
-        panel: '#fff',
+        panel: {
+          DEFAULT: '#fff',
+          highlight: '#edf2f7'
+        },
         frame: '#e2e8f0',
         logo: '#4299e1',
         accent: {
           dark: '#1e3173'
+        },
+        pageheader: {
+          from: '#1e225c',
+          to: '#2a3572'
         },
         content: {
           DEFAULT: '#374151',

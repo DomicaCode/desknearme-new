@@ -1,6 +1,7 @@
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
-  function records = 'lib/queries/models/search', keyword: context.params.qkeyword, limit: 15, lang: context.language
+  assign limit = 3
+  function records = 'lib/queries/quick_search/search', keyword: context.params.qkeyword, limit: limit, lang: context.language
 
-  render 'theme/simple/quick_search/index', records: records
+  render 'theme/simple/quick_search/index', records: records, current_profile: current_profile, limit: limit
 %}

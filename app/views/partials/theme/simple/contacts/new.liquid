@@ -1,17 +1,19 @@
-<section class="container">
-  <h2 class="bigtitle text-center">{{ 'app.models.contacts.contact-us' | t }}</h2>
+<h1 class="pagetitle">{{ 'app.models.contacts.contact-us' | t }}</h1>
 
-  <form action="/contacts" method="post" class="card md:p-8 mx-auto max-w-4xl">
+<section class="container">
+  <form action="/contacts" method="post" class="card-lg mx-auto max-w-4xl">
     {% include 'authenticity_token' %}
 
-    <div class="w-full md:max-h-80 flex flex-col md:flex-wrap">
-      <fieldset class="md:w-1/3 order-1">
-        <label class="mb-1 block" for="email">{{ 'app.models.contacts.form.email' | t }}:</label>
-        <input name="contact[email]" type="text" id="email" value="{{ object.email | raw_escape_string }}" class="w-full" autocomplete="email" autofocus required>
-        {% include 'theme/simple/field_error', errors: object.errors.email %}
-      </fieldset>
+    <div class="w-full grid grid-cols-3 gap-x-6 md:flex-wrap">
 
-      <fieldset class="md:w-1/3 mt-4 order-2">
+      <div>
+        <fieldset>
+          <label class="mb-1 block" for="email">{{ 'app.models.contacts.form.email' | t }}:</label>
+          <input name="contact[email]" type="text" id="email" value="{{ object.email | raw_escape_string }}" class="w-full" autocomplete="email" autofocus required>
+          {% include 'theme/simple/field_error', errors: object.errors.email %}
+        </fieldset>
+
+        <fieldset class="mt-5">
           <label class="mb-1 block" for="reason">{{ 'app.models.contacts.form.reason' | t }}:</label>
           {% assign reasons = 'app.models.contacts.reasons' | t %}
           <select name="contact[reason]" id="reason" class="w-full" required>
@@ -20,23 +22,26 @@
               <option value="{{ reason[0] }}" {% if reason[0] == object.reason %}selected{% endif %}>{{ reason[1] }}</option>
             {% endfor %}
           </select>
-        {% include 'theme/simple/field_error', errors: object.errors.reason %}
-      </fieldset>
+          {% include 'theme/simple/field_error', errors: object.errors.reason %}
+        </fieldset>
 
-      <fieldset class="md:w-1/3 mt-4 order-5 md:order-3">
-        {% include 'hcaptcha', object: object %}
-      </fieldset>
+        <fieldset class="mt-5">
+          {% include 'hcaptcha', object: object %}
+        </fieldset>
+      </div>
 
-      <fieldset class="md:w-2/3 mt-4 md:mt-0 md:ps-8 order-4">
-        <label class="mb-1 block" for="message">{{ 'app.models.contacts.form.message' | t }}:</label>
-        <textarea name="contact[message]" id="message" class="w-full h-full" required rows="8">{{ object.message }}</textarea>
-        {% include 'theme/simple/field_error', errors: object.errors.message %}
-        {% render 'theme/simple/ui/form-tip', content_key: 'app.models.contacts.form.message_tip' %}
-      </fieldset>
+      <div class="col-span-2">
+        <fieldset>
+          <label class="mb-1 block" for="message">{{ 'app.models.contacts.form.message' | t }}:</label>
+          <textarea name="contact[message]" id="message" class="w-full h-full" required rows="6">{{ object.message }}</textarea>
+          {% include 'theme/simple/field_error', errors: object.errors.message %}
+          {% render 'theme/simple/ui/form-tip', content_key: 'app.models.contacts.form.message_tip' %}
+        </fieldset>
+
+        <fieldset class="mt-5">
+          <button class="button">{{ 'app.models.contacts.form.submit' | t }}</button>
+        </fieldset>
+      </div>
     </div>
-
-    <fieldset class="mt-8 text-center">
-      <button class="button">{{ 'app.models.contacts.form.submit' | t }}</button>
-    </fieldset>
   </form>
 </section>

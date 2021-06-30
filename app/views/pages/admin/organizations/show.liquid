@@ -7,8 +7,9 @@ layout: admin
   include 'lib/profile_present_or_redirect', profile: current_profile, allow_uncompleted: true
   include 'lib/profile_must_be', profile: current_profile, action: 'be_admin'
 
-  function organization = 'lib/queries/organizations/find', id: context.params.id, with_members: true
+  function organization = 'lib/queries/organizations/find', slug: context.params.id, with_members: true
   include 'lib/present_or_404', property: organization.id
 
-  render 'theme/simple/admin/organizations/show', organization: organization
+  function default_currency = 'lib/queries/constants/find', name: "CURRENCY"
+  render 'theme/simple/admin/organizations/show', organization: organization, currency: default_currency
 %}

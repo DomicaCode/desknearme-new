@@ -1,5 +1,5 @@
 import { t, ClientFunction, Selector } from 'testcafe';
-import NewSessionForm from './newsession'
+import LogInForm from './login'
 import ProfileEditForm from './profileEdit'
 import TopMenuBtns from './topmenu'
 import NewItemForm from './newitem'
@@ -8,7 +8,7 @@ import { getURL, myUrl, itemShow, orders, groupsPage } from './fixtures'
 
 const newItemForm = new NewItemForm()
 const topMenu = new TopMenuBtns()
-const registerForm = new NewSessionForm()
+const registerForm = new LogInForm()
 const profileEditForm = new ProfileEditForm()
 const translationMissing = Selector('body').withText('translation missing')
 
@@ -47,19 +47,44 @@ export async function registerWithProfile(user) {
 };
 
 export async function createItem(itemName, itemDescription, itemPrice) {
-    await t.click(topMenu.buttons.addDropdown)
-    await t.click(topMenu.buttons.listItem)
-    await t.typeText(newItemForm.inputs.name, itemName)
-    await checkTranslation(translationMissing)
-    await t.typeText(newItemForm.inputs.description, itemDescription)
+  await t
+    .click(topMenu.buttons.addDropdown)
+    .click(topMenu.buttons.listItem)
+    .typeText(newItemForm.inputs.name, itemName)
+
+  await checkTranslation(translationMissing)
+
+  await t
+    .typeText(newItemForm.inputs.description, itemDescription)
     .typeText(newItemForm.inputs.price, itemPrice, { replace: true })
     .click(newItemForm.buttons.browseImages)
-    .setFilesToUpload(Selector('main').find('[name="files[]"]'), [
-      '_uploads_/testimage.png',
-    ])
+    .wait(1000)
+    .setFilesToUpload(Selector('main').find('[name="files[]"]'), ['_uploads_/testimage.png',])
+    .wait(1000)
     .typeText(newItemForm.inputs.quantity, "2", { replace: true })
+    .wait(1000)
+    .click(newItemForm.buttons.submit)
+
+  await t
+    .wait(1000)
+    .expect(Selector('span').withText('(INVALID)').exists).ok()
+    .click(newItemForm.buttons.secondLanguage)
+    .typeText(newItemForm.inputs.nameDE, "Beispielartikel")
+
+  await checkTranslation(translationMissing)
+
+  await t
+    .typeText(newItemForm.inputs.descriptionDE, "Dies ist eine kurze Beschreibung dieses Artikels")
     .click(newItemForm.buttons.submit)
 };
+
+const prepareForPressKey = (str) => {
+  let newStr = '';
+  for (var i = 0; i < str.length; i++) {
+    newStr = newStr + ' ' + str[i];
+  }
+  return newStr;
+}
 
 export async function createGroup(group) {
   await t.click(topMenu.buttons.addDropdown)
@@ -68,28 +93,37 @@ export async function createGroup(group) {
   await t
     .typeText(groupsPage.inputs.name, group.name)
     .typeText(groupsPage.inputs.summary, group.summary)
-    .typeText(groupsPage.inputs.description, group.description, { paste: true })
-    .click(groupsPage.buttons.submitForm)
+    .click(Selector('label[for="description"]'))
+    .pressKey(prepareForPressKey(group.description))
+    .click(groupsPage.inputs.contentTypePost)
+    .click(groupsPage.buttons.create)
 };
 
-export async function waitForSelector(selector) {
+export async function waitForSelector(selector, messageOnFail) {
   for (var i = 0; i < 40; i++) {
-    let exists = await selector.exists;
-    if (!exists) {
-      await t
-        .wait(5000)
-        .eval(() => location.reload(true));
+    if (!await selector.exists) {
+      await t.eval(() => location.reload(true));
+      await t.wait(1000)
     }
   }
-  await t.expect(selector.exists).ok()
+  await t
+  .expect(selector.exists).ok(messageOnFail)
 };
 
 export async function checkErrors() {
-  await t.expect(Selector('body').withText("translation missing").exists).notOk();
-  await t.expect(Selector('body').find('img[alt="Page missing"]').exists).notOk();
-  await t.expect(Selector('body').withText('Liquid Error').exists).notOk();
-  await t.expect(Selector('body').withText('RenderFormTag Error:').exists).notOk();
-  await t.expect(Selector('body').withText('QueryGraphTag Error:').exists).notOk();
-  await t.expect(Selector('body').withText('Liquid error:').exists).notOk();
-  await t.expect(Selector('body').withText('ExecuteQueryTagError:').exists).notOk();
+  const $ = {
+    noTranslationMissing: Selector('body').withText('translation missing'),
+    noLiquidError: Selector('body').withText('Liquid Error'),
+    noFormError: Selector('body').withText('RenderFormTag Error:'),
+    noQueryError: Selector('body').withText('QueryGraphTag Error:'),
+    noExecuteQueryError: Selector('body').withText('ExecuteQueryTagError:'),
+    imageNotFound: Selector('body').find('img[alt="Page missing"]')
+  }
+
+  await t.expect($.noTranslationMissing.exists).notOk();
+  await t.expect($.noLiquidError.exists).notOk();
+  await t.expect($.noFormError.exists).notOk();
+  await t.expect($.noQueryError.exists).notOk();
+  await t.expect($.noExecuteQueryError.exists).notOk();
+  await t.expect($.imageNotFound.exists).notOk();
 };

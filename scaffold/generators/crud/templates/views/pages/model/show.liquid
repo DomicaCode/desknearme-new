@@ -7,5 +7,5 @@ slug: <%= modelNamePlural %>/:id
   function <%= modelName %> = 'lib/queries/<%= modelNamePlural %>/find', id: <%= modelName %>_id
   include 'lib/present_or_404', property: <%= modelName %>.id
 
-  include 'theme/simple/<%= modelNamePlural %>/show', <%= modelName %>: <%= modelName %>
+  render 'theme/simple/<%= modelNamePlural %>/show', <%= modelName %>: <%= modelName %>, context: context
 %}

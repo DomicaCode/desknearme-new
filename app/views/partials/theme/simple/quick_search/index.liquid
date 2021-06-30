@@ -1,18 +1,9 @@
 <div class="container mx-auto">
-  {% if records.results.size > 0 %}
-    {% assign sorted = records.results | group_by: 'type' %}
-    {% for type in sorted %}
-      <h2 class="title">{{ type[0] | capitalize | pluralize }}</h2>
-      <div class="grid grid-cols-3 gap-x-8 gap-y-6 cards mb-10">
-        {% for model in type[1] %}
-          {% if type[0] == 'profile' and model.slug == blank %}
-            {% continue %}
-          {% endif %}
-
-          {% render 'theme/simple/quick_search/card', model: model %}
-        {% endfor %}
-      </div>
-    {% endfor %}
+  {% if records.items.total_entries > 0 or records.groups.total_entries > 0 or records.profiles.total_entries > 0 or records.posts.total_entries > 0 %}
+    {% render 'theme/simple/quick_search/section', records: records.items, type: 'item', limit: limit, current_profile: current_profile, see_more_url: '/search' %}
+    {% render 'theme/simple/quick_search/section', records: records.groups, type: 'group', limit: limit, current_profile: current_profile, see_more_url: '/groups' %}
+    {% render 'theme/simple/quick_search/section', records: records.profiles, type: 'profile', limit: limit, current_profile: current_profile, see_more_url: '/profiles' %}
+    {% render 'theme/simple/quick_search/section', records: records.posts, type: 'post', limit: limit, current_profile: current_profile, see_more_url: '/posts' %}
   {% else %}
     <p class="container my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
   {% endif %}

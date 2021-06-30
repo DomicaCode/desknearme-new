@@ -1,26 +1,18 @@
 import apiFetch from '../apiFetch';
 
-window.relationship = function () {
+window.relationship = function (type) {
   return {
-    initialized: '',
+    type: type,
     exists: false,
+    initialized: '',
     init() {
-      const showPath = '/api/relationships/show.json';
-      const params = new URLSearchParams(new FormData(this.$el)).toString();
-
-      fetch(showPath + '?' + params)
-        .then((res) => res.json())
-        .then((res) => {
-          this.initialized = true;
-
-          this.exists = res.status !== 404;
-        });
+      this.id = this.$el.dataset.id;
+      this.exists = window[this.type].includes(this.id);
+      this.initialized = true;
     },
-    toggle() {
+    toggle($dispatch) {
       const createPath = '/api/relationships/create.json';
       const deletePath = '/api/relationships/delete.json';
-
-      this.initialized = false;
 
       const url = this.exists ? deletePath : createPath;
       const method = this.exists ? 'delete' : 'post';
@@ -28,19 +20,17 @@ window.relationship = function () {
       const fd = new FormData(this.$el);
       const body = JSON.stringify(Object.fromEntries(fd));
 
-      apiFetch(url, {
-        body,
-        method,
-      })
+      apiFetch(url, {body, method,})
         .then(() => {
-          console.log(this.exists, 'this.exists')
-          this.exists = !this.exists;
+          if (this.exists) {
+            delete window[this.type][window[this.type].indexOf(this.id)]
+          } else {
+            window[this.type].push(this.id)
+          }
+          $dispatch('data-ready')
         })
         .finally(() => {
           this.initialized = true;
-          if (!this.exists) {
-            window.location.reload();
-          }
         });
     },
   };

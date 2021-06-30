@@ -1,4 +1,4 @@
-mutation update(
+mutation update_language(
   $id: ID!
   $language: String!
 ) {

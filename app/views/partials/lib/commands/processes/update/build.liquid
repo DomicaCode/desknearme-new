@@ -5,12 +5,29 @@
     "profile_id": {{ profile.id | json }}
   }
 {% endparse_json %}
+
 {% liquid
+  case process.command
+  when 'organizations/update'
+    hash_assign object['target_id'] = process.payload.id
+  when 'items/publish_version'
+    hash_assign object['target_id'] = process.payload.new_item.id
+  when 'items/publish'
+    hash_assign object['target_id'] = process.payload.item.id
+  endcase
+
   case object.action
   when 'accept'
     hash_assign object['status'] = 'app.statuses.processes.accepted'
+    hash_assign object['event_name'] = 'process_accepted'
   when 'reject'
     hash_assign object['status'] = 'app.statuses.processes.rejected'
+    hash_assign object['event_name'] = 'process_rejected'
+    hash_assign object['target_id'] = process.payload.old_item.id | default: process.payload.item.id
+  when 'cancel'
+    hash_assign object['status'] = 'app.statuses.processes.cancelled'
+    hash_assign object['event_name'] = 'process_cancelled'
   endcase
+
   return object
 %}

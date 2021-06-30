@@ -1,5 +1,6 @@
 {% render 'theme/simple/home/hero' %}
 {% render 'theme/simple/home/shields' %}
+{% render 'theme/simple/home/shortcuts' %}
 
 {% for item in categories %}
   {% if item[1].results.size > 0 %}
@@ -19,9 +20,9 @@
 
 {% for item in promoted %}
   {% if item[1].results.size > 0 %}
-    <section class="bg-gray-600 py-12 mb-6">
+    <section class="py-12 bg-gray-600">
     <div class="container">
-      <h2 class="bigtitle text-white">
+      <h2 class="text-content-inverted bigtitle">
         {{ item[0] | t: scope: 'app.home.feeds' }}
       </h2>
 
@@ -34,6 +35,9 @@
     </section>
   {% endif %}
 {% endfor %}
+
+{% render 'theme/simple/home/ad' %}
+{% render 'theme/simple/home/cta' %}
 
 {% for item in groups %}
   {% if item[1].results.size > 0 %}
@@ -116,3 +120,26 @@
   {% endif %}
 {% endfor %}
 
+
+<section class="py-12 bg-gray-600 bg-left-top bg-no-repeat bg-cover text-content-inverted"
+  style="background-image: url('{{ "images/home/lines_horizontal3.svg" | asset_url }}')">
+  <div class="container items-center justify-around md:flex">
+
+    <header class="mb-4 text-content-inverted">
+      <h2 class="">
+        <div class="font-bold uppercase subtitle ">Subscribe and</div>
+        <div class="bigtitle !mt-0 !mb-0 uppercase">Be the first to know</div>
+        <div class="">about the latest challenges and news!</div>
+      </h2>
+    </header>
+
+    <form action="" class="whitespace-nowrap">
+      <input type="email" placeholder="Email address" class="w-64 rounded-tl rounded-bl border-panel">
+      <button class="button -ms-2">Subscribe</button>
+    </form>
+
+  </div>
+</section>
+
+
+{% render 'theme/simple/home/partners' %}

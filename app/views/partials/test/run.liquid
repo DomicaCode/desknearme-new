@@ -1,4 +1,5 @@
 {% liquid
+  log 'Starting unit tests'
   assign __start = "now" | to_time
   graphql tests = 'tests', path: context.params.name | dig: "admin_liquid_partials" | dig: "results"
 
@@ -9,8 +10,8 @@
   assign contracts = '' | split: ','
 
   for test in tests
-    log test
-    assign contract = '{ "errors": {}, "success": true }' | parse_json
+    log test, type: "test:"
+    assign contract = '{ "errors": {}, "success": true, "total": 0 }' | parse_json
 
     include test.path, registry: test.path, contract: contract
     hash_assign contract['test_path'] = test.path

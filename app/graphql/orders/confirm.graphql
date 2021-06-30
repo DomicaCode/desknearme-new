@@ -1,4 +1,4 @@
-mutation update(
+mutation orders_confirm(
   $id: ID!
   $c__status: String
   $total_shipping_cost_cents: Int

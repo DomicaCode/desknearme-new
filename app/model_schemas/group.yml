@@ -4,7 +4,12 @@ properties:
   - name: name
   - name: summary
   - name: description
+  - name: code_of_conduct
   - name: content_type
+  - name: content_types
+    type: array
+  - name: tags
+    type: array
 
 # Predefined type of group [public, moderated, private, secret, custom]
   - name: group_type
@@ -20,3 +25,9 @@ properties:
   - name: approve_request
   - name: post_content
   - name: invite_member
+
+# Cache
+  - name: c__members_count
+    type: integer
+  - name: c__posts_count
+    type: integer

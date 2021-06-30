@@ -1,7 +1,13 @@
 {% liquid
+  if namespace
+    assign url = '/' | append: namespace
+  endif
+
   assign type = type | default: object.type
   if type
     case type
+    when 'tag'
+      assign tag = object
     when 'group'
       assign group = object
     when 'profile'
@@ -24,89 +30,122 @@
       assign order = object
     when 'line_item_return'
       assign line_item_return = object
+    when 'process'
+      assign process = object
+    else
+      assign unknown = object
     endcase
   endif
 
-  if group
-    assign url = '/groups/' | append: group.id
-    if action
-      assign url = url | append: '/' | append: action
-    endif
+  if process
+    assign url = url | append: '/processes/' | append: process.id
+  endif
 
-    print url
-    return url
+  if group
+    assign url = url | append: '/groups/' | append: group.id
   endif
 
   if profile
-    print "/profile/" | append: profile.slug
-    return "/profile/" | append: profile.slug
+    if current_profile and profile.id == current_profile.id and namespace == blank
+      assign url = url | append: '/my/feed'
+    else
+      assign url = url | append: '/profile/' | append: profile.slug
+    endif
   endif
 
+  assign templates = '{"organizations": "/o/{slug}{/action}", "admin": {"organizations": "/admin/organizations/{slug}{/action}"}}' | parse_json
   if organization
-    print "/o/" | append: organization.slug
-    return "/o/" | append: organization.slug
+    if namespace
+      assign template = templates[namespace]['organizations']
+    else
+      assign template = templates['organizations']
+    endif
   endif
 
   if item
     function slug = 'generate_slug', title: item.item_detail.name, id: item.id
-    print "/items/" | append: slug
-    return "/items/" | append: slug
+    assign url = "/items/" | append: slug
+  endif
+
+  if tag
+    function slug = 'generate_slug', title: tag.name, id: tag.id
+    assign url = url | append: "/tags/" | append: slug
   endif
 
   if category
-    print "/categories/" | append: category
-    return "/categories/" | append: category
+    assign url = url | append: "/categories/" | append: category
   endif
 
   if comment
-    print comment.url
-    return comment.url
+    assign url = comment.url
   endif
 
   if seller_order
-    print "/dashboard/sell/orders/" | append: seller_order.id
-    return "/dashboard/sell/orders/" | append: seller_order.id
+    assign url = "/dashboard/sell/orders/" | append: seller_order.id
   endif
 
   if buyer_order
-    print "/dashboard/buy/orders/" | append: buyer_order.id
-    return "/dashboard/buy/orders/" | append: buyer_order.id
+    assign url = "/dashboard/buy/orders/" | append: buyer_order.id
+  endif
+
+  if current_profile and namespace == blank
+    log "Do not pass current_profile. User role instead.", type: 'INFO: /link_to.liquid:85'
+    assign role = role | default: current_profile.type
   endif
 
   if order
-    if current_profile.type == 'organization'
-      print "/dashboard/sell/orders/" | append: order.id
-      return "/dashboard/sell/orders/" | append: order.id
+    case namespace
+    when 'admin'
+      assign url = url | append: "/orders/" | append: order.id
+    when 'organization'
+      assign url = "/dashboard/sell/orders/" | append: order.id
     else
-      print "/dashboard/buy/orders/" | append: order.id
-      return "/dashboard/buy/orders/" | append: order.id
-    endif
+      if role == 'organization'
+        assign url = "/dashboard/sell/orders/" | append: order.id
+      else
+        assign url = "/dashboard/buy/orders/" | append: order.id
+      endif
+    endcase
   endif
 
   if line_item_return
-    if current_profile.type == 'organization'
-      print "/dashboard/sell/line_item_returns/" | append: line_item_return.id
-      return "/dashboard/sell/line_item_returns/" | append: line_item_return.id
+    if role == 'organization' or namespace == 'organization'
+      assign url = "/dashboard/sell/line_item_returns/" | append: line_item_return.id
     else
-      print "/dashboard/buy/line_item_returns/" | append: line_item_return.id
-      return "/dashboard/buy/line_item_returns/" | append: line_item_return.id
+      assign url = "/dashboard/buy/line_item_returns/" | append: line_item_return.id
     endif
   endif
 
   if post
     function slug = 'generate_slug', title: post.title, id: post.id
-    assign url = "/groups/" | append: post.group_id |  append: "/content/" | append: slug
+    assign url = url | append: "/groups/" | append: post.group_id |  append: "/content/" | append: slug
+  endif
+
+  if object
+    hash_assign object['action'] = null
 
     if action
       assign url = url | append: '/' | append: action
+      hash_assign object['action'] = action
     endif
-    if anchor
-      assign url = url | append: '#post-' | append: anchor
+  else
+    if action
+      assign url = url | append: '/' | append: action
     endif
-    print url
-    return url
   endif
-  log object, type: 'unknown-model-when-generating-url'
-  print "/unknown/"
-  return "/unknown-object"
+
+  if anchor
+    assign url = url | append: '#refid-' | append: anchor
+  endif
+
+  if unknown
+    assign url = "/404?type=unknown&id=" | append: unknown.id
+  endif
+
+  if template
+    assign url = template |  expand_url_template: object
+  endif
+
+  print url
+  return url
 %}

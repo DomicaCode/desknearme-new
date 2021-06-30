@@ -2,6 +2,7 @@ mutation create(
   $buyer: String!
   $seller: String!
   $currency: String!
+  $delivery_fee: Int
   $c__status: String
 ) {
   record_create(
@@ -11,6 +12,7 @@ mutation create(
         { name: "buyer", value: $buyer }
         { name: "seller", value: $seller }
         { name: "currency", value: $currency }
+        { name: "delivery_fee", value_int: $delivery_fee }
         { name: "c__status", value: $c__status }
       ]
     }

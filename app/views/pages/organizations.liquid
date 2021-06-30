@@ -11,8 +11,6 @@ slug: o/:slug
 
   assign org = filters.organizations | detect: slug: query.organization_slugs
 
-  include 'lib/present_or_404', property: org
-
   include 'theme/simple/search_canonical_url', query: items.query
   include 'theme/simple/items/index', items: items, organization: query.organization, header_text: org.name
 %}

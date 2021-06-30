@@ -1,11 +1,43 @@
-<div>
-  <h2 class="bigtitle">{{ 'app.models.line_item_returns.header' | t }}</h2>
+{% function order_url = 'link_to', order: order, current_profile: current_profile %}
 
-  <section class="card md:p-8">
+<a href="{{ order_url }}" class="flex items-center gap-1 underline">
+  {% render 'theme/simple/ui/icon', icon: 'dashLeft', class: 'w-4 relative top-[1px]' %}
+  {{ 'app.order' | t }} {{ order.id }}
+</a>
 
-    <div class="w-full border-b pb-8 mb-8">
-      {{ 'app.models.line_item_returns.form.intro' | t }}
+<h2 class="bigtitle">{{ 'app.models.line_item_returns.header' | t }}</h2>
+
+<div class="mb-8 flex items-center">
+  {% function seller_url = 'link_to', object: order.seller %}
+  <a href="{{ seller_url }}" class="font-semibold">
+    {% if order.seller.first_name  %}
+      {{ order.seller.first_name }} {{ order.seller.last_name }}
+    {% else %}
+      {{ order.seller.name }}
+    {% endif %}
+  </a>
+
+  {% liquid
+    if role != 'admin' and chat_enabled
+      render "modules/chat/theme/simple/message_button", to_id: order.seller.id, label: '', button: true, class: 'button-small button-compact ml-2'
+    endif
+  %}
+
+</div>
+
+<section class="pb-16 relative">
+
+  <header class="mb-4 flex gap-4 items-start">
+    <span class="title w-12 h-12 mt-1 pb-0.5 flex-shrink-0 flex items-center justify-center rounded-full bg-content text-content-inverted">1</span>
+    <div>
+      <h3 class="title">{{ 'app.models.line_item_returns.form.return_request' | t }}</h3>
+      {{ 'app.models.line_item_returns.form.return_request_desc' | t }}
     </div>
+  </header>
+
+  <div class="ml-[-1px] absolute left-6 top-2 -bottom-2 hidden md:block border-l-2 -z-10"></div>
+
+  <div class="card md:ms-16 md:p-8">
 
     <div class="w-full flex flex-col md:flex-row gap-8">
 
@@ -19,7 +51,7 @@
           <input type="hidden" id="line_item_id" name="line_item_return[line_item_id]" value="{{ object.line_item_id }}">
 
           <fieldset>
-            <label class="block" for="reason">{{ 'app.models.line_item_returns.form.reason' | t }}:</label>
+            <label class="block" for="reason">{{ 'app.models.line_item_returns.form.reason' | t }}</label>
             <input
               class="w-full"
               type="text"
@@ -51,7 +83,6 @@
               value="{{ object.quantity }}"
               min="1"
               max="{{ line_item.quantity }}"
-              autofocus
               required
             >
             {% include 'theme/simple/field_error', errors: object.errors.quantity %}
@@ -95,23 +126,11 @@
             <span>
               <a href="{{ item_url }}">{{ line_item.item.item_detail.name }}</a>
             </span>
-            <span>
+            <span class="font-semibold">
               {% render 'theme/simple/price', amount_cents: line_item.price_cents, currency: line_item.currency %}
             </span>
           </div>
           <dl class="mt-4 flex justify-between flex-wrap">
-            <dt class="w-1/2">{{ 'app.orders.attr.seller' | t }}:</dt>
-            <dd class="w-1/2 text-end">
-              {% function seller_url = 'link_to', organization: order.seller %}
-              <a href="{{ seller_url }}">
-                {% if order.seller.first_name  %}
-                  {{ order.seller.first_name }} {{ order.seller.last_name }}
-                {% else %}
-                  {{ order.seller.name }}
-                {% endif %}
-              </a>
-            </dd>
-
             <dt class="w-1/2">{{ 'app.models.line_item_returns.form.date' | t }}:</dt>
             <dd class="w-1/2 text-end">{{ order.created_at | l: 'compact' }}</dd>
 
@@ -128,6 +147,19 @@
 
     </div>
 
-  </section>
+  </div>
 
-</div>
+</section>
+
+
+<section class="relative">
+
+  <header class="mb-4 flex gap-4 items-start">
+    <span class="title w-12 h-12 mt-1 pb-0.5 flex-shrink-0 flex items-center justify-center rounded-full bg-content text-content-inverted">2</span>
+    <div>
+      <h3 class="title">{{ 'app.models.line_item_returns.form.product_return_refund' | t }}</h3>
+      {{ 'app.models.line_item_returns.form.product_return_refund_desc.seller' | t }}
+    </div>
+  </header>
+
+</section>

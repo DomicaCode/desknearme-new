@@ -3,13 +3,16 @@
 
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'creator_id'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'group_id'
-  function c = 'lib/validations/presence', c: c, object: object, field_name: 'title'
-  function c = 'lib/validations/length', c: c, object: object, field_name: 'title', minimum: 3
-  function c = 'lib/validations/length', c: c, object: object, field_name: 'title', maximum: 130
+  if object.title
+    function c = 'lib/validations/presence', c: c, object: object, field_name: 'title'
+    function c = 'lib/validations/length', c: c, object: object, field_name: 'title', minimum: 3
+    function c = 'lib/validations/length', c: c, object: object, field_name: 'title', maximum: 130
+  endif
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'body'
   function c = 'lib/validations/length', c: c, object: object, field_name: 'body', minimum: 3
   function c = 'lib/validations/length', c: c, object: object, field_name: 'tags', maximum: 5
   function c = 'lib/validations/each_element_length', c: c, object: object, field_name: 'tags', maximum: 20
+  function c = 'lib/validations/presence', c: c, object: object, field_name: 'content_type'
 
   hash_assign object['valid'] = c.valid
   hash_assign object['errors'] = c.errors

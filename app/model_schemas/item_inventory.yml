@@ -7,4 +7,9 @@ properties:
     type: integer
   - name: max_in_one_order
     type: integer
+
   - name: c__status
+  - name: c__rating_score
+    type: float
+  - name: c__rating_count
+    type: integer

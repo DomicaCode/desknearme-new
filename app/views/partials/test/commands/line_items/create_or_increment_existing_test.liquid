@@ -1,6 +1,6 @@
 {% parse_json buyer %} {"id": "5777", "first_name": "John", "last_name": "Doe"} {% endparse_json %}
 {% liquid
-  function item = 'test/fixtures/item'
+  function item = 'test/fixtures/item', contract: contract
   assign params = '{"quantity": "1"}' | parse_json
   function order = 'lib/commands/line_items/find_or_create_order', item: item, current_profile: buyer
 %}

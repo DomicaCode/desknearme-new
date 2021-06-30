@@ -12,10 +12,13 @@ query search($id: ID, $limit: Int = 1) {
     results {
       id
       created_at
-      owner: related_user(join_on_property: "owner", foreign_property: "id") {
+      owner: related_record(join_on_property: "owner", foreign_property: "id" table: "organization") {
         id
-        email
         username: property(name: "username")
+
+        members: related_records(table: "relationship" join_on_property: "id" foreign_property: "r_id") {
+          id: property(name: "l_id")
+        }
       }
     }
   }

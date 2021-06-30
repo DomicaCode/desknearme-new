@@ -8,7 +8,7 @@ export default class ItemSearch {
       editedItem: Selector('div').find('a').withText(editedItem.name)
     }
     this.results = {
-      seededAvailableItem: Selector('a').withText('Aries Gold'),
+      seededAvailableItem: Selector('div h2 a').withText('Aries Gold'),
     }
     this.search = {
       keyword: Selector('input[name="keyword"]'),

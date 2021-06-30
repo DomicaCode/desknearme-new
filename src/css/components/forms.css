@@ -4,6 +4,7 @@
   texts
   small texts
   selects
+  tags
 */
 
 
@@ -146,4 +147,48 @@ select:focus {
 select:focus-visible {
   @apply
     ring-1;
+}
+
+
+
+/* tags
+============================================================================ */
+.tagify {
+  padding-top: .55rem;
+  padding-bottom: .55rem;
+  border-color: #6b7280 !important;
+
+  @apply
+    bg-panel
+    transition-colors;
+}
+
+tags.tagify.tagify--focus {
+  @apply
+    border-interaction
+    ring-interaction
+    ring-1;
+}
+
+
+
+/* markdown editor
+============================================================================ */
+.EasyMDEContainer .editor-toolbar {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-color: #6b7280;
+}
+
+.EasyMDEContainer .CodeMirror.CodeMirror-wrap {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-color: #6b7280;
+}
+
+.EasyMDEContainer .CodeMirror-focused {
+  @apply
+    border-interaction
+    ring-interaction
+    ring-1 !important;
 }

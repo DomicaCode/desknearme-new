@@ -1,5 +1,8 @@
 {% liquid
   assign can = false
+  if group == blank
+    return false
+  endif
 
   assign member = false
   assign group_id = group.id | append: ''
@@ -16,12 +19,14 @@
 
   case do
   when 'edit'
-    return false
+    return owner
+  when 'delete'
+    return owner
   when 'join'
     assign ask_to_join = group.ask_to_join | default: group.properties.ask_to_join
     assign approve_request = group.approve_request | default: group.properties.approve_request
 
-    if ask_to_join == 'yes' and approve_request == 'anon'
+    if ask_to_join == 'yes' and approve_request == 'anonymous'
       return true
     endif
 
@@ -31,11 +36,33 @@
 
     return member
 
+  when 'post'
+    assign post_content = group.post_content | default: group.properties.post_content
+    if post_content == 'anonymous'
+      return true
+    endif
+    if post_content == 'member' and member
+      return true
+    endif
+
+  when 'vote'
+    assign content_visible = group.content_visible | default: group.properties.content_visible
+
+    if content_visible == 'anonymous'
+      return true
+    endif
+    if content_visible == 'member' and member
+      return true
+    endif
+
+  when 'leave'
+    return true
+
   when 'see_meta'
     return true
     assign meta_visible = group.meta_visible | default: group.properties.meta_visible
 
-    if meta_visible == 'anon'
+    if meta_visible == 'anonymous'
       return true
     endif
 
@@ -47,7 +74,7 @@
 
   when 'see_content'
     assign content_visible = group.content_visible | default: group.properties.content_visible
-    if content_visible == 'anon'
+    if content_visible == 'anonymous'
       return true
     endif
 
@@ -58,7 +85,7 @@
   return false
 
   when 'invite'
-    return false
+    return true
   endcase
 
   return can

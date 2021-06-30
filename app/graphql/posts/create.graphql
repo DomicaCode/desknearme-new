@@ -10,6 +10,11 @@ mutation create_post(
   $downvote_profile_ids: [String]
   $accepted_post_id: String
   $c__score: Int
+  $commentable: Boolean
+  $replyable: Boolean
+  $votable: Boolean
+  $followable: Boolean
+  $featurable: Boolean
 ) {
   record_create(
     record: {
@@ -26,6 +31,12 @@ mutation create_post(
         { name: "downvote_profile_ids", value_array: $downvote_profile_ids }
         { name: "accepted_post_id", value: $accepted_post_id }
         { name: "c__score", value_int: $c__score }
+
+        { name: "commentable", value_boolean: $commentable }
+        { name: "replyable", value_boolean: $replyable }
+        { name: "votable", value_boolean: $votable }
+        { name: "followable", value_boolean: $followable }
+        { name: "featurable", value_boolean: $featurable }
       ]
     }
   ) {
@@ -35,6 +46,7 @@ mutation create_post(
 
     type: table
 
+    uuid: property(name: "uuid")
     parent_id: property(name: "parent_id")
     group_id: property(name: "group_id")
     creator_id: property(name: "creator_id")
@@ -57,5 +69,18 @@ mutation create_post(
       name: property(name: "name")
     }
 
+    photos: related_records(
+      table: "photo"
+      join_on_property: "uuid"
+      foreign_property: "object_uuid"
+    ) {
+      id
+      type: table
+      url: property_upload(name: "photo") {
+        file_name
+        url
+        versions
+      }
+    }
   }
 }

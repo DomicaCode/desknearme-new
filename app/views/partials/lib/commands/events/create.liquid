@@ -1,26 +1,34 @@
 {% assign delay = delay | default: 0.01 %}
-{% background "bg-task-name", type: type, object_id: object_id, actor_id: actor_id, target_id: target_id, object: object, delay: delay %}
+{% background "bg-task-name", type: type, object_id: object_id, actor_id: actor_id, actor: actor, target_id: target_id, object: object, delay: delay %}
 
   {% liquid
-    for i in (0..10)
-      function actor  = 'lib/queries/activities/model', id: actor_id
-      if actor
-        break
-       endif
-    else
-      unless actor
-        log 'actor could not be found', type: 'ERROR showme'
-      endunless
-    endfor
-
-    function target = 'lib/queries/activities/model', id: target_id
-
-    if object_id
-      function object = 'lib/queries/activities/model', id: object_id
+    if actor_id
+      for i in (0..10)
+        function actor  = 'lib/queries/activities/model', id: actor_id, meta: "actor" 
+        if actor
+          break
+         endif
+      else
+        unless actor
+          log 'actor could not be found', type: 'ERROR'
+        endunless
+      endfor
     endif
 
-    if object.group_id
-      function attributed_to = 'lib/queries/activities/model', id: object.group_id
+    if target_id
+      function target = 'lib/queries/activities/model', id: target_id, meta: "target"
+    endif
+
+    if target.item_id and attributed_to == blank
+      function attributed_to = 'lib/queries/activities/model', id: target.item_id, meta: "attributed_to"
+    endif
+
+    if object_id
+      function object = 'lib/queries/activities/model', id: object_id, meta: "object"
+    endif
+
+    if object.group_id and attributed_to == blank
+      function attributed_to = 'lib/queries/activities/model', id: object.group_id, meta: "attributed_to"
     endif
 
     function event = 'lib/commands/events/create/build', type: type, actor: actor, object: object, target: target, attributed_to: attributed_to
@@ -33,8 +41,9 @@
         include 'lib/commands/events/broadcast/execute', object: event
       endif
     else
-      log event, type: 'errors.events.invalid showme'
+      log event, type: 'errors.events.invalid'
     endif
   %}
 
 {% endbackground %}
+{% return true %}

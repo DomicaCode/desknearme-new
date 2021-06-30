@@ -1,12 +1,14 @@
 query search(
   $id: ID
   $limit: Int = 20
+  $page: Int = 1
 <% attributes.forEach((attr) => { -%>
   $<%= attr.name %>: String
 <% }); -%>
 ) {
   <%= modelNamePlural %>: records(
     per_page: $limit
+    page: $page
     filter: {
       id: { value: $id }
       table: { value: "<%= modelName %>" }
@@ -21,6 +23,9 @@ query search(
     ]
   ){
     total_entries
+    total_pages
+    has_previous_page
+    has_next_page
     results {
       id
       created_at

@@ -1,8 +1,10 @@
 {%  liquid
-  function object = 'lib/commands/processes/update/build', object: object, profile: profile
+  function object = 'lib/commands/processes/update/build', object: object, profile: profile, process: process
   function object = 'lib/commands/processes/update/check', object: object
 
   if object.valid
+    include 'lib/commands/events/create', type: object.event_name, actor_id: object.profile_id, object_id: object.id, target_id: object.target_id
+
     function status = 'lib/commands/statuses/create', object_id: object.id, name: object.status, scope: 'app.statuses.processes', profile_id: object.profile_id
     include 'lib/commands/events/create', type: 'status_created', actor_id: object.profile_id, object_id: status.id, target_id: status.object_id
   endif

@@ -15,7 +15,7 @@
 {% comment %}before{% endcomment %}
 {% liquid
   assign actor = '{"id":1001}' | parse_json
-  assign object = '{"id":2001, "type":"group", "properties": { "ask_to_join": "yes", "approve_request": "anon" }}' | parse_json
+  assign object = '{"id":2001, "type":"group", "properties": { "ask_to_join": "yes", "approve_request": "anonymous" }}' | parse_json
 %}
 
 {% comment %}test{% endcomment %}
@@ -51,4 +51,23 @@
   function result = 'lib/can', actor: actor, do: 'join', object: object
   include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'result3'
   include 'test/assertions/presence', contract: contract, object: result.errors, field_name: 'permission_denied'
+%}
+
+
+{% comment %}post when member of group{% endcomment %}
+{% liquid
+  assign actor = '{"id":1002, "joined_group_ids": [{"id": "2002"}]}' | parse_json
+  assign object = '{"id":2002, "type": "group", "post_content": "member" }' | parse_json
+
+  function result = 'lib/can', actor: actor, do: 'post', object: object
+  include 'test/assertions/valid_object', contract: contract, object: result, field_name: 'result'
+%}
+
+{% comment %}can't post when not member of group{% endcomment %}
+{% liquid
+  assign actor = '{"id":1002, "joined_group_ids": []}' | parse_json
+  assign object = '{"id":2002, "type": "group", "post_content": "member" }' | parse_json
+
+  function result = 'lib/can', actor: actor, do: 'post', object: object
+  include 'test/assertions/not_valid_object', contract: contract, object: result, field_name: 'result'
 %}

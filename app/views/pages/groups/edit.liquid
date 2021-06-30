@@ -1,25 +1,15 @@
 ---
 slug: groups/:id/edit
 ---
-
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
   include 'lib/profile_present_or_redirect', profile: current_profile
-%}
 
-{% liquid
   assign group_id = context.params.id | split: '-' | last
-  function group = 'lib/queries/groups/find', id: group_id, owner_id: current_profile.id, relation_name: 'owner', with_owner: true
+  function group = 'lib/queries/groups/find_by_owner', id: group_id, owner_id: current_profile.id
+  include 'lib/can_do_or_unauthorized', object: group, do: "edit", actor: current_profile
 
-  include 'lib/can_edit_group', profile_id: current_profile.id, group: group
-  function can = "lib/can", actor: current_profile, do: "see_meta", object: group
-  unless can.valid
-    include 'lib/present_or_404', property: null
-  endunless
-%}
-
-{% function presigned_url = 'lib/queries/presigned_url' %}
-
-{%
-  render 'theme/simple/groups/edit', current_profile: current_profile, object: group, presigned_url: presigned_url, context: context
+  function presigned_url = 'lib/queries/presigned_url'
+  function lib = 'lib/queries/groups/lib', group: group
+  render 'theme/simple/groups/edit', current_profile: current_profile, object: group, presigned_url: presigned_url, context: context, lib: lib
 %}

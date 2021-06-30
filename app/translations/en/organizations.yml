@@ -9,6 +9,13 @@ en:
         offline_stores: Offline Stores
         shipping_types: Shipping Types
         delivery_fee: Delivery fee
+        logo: Logo
 
       errors:
         user_already_in_organization: Selected email is already used by user that belongs to organization
+      edit:
+        update: Update
+        updated: Updated
+        need_to_be_accepted: Change needs to be accepted
+        edit: Edit organization
+        contact_emails_tip: Separate with comma

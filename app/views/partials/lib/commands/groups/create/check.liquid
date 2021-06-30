@@ -2,24 +2,28 @@
   assign c = '{ "errors": {}, "valid": true }' | parse_json
 
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'owner_id'
-  function c = 'lib/validations/presence', c: c, object: object, field_name: 'summary'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'uuid'
+  function c = 'lib/validations/uniqueness', c: c, object: object, field_name: 'uuid', table: 'group'
+  function c = 'lib/validations/length', c: c, object: object, field_name: 'content_types', minimum: 1, message_minimum: 'app.groups.errors.at_least_one_conent_type'
+  function c = 'lib/validations/length', c: c, object: object, field_name: 'tags', maximum: 5
+  function c = 'lib/validations/each_element_length', c: c, object: object, field_name: 'tags', maximum: 20
 
-  if object.name == blank
-    include 'lib/register_error', contract: c, field_name: 'name', key: 'app.errors.blank'
+  if object.name == 'PROFILE_GROUP'
   else
-    graphql groups_count = 'groups/group_count', name: object.name | dig: 'groups', 'total_entries'
-    if groups_count > 0
-      include 'lib/register_error', contract: c, field_name: 'name', key: 'app.errors.taken'
+    function c = 'lib/validations/presence', c: c, object: object, field_name: 'summary'
+    if object.name == blank
+      include 'lib/register_error', contract: c, field_name: 'name', key: 'app.errors.blank'
+    else
+      function c = 'lib/validations/uniqueness', c: c, object: object, field_name: 'name', table: 'group'
     endif
-  endif
 
-  if object.description == blank
-    include 'lib/register_error', contract: c, field_name: 'description', key: 'app.errors.blank'
-  else
-    if object.description.size < 30
-      assign msg = 'app.groups.errors.description_too_short' | t: size: 30
-      include 'lib/register_error', contract: c, field_name: 'description', message: msg
+    if object.description == blank
+      include 'lib/register_error', contract: c, field_name: 'description', key: 'app.errors.blank'
+    else
+      if object.description.size < 30
+        assign msg = 'app.groups.errors.description_too_short' | t: size: 30
+        include 'lib/register_error', contract: c, field_name: 'description', message: msg
+      endif
     endif
   endif
 

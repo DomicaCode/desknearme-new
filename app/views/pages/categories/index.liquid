@@ -1,10 +1,10 @@
 ---
-slug: categories/*category_key
+slug: categories/*category
 ---
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id
 
-  function category = 'lib/queries/categories/find', key: context.params.category_key
+  function category = 'lib/queries/categories/find', key: context.params.category
   include 'lib/present_or_404', property: category
 
 

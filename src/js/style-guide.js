@@ -38,7 +38,7 @@ styleGuide.colors = () => {
   // ------------------------------------------------------------------------
   module.settings = {};
   // the container with the colors (dom node)
-  module.settings.container = document.querySelector('#styleGuide-colors');
+  module.settings.container = document.querySelector('#colors');
   // the list with the properties color (dom nodes)
   module.settings.propertiesList = module.settings.container.querySelectorAll('dl');
 
@@ -119,7 +119,7 @@ styleGuide.icons = () => {
   // ------------------------------------------------------------------------
   module.settings = {};
   // the container with the icons list (dom node)
-  module.settings.container = document.querySelector('#styleGuide-icons');
+  module.settings.container = document.querySelector('#icons');
   // the attribute that stores the icon name (string)
   module.settings.iconName = 'data-icon';
   // the icons (dom node)
@@ -194,7 +194,7 @@ styleGuide.typography = () => {
   // ------------------------------------------------------------------------
   module.settings = {};
   // the container for basic typography info (dom node)
-  module.settings.container = document.querySelector('#styleGuide-typography');
+  module.settings.container = document.querySelector('#typography');
   // class name for the examples box (string)
   module.settings.typographyExample = 'styleGuide-example';
 
@@ -244,34 +244,46 @@ styleGuide.clipboard = () => {
   // purpose:		settings that are being used across the module
   // ------------------------------------------------------------------------
   module.settings = {};
-  // the button that activates the copying (dom node)
-  module.settings.button = document.querySelectorAll('.styleGuide-copy');
+  // the boxes with the example code in them (dom node)
+  module.settings.code = document.querySelectorAll('.styleGuide-code');
+  // the template for the button that activates the copying (dom node)
+  module.settings.button = document.querySelector('#styleGuide-copyButton');
+  // the selector for the button that activates the copying (string)
+  module.settings.buttonSelector = '.styleGuide-copy';
 
 
   // purpose:   initializes module
   // ------------------------------------------------------------------------
   module.init = () => {
+    module.addCopyButton();
     module.clipboard();
+  };
+
+
+  module.addCopyButton = () => {
+    module.settings.code.forEach((element) => {
+      element.appendChild(module.settings.button.content.cloneNode(true));
+    });
   };
 
 
   // purpose:		saves the code content to clipboard on button click
   // ------------------------------------------------------------------------
   module.clipboard = () => {
-    module.settings.button.forEach((element) => {
-      element.addEventListener('click', (event) => {
-        let text = event.target.parentElement.parentElement.childNodes[0].textContent.trim();
+    document.addEventListener('click', (event) => {
+      if(event.target.matches(module.settings.buttonSelector)){
+        let text = event.target.parentElement.childNodes[0].textContent.trim();
 
         navigator.clipboard.writeText(text).then(() => {
-          event.target.classList.add('text-green-700');
+          event.target.classList.add('text-confirmation');
 
           setTimeout(() => {
-            event.target.classList.remove('text-green-700');
+            event.target.classList.remove('text-confirmation');
           }, 800);
         }, () => {
           new Error('Could not copy the code to clipboard');
         });
-      });
+      }
     });
   };
 

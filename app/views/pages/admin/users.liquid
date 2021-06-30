@@ -13,5 +13,5 @@ layout: admin
   hash_assign filters['sort_order'] = 'DESC'
   function users = 'lib/queries/users/search', filters: filters
 
-  render 'theme/simple/admin/users', users: users, filters: filters
+  render 'theme/simple/admin/users', users: users, filters: filters, context: context
 %}

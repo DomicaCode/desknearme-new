@@ -1,6 +1,5 @@
 import Uppy from '@uppy/core';
 import Dashboard from '@uppy/dashboard';
-import GoldenRetriever from '@uppy/golden-retriever';
 import AWSS3 from '@uppy/aws-s3';
 import Webcam from '@uppy/webcam';
 
@@ -13,10 +12,6 @@ const _form = document.querySelector('[data-s3-uppy-photo="form"]');
 const maxNumberOfFiles = _form.dataset.s3UppyMaxNumberOfFiles;
 const note = _form.dataset.s3UppyNote;
 const photos = JSON.parse(_form.dataset.s3UppyPhotos || '[]') || [];
-const updateImgSelector = _form.dataset.updateImgSelector;
-let photoIds = photos.map((photo) => photo.id);
-const photoIdsElement = document.querySelector('[name="item[photo_ids]"]');
-const itemsPhotos = !!photoIdsElement;
 
 const uppy = Uppy({
   autoProceed: photos.length == 0,
@@ -34,17 +29,6 @@ const createPhoto = (imageUrl) => {
   return apiFetch('/api/photos', {
     body: JSON.stringify({ photo: { direct_url: imageUrl, photo_type: photoType, object_uuid: objectUuid } })
   });
-};
-
-const deletePhoto = (photoId) => {
-  if (itemsPhotos){
-    removePhotoFromForm(photoId);
-  } else {
-    return apiFetch('/api/photos', {
-      method: 'DELETE',
-      body: JSON.stringify({ photo: { id: photoId } })
-    });
-  }
 };
 
 const loadExistingPhotos = async (photos) => {
@@ -67,30 +51,6 @@ const loadExistingPhotos = async (photos) => {
   });
 };
 
-const updateImages = (photo) => {
-  if (updateImgSelector){
-    const photoUrl = photo.preview;
-    document.querySelectorAll(updateImgSelector).forEach(img => {
-      img.src = photoUrl;
-    });
-  }
-}
-
-const addPhotosToForm = (photos) => {
-  photoIds = photoIds.concat(photos.map((photo) => photo.id));
-  updatePhotoIdsElement(photoIds);
-}
-
-const removePhotoFromForm = (photoId) => {
-  var index = photoIds.indexOf(photoId);
-  if (index > -1) photoIds.splice(index, 1);
-  updatePhotoIdsElement(photoIds);
-}
-
-const updatePhotoIdsElement = () => {
-  photoIdsElement.value = photoIds.join(',');
-}
-
 uppy.use(Dashboard,
   {
     inline: true,
@@ -102,6 +62,7 @@ uppy.use(Dashboard,
     height: 300,
     proudlyDisplayPoweredByUppy: false,
     showRemoveButtonAfterComplete: true,
+    doneButtonHandler: null,
     locale: {
       strings: {
         dropPasteImport: 'Drag & drop, paste, or %{browse} to upload file',
@@ -110,14 +71,10 @@ uppy.use(Dashboard,
     },
   })
   .use(Webcam, { target: Dashboard, modes: ['picture'] })
-  // .use(GoldenRetriever)
   .use(AWSS3, {
     getUploadParameters() {
-      // 1. Get URL to post to from action attribute
       const _url = _form.getAttribute('action');
-      // 2. Create Array from FormData object to make it easy to operate on
       const _formDataArray = Array.from(new FormData(_form));
-      // 3. Create a JSON object from array
       const _fields = _formDataArray.reduce((acc, cur) => ({ ...acc, [cur[0]]: cur[1] }), {});
 
       // 4. Return resolved promise with Uppy. Uppy it will add file in file param as the last param
@@ -139,13 +96,20 @@ uppy.on('complete', ({ failed, successful }) => {
         })
     })
   ).then((photos) => {
-    if (itemsPhotos) addPhotosToForm(photos);
-    updateImages(successful[0]);
-  })
+    document.dispatchEvent(
+      new CustomEvent('photos-added', {
+        detail: { photos: photos, preview: successful[0].preview }
+      })
+    );
+  });
 });
 
 uppy.on('file-removed', (file, reason) => {
-  if (file.meta.photoId) deletePhoto(file.meta.photoId);
-})
+  if (reason == 'removed-by-user') document.dispatchEvent(new CustomEvent('photo-removed', { detail: { photoId: file.meta.photoId } }));
+});
+
+document.addEventListener('photo-upload-reset', () => {
+  uppy.reset();
+});
 
 loadExistingPhotos(photos);

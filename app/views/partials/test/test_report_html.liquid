@@ -10,7 +10,7 @@
     {% for e in contract.errors %}
       <div class="flex">
         <div class="w-2/6 m-2"> {{ e[0] }} </div>
-        <div class="w-4/6 m-2"> {{ e[1] | join: ", <br/>"  }} </div>
+        <div class="w-4/6 m-2"> {{ e[1] | join: ", <br/>" | html_safe  }} </div>
       </div>
     {% endfor %}
   </div>

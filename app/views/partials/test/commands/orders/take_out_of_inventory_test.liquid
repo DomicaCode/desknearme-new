@@ -1,6 +1,6 @@
 {% parse_json buyer %} {"id": "5999"} {% endparse_json %}
 {% liquid
-  function item = 'test/fixtures/item', quantity: 5, max_in_one_order: 5
+  function item = 'test/fixtures/item', quantity: 5, max_in_one_order: 5, contract: contract
   function order = 'lib/queries/orders/find_new_by_seller_and_buyer', seller: item.item_inventory.owner.id, buyer: buyer.id
   if order
     function r = 'lib/commands/orders/delete', object: order

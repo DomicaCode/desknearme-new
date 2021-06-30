@@ -1,5 +1,6 @@
 query search(
   $id: ID
+  $not_ids: [ID!]
   $limit: Int = 20
   $uuid: String
   $user_id: String
@@ -15,7 +16,7 @@ query search(
   records(
     per_page: $limit
     filter: {
-      id: { value: $id }
+      id: { value: $id not_value_in: $not_ids }
       table: { value: "profile" }
       properties: [
         { name: "uuid", value: $uuid }
@@ -70,7 +71,7 @@ query search(
         table: "relationship"
         join_on_property: "id"
         foreign_property: "l_id"
-        filter: { properties: { name: "name", value: "followship" } }
+        filter: { properties: { name: "name", value: "followship:profile" } }
       ) @include(if: $followships) {
         id: property(name: "r_id")
       }
@@ -88,7 +89,7 @@ query search(
         table: "relationship"
         join_on_property: "id"
         foreign_property: "l_id"
-        filter: { properties: { name: "name", value: "membership" } }
+        filter: { properties: { name: "name", value: "organization_membership" } }
       ) @include(if: $load_organizations) {
         r_id: property(name: "r_id")
       }

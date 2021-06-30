@@ -11,17 +11,18 @@
       if object.valid != true
         log object, type: 'ERROR: cancel_order_when_remain_unpaid'
       endif
-    endif
 
-    assign order_ids = transaction.order_ids
-    function orders = 'lib/queries/orders/search', ids: order_ids, limit: 100
-    for order in orders.results
-      if order.status.name == 'app.statuses.orders.confirmed'
-        function object = 'lib/commands/orders/cancel', order: order, role: 'buyer', current_profile: order.buyer
-        if object.valid != true
-          log object, type: 'ERROR: cancel_order_when_remain_unpaid'
+      assign order_ids = transaction.order_ids
+      function orders = 'lib/queries/orders/search', ids: order_ids, limit: 100
+      for order in orders.results
+        if order.status.name == 'app.statuses.orders.confirmed'
+          function object = 'lib/commands/orders/cancel', order: order, role: 'buyer', current_profile: order.buyer
+          if object.valid != true
+            log object, type: 'ERROR: cancel_order_when_remain_unpaid'
+          endif
         endif
-      endif
-    endfor
+      endfor
+
+    endif
   %}
 {% endbackground %}

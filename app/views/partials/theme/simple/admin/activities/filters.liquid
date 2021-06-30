@@ -6,12 +6,18 @@
         <h4 class="-mx-4 px-4 pb-2 border-b uppercase font-bold">{{ 'admin.activities.filters.header' | t }}</h4>
 
         <div class="mt-2">
-          <select name="feed" class="w-full">
+          <select name="feed" class="w-full" onchange="submit()">
             <option value="">{{ 'admin_old.menu.activities.list.audit' | t }}</option>
             <option value="system.2" {% if filters.feed == "system.2" %}selected{% endif %}>{{ 'admin_old.menu.activities.list.comments' | t }}</option>
             <option value="system.6" {% if filters.feed == "system.6" %}selected{% endif %}>{{ 'admin_old.menu.activities.list.questions' | t }}</option>
             <option value="system.7" {% if filters.feed == "system.7" %}selected{% endif %}>{{ 'admin_old.menu.activities.list.answers' | t }}</option>
             <option value="system.8" {% if filters.feed == "system.8" %}selected{% endif %}>{{ 'admin_old.menu.activities.list.item_inventory_updates' | t }}</option>
+
+            <option value="user-private.8" {% if filters.feed == "user-private.8" %}selected{% endif %}>seller-8</option>
+            <option value="user-private.2" {% if filters.feed == "user-private.2" %}selected{% endif %}>buyer-2</option>
+            <option value="organization-private.12" {% if filters.feed == "organization-private.12" %}selected{% endif %}>org-12</option>
+            <option value="organization-private.11" {% if filters.feed == "organization-private.11" %}selected{% endif %}>org-11</option>
+            <option value="organization-private.10" {% if filters.feed == "organization-private.10" %}selected{% endif %}>org-10</option>
 
             {% for user in users.results %}
               {% assign feed = "user." | append: user.id %}

@@ -3,6 +3,7 @@ query search(
   $limit: Int = 20
   $payload: String
   $command: String
+  $profile_id: ID
 ) {
   processes: records(
     per_page: $limit
@@ -12,6 +13,7 @@ query search(
       properties: [
         { name: "payload" contains: $payload }
         { name: "command" value: $command }
+        { name: "profile_id" value: $profile_id }
       ]
     }
     sort: [
@@ -24,7 +26,7 @@ query search(
       created_at
       type: table
 
-      payload: property(name: "payload")
+      payload: property_object(name: "payload")
       command: property(name: "command")
       profile_id: property(name: "profile_id")
       profile: related_record(

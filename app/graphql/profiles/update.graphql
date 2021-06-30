@@ -1,4 +1,4 @@
-mutation update(
+mutation profiles_update(
   $id: ID!
   $uuid: String
   $user_id: String

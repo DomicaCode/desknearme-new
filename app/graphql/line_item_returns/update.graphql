@@ -3,6 +3,7 @@ mutation update_line_item_return(
   $quantity: Int
   $reason: String
   $reason_details: String
+  $reject_reason: String
   $shipping_type: String
   $shipping_pickup_point: String
   $shipping_address_id: String
@@ -16,6 +17,7 @@ mutation update_line_item_return(
         { name: "quantity", value_int: $quantity }
         { name: "reason", value: $reason }
         { name: "reason_details", value: $reason_details }
+        { name: "reject_reason", value: $reject_reason }
         { name: "shipping_type", value: $shipping_type }
         { name: "shipping_pickup_point", value: $shipping_pickup_point }
         { name: "shipping_address_id", value: $shipping_address_id }
@@ -30,6 +32,7 @@ mutation update_line_item_return(
     quantity: property_int(name: "quantity")
     reason: property(name: "reason")
     reason_details: property(name: "reason_details")
+    reject_reason: property(name: "reject_reason")
     shipping_type: property(name: "shipping_type")
     shipping_pickup_point: property(name: "shipping_pickup_point")
     shipping_address_id: property(name: "shipping_address_id")

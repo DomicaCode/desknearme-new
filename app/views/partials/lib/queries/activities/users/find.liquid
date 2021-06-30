@@ -1,5 +1,6 @@
 {% liquid
   if id == blank
+    log '(users) ID cannot be blank when searching for audience'
     return null
   endif
 

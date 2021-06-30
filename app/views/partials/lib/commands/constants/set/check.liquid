@@ -1,6 +1,8 @@
 {% liquid
   assign c = '{ "errors": {}, "valid": true }' | parse_json
 
+  function c = 'lib/validations/presence', c: c, field_name: 'name', object: object, key: 'app.errors.not_included'
+
   hash_assign object['valid'] = c.valid
   hash_assign object['errors'] = c.errors
 

@@ -13,9 +13,7 @@
 
     <div class="flex flex-col flex-1 w-full min-w-0">
       <header class="items-center justify-between w-full h-10 mb-2 md:flex">
-        <a href="{{ creator_url }}">
-          {{ post.creator.name }}
-        </a>
+        <a href="{{ creator_url }}">{{ post.creator.name }}</a>
         <date datetime="{{ post.created_at }}" class="block text-sm text-content-sidenote">{{ post.created_at | l: 'compact' }}</date>
       </header>
 
@@ -30,15 +28,15 @@
           </a>
         {% elsif root_post.creator.id != current_profile.id and current_profile and root_post.id == post.id %}
           <div class="flex flex-row-reverse items-center justify-between w-full">
-            <form action="#" x-data="relationship()" x-init="init()" x-on:submit.prevent>
+            <form action="#" x-data="relationship('postIds')" x-on:submit.prevent data-id="{{ post.id }}" x-on:data-ready.window="init()">
               <input type="hidden" name="l_id" value="{{ current_profile.id }}">
               <input type="hidden" name="r_id" value="{{ post.id }}">
-              <input type="hidden" name="name" value="followship">
+              <input type="hidden" name="name" value="followship:post">
             <button
               class="text-sm underline cursor-pointer hover:no-underline me-5"
               x-show.transition="initialized"
               x-text="exists ? '{{ "app.relationships.posts.unfollow" | t }}' : '{{ "app.relationships.posts.follow" | t }}'"
-              x-on:click="toggle()"
+              x-on:click="toggle($dispatch)"
               title="{{ "app.relationships.posts.title" | t }}"
             >
             </button>
@@ -63,15 +61,18 @@
   </section>
 
   {% if post.comments.size > 0 %}
+    {% liquid
+      function root_post_url = 'link_to', post: root_post
+    %}
     <section>
-      {% include 'theme/simple/posts/comments', list: post.comments, root_post: root_post, current_profile: current_profile %}
+      {% include 'theme/simple/posts/comments', list: post.comments, current_profile: current_profile, return_to: root_post_url %}
     </section>
   {% endif %}
 
   <section class="mt-4 md:ms-14 md:px-4">
     {% liquid
       if current_profile.id
-        include 'theme/simple/comments/new_entry', commentable: post, commentable_type: 'post', placeholder: 'Your comment', hidden: true, images: false
+        include 'theme/simple/comments/new_entry', commentable: post, commentable_type: 'post', placeholder: 'app.models.comments.placeholder', hidden: true, images: false
       endif
     %}
   </section>

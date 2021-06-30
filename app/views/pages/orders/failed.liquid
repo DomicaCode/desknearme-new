@@ -6,6 +6,7 @@ slug: orders/failed/:id
   include 'lib/profile_present_or_redirect', profile: current_profile, allow_uncompleted: true
 
   function transaction = 'lib/queries/transactions/find_by_profile', id: context.params.id, profile_id: current_profile.id
+  include 'lib/present_or_404', property: transaction.id
 
   render 'theme/simple/orders/failed', transaction: transaction
 %}

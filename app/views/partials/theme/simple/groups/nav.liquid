@@ -1,32 +1,73 @@
-<nav class="flex items-center justify-between mb-5 bg-panel sm:flex-row">
-    <div class="flex h-full text-lg">
-      {% assign active_class = 'text-interaction-hover border-b-2 font-medium border-interaction-hover'  %}
-      <a href="{% render 'link_to', group: group %}" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'activity' %}{{ active_class }}{% endif %}">
-        {{ 'app.groups.nav.activity' | t }}
-      </a>
-      <a href="{% render 'link_to', group: group, action: 'content' %}" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'content' %}{{ active_class }}{% endif %}">
-        {{ group.content_type | t: scope: 'app.groups.form.content_types' | pluralize }}
-      </a>
-      <a href="{% render 'link_to', object: group, action: 'about' %}" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'about' %}{{ active_class }}{% endif %}">
-        {{ 'app.groups.nav.about' | t }}
-      </a>
-      <a href="{% render 'link_to', group: group, action: 'members' %}" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'members' %}{{ active_class }}{% endif %}">
-        {{ 'app.groups.nav.members' | t }}
-      </a>
+{% liquid
+  assign active_class = 'text-interaction-hover font-medium'
+  assign class = 'mb-4 inline-flex justify-between items-center text-content'
+%}
 
-      <!--
-      <a href="/groups/{{ group.id }}/invitations" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'invitations' %}{{ active_class }}{% endif %}">
-        Invitations
-      </a>
-      -->
-    </div>
-
-    <div class="flex items-center me-3">
-      {% comment %}
-      <!-- TODO: For members show invite button. If secret group, show it only for admins. -->
-      {% render 'theme/simple/groups/invite_button', group: group, current_profile: current_profile %}
-      {% endcomment %}
-
-      {% render 'theme/simple/groups/join_button', group: group, current_profile: current_profile %}
-    </div>
+<div class="lg:w-1/5 md:w-1/4">
+  <nav class="card">
+    <ul class="w-full flex gap-6 md:block overflow-x-auto">
+      <li>
+        <a href="{% render 'link_to', group: group %}" class="{{class}} {% if tab == 'activity' %}{{ active_class }}{% endif %}">
+          {{ 'app.groups.nav.activity' | t }}
+        </a>
+      </li>
+      <li>
+        <a href="{% render 'link_to', group: group, action: 'content' %}" class="{{ class }} {% if tab == 'content' %}{{ active_class }}{% endif %}">
+          {{ 'app.groups.form.content' | t }}
+        </a>
+      </li>
+      <li>
+        <a href="{% render 'link_to', object: group, action: 'about' %}" class="{{ class }} {% if tab == 'about' %}{{ active_class }}{% endif %}">
+          {{ 'app.groups.nav.about' | t }}
+        </a>
+      </li>
+      <li>
+        <a href="{% render 'link_to', group: group, action: 'members' %}" class="{{ class }} {% if tab == 'members' %}{{ active_class }}{% endif %}">
+          {{ 'app.groups.nav.members' | t }}
+        </a>
+      </li>
+    </ul>
   </nav>
+
+  {% comment %}
+  <a href="/groups/{{ group.id }}/invitations" class="pt-5 pb-4 px-6 focus:outline-none {% if tab == 'invitations' %}{{ active_class }}{% endif %}">
+    Invitations
+  </a>
+  {% endcomment %}
+
+  <div class="card mt-5 break-words">
+    <span class="uppercase sidenote">
+      {{ 'app.groups.nav.group_type' |t: type: group.group_type }}
+    </span>
+    <br />
+    <span class="font-bold">
+      {{ 'app.groups.nav.created' | t }}:
+    </span>
+    {{ group.created_at | l: 'date_compact' }}
+
+    <br />
+    <span class="font-bold">
+      {{ 'app.groups.nav.admins' | t }}:
+    </span>
+    <a class="flex self-end items-center text-content" href="{% render 'link_to', profile: group.owner.profile %}">
+      {% render 'theme/simple/ui/avatar', profile: group.owner.profile, size: 32, class: 'w-8 h-8 me-2', alt: group.owner.profile.name %}
+      {{ group.owner.profile.first_name }} {{ group.owner.profile.last_name  }}
+    </a>
+
+    <hr class="border-t my-2"/>
+    <span class="uppercase sidenote">
+      {{ 'app.groups.description' | t }}
+    </span>
+    <p class="prose">
+      {{ group.description | markdown }}
+    </p>
+
+    <hr class="border-t my-2"/>
+    <span class="uppercase sidenote">
+      {{ 'app.groups.code_of_conduct' | t }}
+    </span>
+    <p class="prose">
+      {{ group.code_of_conduct | markdown }}
+    </p>
+  </div>
+</div>

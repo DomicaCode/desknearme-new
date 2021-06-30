@@ -34,6 +34,7 @@ en:
         created_at_desc: Most Recent
     quick_search:
       name: Search in everything
+      see_more: See more
       type:
         profile: Profile
         group: Group

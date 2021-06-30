@@ -1,60 +1,37 @@
-{% liquid
-  assign url = payload.actor.url
-  assign name = payload.actor.name
-  assign photo = payload.actor.photo.url.versions.tiny
-  assign date = payload.date
-  assign type = payload.type
-%}
+{% function actor = 'lib/commands/activities/header', payload: payload, namespace: namespace, role: role %}
 
-<div class="items-center md:flex">
-	<div class="flex items-center">
-		<p class="w-8 me-3">
-			{% if photo %}
-				<img class="object-cover w-8 h-8 overflow-hidden rounded-full" src="{{ photo }}" alt="{{ name }}">
-			{% else %}
-				{% render 'theme/simple/activities/feed_unit/default_photo' %}
-			{% endif %}
-		</p>
+<header class="mb-3 last:mb-0 flex items-center gap-4">
+  {% if actor.url %}
+    <a href="{{ actor.url }}">
+  {% endif %}
+    {% render 'theme/simple/ui/avatar', profile: payload.actor, size: 48, class: 'w-12 h-12' %}
+  {% if actor.url %}
+    </a>
+  {% endif %}
 
-		<p>
-			<a href="{{ url }}">
-				{{ name }}
-			</a>
-			{% liquid
-			case type
-			when 'user_followed_user', 'user_unfollowed_user'
-				render 'theme/simple/activities/feed_unit/type/user_activity', payload: payload
-			when 'page_visited'
-				render 'theme/simple/activities/feed_unit/type/visit', payload: payload
-			when 'account_created', 'profile_created'
-				render 'theme/simple/activities/feed_unit/type/user_activity', payload: payload
-			when 'order_status_created'
-				render 'theme/simple/activities/feed_unit/type/order_status', payload: payload
-			when 'order_created'
-				render 'theme/simple/activities/feed_unit/type/order_created', payload: payload
-			when 'item_created'
-				render 'theme/simple/activities/feed_unit/type/item_created', payload: payload
-			when 'comment_created'
-				render 'theme/simple/activities/feed_unit/type/comment_created', payload: payload
-			when 'user_joined_group'
-        render 'theme/simple/activities/feed_unit/type/user_joined_group', payload: payload
-      when 'group_created'
-        render 'theme/simple/activities/feed_unit/type/group_created', payload: payload
-      when 'post_created'
-        render 'theme/simple/activities/feed_unit/type/post_created', payload: payload
-      when 'post_answered'
-        render 'theme/simple/activities/feed_unit/type/post_answered', payload: payload
+  <div>
+    {% if actor.url %}
+      {%- capture info -%}[{{ payload.type }}] [{{ payload.actor.type }}#{{ payload.actor.id }}][{{ payload.object.type }}#{{ payload.object.id }}][{{ payload.target.type }}#{{ payload.target.id }}]{%- endcapture -%}
+      <a href="{{ actor.url }}" title="{{ info | escape }}" class="font-semibold text-content">{{ actor.name }}</a>
+    {% else %}
+      {{ actor.name }}
+    {% endif %}
+
+    {% liquid
+      case payload.type
       when 'item_inventory_updated'
-        render 'theme/simple/activities/feed_unit/type/item_inventory_updated', payload: payload
-			else
-				echo type
-			endcase
-			%}
+        render 'theme/simple/activities/feed_unit/type/item_inventory_updated', payload: payload, namespace: namespace
+      when 'post_created'
+        if payload.target.name != 'PROFILE_GROUP'
+          render 'theme/simple/activities/feed_unit/type/default', payload: payload, namespace: namespace, role: role
+        endif
+      else
+        render 'theme/simple/activities/feed_unit/type/default', payload: payload, namespace: namespace, role: role
+      endcase
+    %}
 
-			<time datetime="{{ date }}" class="block mt-1 text-sm text-gray-500">{{ date | l: 'compact' }}</p>
-		</p>
-	</div>
-</div>
-
-
-
+    {% if payload.date %}
+      <time title="{{ payload.date }}" datetime="{{ payload.date }}" class="block mt-1 sidenote text-content-sidenote timeago">{{ payload.date | l: 'compact' }}</time>
+    {% endif %}
+  </div>
+</header>

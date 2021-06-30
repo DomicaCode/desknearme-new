@@ -4,7 +4,10 @@
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'id'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'group_type'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'name'
+  function c = 'lib/validations/uniqueness', c: c, object: object, field_name: 'name', table: 'group'
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'summary'
+  function c = 'lib/validations/length', c: c, object: object, field_name: 'tags', maximum: 5
+  function c = 'lib/validations/each_element_length', c: c, object: object, field_name: 'tags', maximum: 20
 
   if object.description == blank
     include 'lib/register_error', contract: c, field_name: 'description', key: 'app.errors.blank'

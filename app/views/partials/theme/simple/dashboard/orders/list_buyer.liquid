@@ -63,7 +63,11 @@
               case status
                 when 'app.statuses.orders.confirmed'
                   assign status_class = 'bg-warning-disabled border-warning'
+                when 'app.statuses.orders.in_progress'
+                  assign status_class = 'bg-warning-disabled border-warning'
                 when 'app.statuses.orders.paid'
+                  assign status_class = 'bg-confirmation-disabled border-confirmation'
+                when 'app.statuses.orders.completed'
                   assign status_class = 'bg-confirmation-disabled border-confirmation'
                 when 'app.statuses.orders.delivered'
                   assign status_class = 'bg-confirmation-disabled border-confirmation'

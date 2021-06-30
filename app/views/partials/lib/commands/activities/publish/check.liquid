@@ -1,5 +1,12 @@
 {% liquid
-  hash_assign object['valid'] = true
- 
+  assign c = '{ "errors": {}, "valid": true }' | parse_json
+
+  function c = 'lib/validations/presence', c: c, object: object, field_name: 'uuid'
+  function c = 'lib/validations/presence', c: c, object: object, field_name: 'type'
+  function c = 'lib/validations/presence', c: c, object: object, field_name: 'ids'
+
+  hash_assign object['valid'] = c.valid
+  hash_assign object['errors'] = c.errors
+
   return object
 %}

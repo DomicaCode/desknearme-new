@@ -1,4 +1,4 @@
-mutation update($profile_anonymous_id: ID! $profile_id: String, $ids: [ID!]!){
+mutation convert_orders($profile_anonymous_id: ID! $profile_id: String, $ids: [ID!]!){
   records_update_all(
     table: "order"
     filter: {

@@ -20,13 +20,13 @@ import { registerWithProfile, checkErrors } from './pages/helper'
 
 fixture`Account/profile tests`.page(myUrl)
 
-test('Anonymous tests', async (t) => {
-  for (var i in notAllowedUrls) {
-    await t.navigateTo(myUrl + notAllowedUrls[i])
-
-    await t.expect(await getURL()).contains(myUrl + '/sessions/new')
-  }
-})
+for (var i in notAllowedUrls) {
+  test(`Anonymous cannot access page: ${notAllowedUrls[i]}`, async (t) => {
+    await t
+      .navigateTo(myUrl + notAllowedUrls[i])
+      .expect(getURL()).contains(myUrl+'/sessions/new')
+  })
+}
 
 test.page(myUrl + '/sign-up')('Uncompleted profile tests', async (t) => {
   await t

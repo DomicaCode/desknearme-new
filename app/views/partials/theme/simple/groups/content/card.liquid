@@ -4,13 +4,13 @@
 %}
 
 <article class="mb-10 {% if post.parent_id == null %} mt-5 {% endif %}">
-  <div id="post-{{post.id}}"></div>
+  <div id="refid-{{post.id}}"></div>
   <section class="w-full flex card p-4 border-t">
     <aside class="flex flex-col items-center flex-shrink-0 pe-4">
       <a href="{{ creator_url }}">
         {% render 'theme/simple/ui/avatar', profile: post.creator, size: 40, class: 'w-10 h-10 mb-2', alt: post.creator.name %}
       </a>
-      {% if root_post.group.content_type == 'question' %}
+      {% if root_post.votable %}
         {% render 'theme/simple/posts/vote_box', post: post, current_profile: current_profile, root_post: root_post, context: context %}
       {% endif %}
     </aside>
@@ -34,15 +34,15 @@
           </a>
         {% elsif root_post.creator.id != current_profile.id and current_profile and root_post.id == post.id %}
           <div class="flex flex-row-reverse items-center justify-between w-full">
-            <form action="#" x-data="relationship()" x-init="init()" x-on:submit.prevent>
+            <form action="#" x-data="relationship('postIds')" x-on:submit.prevent data-id="{{ post.id }}" x-on:data-ready.window="init()">
               <input type="hidden" name="l_id" value="{{ current_profile.id }}">
               <input type="hidden" name="r_id" value="{{ post.id }}">
-              <input type="hidden" name="name" value="followship">
+              <input type="hidden" name="name" value="followship:post">
             <button
               class="text-sm underline cursor-pointer hover:no-underline me-5"
               x-show.transition="initialized"
               x-text="exists ? '{{ "app.relationships.posts.unfollow" | t }}' : '{{ "app.relationships.posts.follow" | t }}'"
-              x-on:click="toggle()"
+              x-on:click="toggle($dispatch)"
               title="{{ "app.relationships.posts.title" | t }}"
             >
             </button>
@@ -67,18 +67,21 @@
   </section>
 
   {% if post.comments.size > 0 %}
+    {% liquid
+      function root_post_url = 'link_to', post: root_post
+    %}
     <section>
-      {% render 'theme/simple/posts/comments', list: post.comments, root_post: root_post, current_profile: current_profile, context: context %}
+      {% render 'theme/simple/posts/comments', list: post.comments, current_profile: current_profile, context: context, return_to: root_post_url  %}
     </section>
   {% endif %}
 
-  <section class="mt-4 md:ms-14 md:px-4">
+  <section class="mt-4 md:ms-14">
     {% if current_profile.id %}
       {%
         render 'theme/simple/comments/new_entry',
           commentable: post,
           commentable_type: 'post',
-          placeholder: 'Your comment',
+          placeholder: 'app.models.comments.placeholder',
           hidden: true,
           images: false,
           context: context

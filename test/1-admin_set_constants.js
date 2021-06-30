@@ -10,12 +10,13 @@ test('Set expiration time for unpaid order (~5 seconds)', async (t) => {
   await t.useRole(adminRole)
   .navigateTo(myUrl + '/admin/setup')
   .typeText(Selector('#order-cancel-setup'), '0.0010', { replace: true })
-  .click(Selector('input[value="submit"]').nth(1))
+  .click(Selector('#order-cancel-setup + button'))
 })
 
-test('Enable chat by admin', async (t) => {
+test('Disable chat by admin', async (t) => {
   await t.useRole(adminRole)
   .navigateTo(myUrl + '/admin/setup')
-  .click(Selector('#chatOn'))
-  .click(Selector('input[value="Save"]').nth(1))
+  //.click(Selector('#chatOn'))
+  .click(Selector('#chatOff'))
+  .click(Selector('#chat button'))
 })

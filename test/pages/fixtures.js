@@ -17,7 +17,7 @@ import AdminPanel from './adminp'
 import Footer from './footer'
 import ContactUs from './contactUsForm'
 import PasswordReset from './passwordReset'
-import NewSessionForm from './newsession'
+import LogInForm from './login'
 import TopicsPage from './topicsPage'
 import StaticPages from './static-pages'
 import SoldOrders from './soldOrders'
@@ -29,7 +29,7 @@ export const resetConfirmation = 'Please check your email.';
 export const loginConfirmation = 'Logged in'
 export const getURL = ClientFunction(() => window.location.href)
 export const myUrl = process.env.MPKIT_URL.replace(/\/$/,'','')
-export const loremSentence = (faker.lorem.lines() + " " + faker.lorem.lines())
+export const loremSentence = faker.lorem.sentence()
 export const editURL = '/dashboard/items/edit?id='
 export const permissionDenied = 'Permission denied'
 export const notAuthorizedUser = "The system has determined that you are not presently authorized to use this system function."
@@ -46,8 +46,8 @@ export const categoryName = "Clothes"
 export const soldOrders = new SoldOrders()
 export const cartPage = new Cart()
 export const adminPage = new AdminPanel()
-export const registerForm = new NewSessionForm()
-export const loginForm = new NewSessionForm()
+export const registerForm = new LogInForm()
+export const loginForm = new LogInForm()
 export const passwordResetForm = new PasswordReset()
 export const newItemForm = new NewItemForm()
 export const topMenu = new TopMenuBtns()
@@ -104,16 +104,17 @@ export const SellerRandomUser = {
 //random seeded account
 export const RandomPerson = {
   name: 'random-person',
+  fullName: 'Ann Random',
   email: 'random@getmarketplace.co',
   password: 'password'
 }
 
 //seeded merchant account
-export const SellerMerchant = {
+export const SellerMerchantB = {
   name: 'employee-b-1',
   email: 'employee-b-1@getmarketplace.co',
   password: 'password',
-  item: 'Casela CAS-W-13 Basic'
+  item: 'Vencer Stella 7lyt1011'
 }
 
 //seeded other merchant account
@@ -121,7 +122,7 @@ export const SellerMerchantA = {
   name: 'employee-a-1',
   email: 'employee-a-1@getmarketplace.co',
   password: 'password',
-  item: 'Maserati Time R8851116001'
+  item: 'Cobra Paris CO6394A1'
 }
 
 //this account is in use in tests for buying products by anon
@@ -194,5 +195,5 @@ export const group = {
   commonName: "johnsmith group",
   audifans: "audi fans",
   summary: "fun-club",
-  description: (loremSentence + " " + loremSentence + " " + loremSentence)
+  description: loremSentence + loremSentence + loremSentence
 }

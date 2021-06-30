@@ -1,9 +1,21 @@
-<div class="container">
-  <section class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 md:gap-5">
-    {% for record in list.results %}
-      {% render 'theme/simple/profile/user_card', user: record.l, current_profile: current_profile %}
-    {% else %}
-      <p class="text-lg">{{ 'app.groups.no_members_found' | t }}</p>
-    {% endfor %}
+{% render 'theme/simple/groups/header', group: group, current_profile: current_profile, context: context %}
+
+<div class="container flex flex-col md:flex-row gap-4">
+
+  {% render 'theme/simple/groups/nav', tab: tab, group: group %}
+
+  <section class="flex-1">
+    <div class="flex justify-between">
+      <h2 class='title'>{{'app.groups.members' | t }}</h2>
+      {% render 'theme/simple/groups/invite_button', group: group, class: 'button', label: 'app.groups.invite' %}
+    </div>
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-5">
+      {% for record in list.results %}
+        {% render 'theme/simple/profile/user_card', user: record.l, current_profile: current_profile %}
+      {% else %}
+        <p class="text-lg">{{ 'app.groups.no_members_found' | t }}</p>
+      {% endfor %}
+    </div>
   </section>
+
 </div>

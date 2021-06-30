@@ -1,5 +1,6 @@
 name: process
 properties:
   - name: payload
+  - name: name
   - name: command
   - name: profile_id

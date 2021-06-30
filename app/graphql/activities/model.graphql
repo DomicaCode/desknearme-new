@@ -1,9 +1,9 @@
-query search($id: ID, $limit: Int = 1) {
+query search($id: ID, $limit: Int = 1 $ids: [ID!]) {
   records(
     per_page: $limit
     sort: [ { created_at: { order: DESC } } ]
     filter: {
-      id: { value: $id }
+      id: { value: $id value_in: $ids }
       deleted_at: { exists: false }
     })
   {
@@ -17,6 +17,9 @@ query search($id: ID, $limit: Int = 1) {
       uuid: property(name: "uuid")
       parent_id: property(name: "parent_id")
       group_id: property(name: "group_id")
+      order_id: property(name: "order_id")
+      order_ids: property_array(name: "order_ids")
+      item_id: property(name: "item_id")
       slug: property(name: "slug")
       description: property(name: "description")
       body: property(name: "body")
@@ -25,6 +28,21 @@ query search($id: ID, $limit: Int = 1) {
       photo: related_record(table: "photo", join_on_property: "uuid", foreign_property: "object_uuid") {
         url: property_upload(name: "photo") {
           versions
+        }
+      }
+
+      memberships: related_records(
+        table: "relationship"
+        join_on_property: "id"
+        foreign_property: "l_id"
+        filter: { properties: { name: "name", value: "organization_membership" } }
+      ) {
+        r_id: property(name: "r_id")
+        organization: related_record(table: "organization", join_on_property: "r_id") {
+          id
+          type: table
+          name: property(name: "name")
+          slug: property(name: "slug")
         }
       }
     }

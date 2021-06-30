@@ -1,4 +1,4 @@
-mutation update($id: ID! $user_id: String $first_name: String $last_name: String){
+mutation profile_anonymous_update($id: ID! $user_id: String $first_name: String $last_name: String){
   record_update(
     id: $id
     record: {

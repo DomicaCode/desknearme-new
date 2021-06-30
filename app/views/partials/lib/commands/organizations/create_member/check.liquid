@@ -14,7 +14,8 @@
     graphql emails_count = 'users/emails_count', email: object.email | dig: 'users', 'total_entries'
     function user = 'lib/queries/users/find', email: object.email
     if user
-      function rels = 'lib/queries/relationships/search_by_left', l_id: user.profile.id, name: 'membership', model: ['profile','organization'], include_related: true
+      assign models = '["profile","organization"]' | parse_json
+      function rels = 'lib/queries/relationships/search_by_left', l_id: user.profile.id, name: 'organization_membership', model: models, include_related: true
       if rels.total_entries > 0
         include 'lib/register_error', contract: c, field_name: 'email', key: 'app.organizations.errors.user_already_in_organization'
       else

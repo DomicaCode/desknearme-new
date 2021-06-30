@@ -22,7 +22,7 @@
           {% render 'theme/simple/dashboard/orders/review/shipping_method', orders: orders.results, object: object, profile: profile %}
         </div>
         {% render 'theme/simple/dashboard/orders/section_header', number: 3, title: 'app.orders.checkout.payment_title', subtitle: 'app.orders.checkout.payment_subtitle'  %}
-        {% render 'theme/simple/dashboard/orders/review/payment_method', orders: orders.results, object: object %}
+        {% render 'theme/simple/dashboard/orders/review/payment_method', orders: orders.results, object: object, context: context %}
 
         <div class="mt-6 gap-5 flex justify-between">
           <a href="/dashboard/buy/cart" class="button button-secondary">

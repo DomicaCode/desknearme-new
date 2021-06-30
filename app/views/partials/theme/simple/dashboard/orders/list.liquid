@@ -24,6 +24,16 @@
               <input
                 x-model="listFiltered.status"
                 type="checkbox"
+                value="app.statuses.orders.in_progress"
+                class="me-1"
+                id="orders-list-filter-status-in-progress"
+              >
+              <label for="orders-list-filter-status-in-progress">{{ 'app.statuses.orders_for_role.seller.in_progress' | t }}</label>
+            </li>
+            <li class="flex items-center capitalize">
+              <input
+                x-model="listFiltered.status"
+                type="checkbox"
                 value="app.statuses.orders.delivered"
                 class="me-1"
                 id="orders-list-filter-status-delivered"
@@ -49,6 +59,16 @@
                 id="orders-list-filter-status-returned"
               >
               <label for="orders-list-filter-status-returned">{{ 'app.statuses.orders_for_role.seller.returned' | t }}</label>
+            </li>
+            <li class="flex items-center capitalize">
+              <input
+                x-model="listFiltered.status"
+                type="checkbox"
+                value="app.statuses.orders.completed"
+                class="me-1"
+                id="orders-list-filter-status-completed"
+              >
+              <label for="orders-list-filter-status-completed">{{ 'app.statuses.orders_for_role.seller.completed' | t }}</label>
             </li>
           </ul>
           <button x-on:click="$dispatch('orders-filters-changed'); open = false;" class="button mt-4">

@@ -20,7 +20,6 @@ method: put
 
     include 'redirect_to', url: '/dashboard'
   else
-  log object, type: 'showme'
     graphql presigned_url = 'photos/presign' | dig: 'presigned'
     render 'theme/simple/dashboard/profile/edit', object: object, context: context, presigned_url: presigned_url
   endif

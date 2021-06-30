@@ -1,13 +1,19 @@
-{% liquid
-  if user != blank and user.id == current_profile.id
-    include 'theme/simple/profile/activity_new', user: user
-  endif
-%}
+<section class="grid grid-cols-1 gap-6"
+  x-frames-target="feed"
+>
+  {% if list.total_entries > 0 %}
+    {% liquid
+      for activity in list.results
+        render 'theme/simple/activities/feed_unit', payload: activity.payload, current_profile: current_profile, namespace: namespace, role: role, context: context
+      endfor
 
-<section class="grid grid-cols-1 gap-6 my-6">
-  {% for record in list.results %}
-    {% render 'theme/simple/activities/feed_unit', payload: record.payload, current_profile: current_profile %}
+      if list.has_next_page
+        render 'theme/simple/load_more', page: page, url: '/my/feed.frame'
+      elsif list.total_entries < 7
+        render 'theme/simple/profile/sections/welcome_message', current_profile: current_profile
+      endif
+    %}
   {% else %}
     <p class="text-lg">{{ 'app.no_activities_found' | t }}</p>
-  {% endfor %}
+  {% endif %}
 </section>

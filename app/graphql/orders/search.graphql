@@ -3,6 +3,7 @@ query search(
   $ids: [ID!]
   $limit: Int = 20
   $page: Int = 1
+  $sort: RecordsSortInput = { created_at: { order: DESC } }
   $buyer: String
   $seller: String
   $status: [String!]
@@ -11,6 +12,7 @@ query search(
   $from: String
   $to: String
   $organizations: [String!]
+  $with_reviews: Boolean = false
 ) {
   orders: records(
     page: $page
@@ -26,7 +28,7 @@ query search(
       ]
       created_at: { lte: $to, gte: $from }
     }
-    sort: [{ created_at: { order: DESC } }]
+    sort: [$sort]
   ) {
     total_entries
     total_pages
@@ -45,6 +47,7 @@ query search(
       shipping_pickup_point: property(name: "shipping_pickup_point")
       payment_type: property(name: "payment_type")
 
+      delivery_fee: property_int(name: "delivery_fee")
       currency: property(name: "currency")
 
       c__status: property(name: "c__status")
@@ -81,11 +84,6 @@ query search(
         ...profile
         contact_emails: property(name: "contact_emails")
         offline_stores: property_array(name: "offline_stores")
-        logo: property_upload(name: "logo") {
-          url
-          file_name
-          extension
-        }
         shipping_types: property_array(name: "shipping_types")
         delivery_fee: property_int(name: "delivery_fee")
       }
@@ -241,12 +239,22 @@ query search(
         name: property(name: "name")
         timestamp: property(name: "timestamp")
       }
+
+      reviews: related_records(
+        join_on_property: "id"
+        foreign_property: "order_id"
+        table: ["item_review"]
+        filter: { properties: { name: "score", exists: false } }
+      )  @include(if: $with_reviews) {
+        id
+      }
     }
   }
 }
 
 fragment profile on Record {
   id
+  type: table
   name: property(name: "name")
   first_name: property(name: "first_name")
   last_name: property(name: "last_name")

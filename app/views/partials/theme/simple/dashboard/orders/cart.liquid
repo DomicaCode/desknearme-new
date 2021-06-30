@@ -49,6 +49,25 @@
       {% render 'theme/simple/ui/spinner', size: 10 %}
     </div>
     <ul class="text-lg font-bold lg:text-xl">
+      {% if orders.total_shipping_cost_cents > 0 %}
+        <li class="flex justify-between pb-3 border-b gap-4">
+          <div>
+            {{ 'app.orders.show.subtotal' | t }}
+          </div>
+          <div>
+            {% render 'theme/simple/price', amount_cents: orders.products_price_cents, currency: orders.currency %}
+          </div>
+        </li>
+        <li class="flex justify-between py-3 border-b gap-4">
+          <div>
+            {{ 'app.orders.show.delivery' | t }}
+          </div>
+          <div>
+            {% render 'theme/simple/price', amount_cents: orders.total_shipping_cost_cents currency: orders.currency %}
+          </div>
+        </li>
+      {% endif %}
+
       <li class="flex justify-between gap-4 py-3 text-xl border-b lg:text-2xl">
         <div>
           {{ 'app.orders.show.total' | t }}

@@ -10,7 +10,7 @@
   endif
 %}
 
-<div class="px-0 overflow-hidden bg-panel rounded card">
+<div class="px-0 pt-0 overflow-hidden card">
   <a class="relative block h-64 overflow-hidden shadow-sm" href="{{ url }}">
     {% if model.photo.photo.versions.small.size > 0 %}
       <img alt="{{ object.name | default: object.id | truncate: 120 }}"
@@ -24,6 +24,12 @@
   <div class="md:p-4">
     <header class="text-xs">
       {% print model.type | t: scope: 'app.quick_search.type' %}
+
+    <div class="float-right">
+      {% if current_profile and model.type == 'profile' and current_profile.id != model.id %}
+        {% render 'theme/simple/follow_button', current_profile: current_profile, profile: model %}
+      {% endif %}
+    </div>
     </header>
 
     <div class="mt-4">
@@ -33,5 +39,6 @@
         </h2>
       {% endif %}
     </div>
+
   </div>
 </div>

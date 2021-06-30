@@ -12,16 +12,10 @@ layout: admin
   function organization = 'lib/queries/organizations/find', id: context.params.member.organization_id, with_members: true
   include 'lib/present_or_404', property: organization.id
 
-  function object = 'lib/commands/organizations/create_member', object: context.params.member, skip_execution: true
+  function object = 'lib/commands/processes/wrap', command: 'organizations/create_member', object: context.params.member, current_profile: current_profile, require_acceptance: true
   if object.valid
-    function object = 'lib/commands/processes/create', payload: context.params.member, command: 'organizations/create_member', profile: current_profile
-    if object.valid
-      assign url = '/admin/organizations/' | append: organization.id
-      include 'redirect_to', url: url, notice: 'app.admin.organizations.members.new.created'
-    else
-      log object, type: 'ERROR: organizations/member/create processes/create'
-    endif
-
+    function url = 'link_to' object: organization, namespace: 'admin'
+    include 'redirect_to', url: url, notice: 'app.admin.organizations.members.new.created'
   else
     render 'theme/simple/admin/organizations/members/new', organization: organization, object: object, context: context
   endif

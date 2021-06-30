@@ -7,7 +7,7 @@ layout: null
   include 'lib/profile_organization_present_or_redirect', profile: current_profile
 
   assign page = context.params.page | to_positive_integer: 1
-  assign allowed_statuses = 'app.statuses.orders.paid,app.statuses.orders.delivered,app.statuses.orders.cancelled_seller,app.statuses.orders.cancelled_buyer,app.statuses.orders.returned' | split: ','
+  assign allowed_statuses = 'app.statuses.orders.paid,app.statuses.orders.in_progress,app.statuses.orders.delivered,app.statuses.orders.cancelled_seller,app.statuses.orders.returned,app.statuses.orders.completed' | split: ','
   assign statuses = context.params.status | split: ','
 
   assign allowed = true
@@ -18,7 +18,7 @@ layout: null
   endfor
 
   if allowed or statuses.size == 0
-    function orders = 'lib/queries/orders/search_by_seller', limit: 50, page: page, seller: current_profile.id, lang: context.language, status: statuses
+    function orders = 'lib/queries/orders/search_by_seller', limit: 50, page: page, seller: current_profile.id, lang: context.language, status: statuses, sort: "updated_at_desc"
 
     render 'theme/simple/dashboard/orders/list/table', orders: orders, role: 'seller', page: page, statuses: statuses
   else

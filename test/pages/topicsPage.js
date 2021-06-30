@@ -4,7 +4,7 @@ export default class TopicsPage {
   constructor() {
     this.buttons = {
       addQuestion: Selector('a').withText('Add Question'),
-      postQuestion: Selector('button').withText('Add Question'),
+      postQuestion: Selector('button').withText('Add'),
       postAnswer: Selector('button').withText("Post answer"),
       editQuestion: Selector('a').withAttribute("title", "Edit"),
       deleteQuestion: Selector('button').withAttribute("title", 'Delete'),
@@ -16,7 +16,9 @@ export default class TopicsPage {
       questionBody: Selector('label[for="body"]'),
       //questionBody: Selector('div').find('textarea'),
       answerBody: Selector('label[for="body"]'),
-      questionTags: Selector('tags')
+      questionTags: Selector('tags'),
+      contentTypeQuestion: Selector('label').withText('Question'),
+      contentTypePost: Selector('label').withText('Post')
     }
     this.vote = {
       pointUpQuestion: Selector('button[data-tc="voteup"]'),

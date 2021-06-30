@@ -11,6 +11,6 @@
 
     redirect_to '/passwords/new'
   else
-    include 'redirect_to', url: '/sessions/new', error: 'app.errors.users.token_invalid'
+    include 'redirect_to', url: '/sessions/new', error: 'app.account.reset_password.expired_link'
   endif
 %}

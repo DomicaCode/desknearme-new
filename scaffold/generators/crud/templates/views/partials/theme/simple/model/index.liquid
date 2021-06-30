@@ -1,7 +1,7 @@
 <div class="w-full mx-auto">
   <div class="mb-5 text-right">
     <a href="/<%= modelNamePlural %>/new" class="button">
-      {{ 'app.models.<%= modelNamePlural %>.add' | t }}
+      {{ 'app.<%= modelNamePlural %>.list.add' | t }}
     </a>
   </div>
   <div class="my-6 bg-panel rounded shadow-md">
@@ -11,7 +11,7 @@
           <tr>
 <% attributes.forEach((attr) => { -%>
             <th class="px-6 py-4 text-sm font-bold uppercase border-b bg-grey-lightest text-grey-dark border-grey-light">
-              {{ "app.models.<%= modelNamePlural %>.form.<%= attr.name %>" | t }}
+              {{ "app.<%= modelNamePlural %>.attr.<%= attr.name %>" | t }}
             </th>
 <% }); -%>
           </tr>
@@ -28,10 +28,10 @@
 <% }); -%>
               <td class="px-6 py-4 border-b border-grey-light">
                 <a href="/<%= modelNamePlural %>/edit?id={{ <%= modelName %>.id }}" class="button">
-                  {{ 'app.models.<%= modelNamePlural %>.edit' | t }}
+                  {{ 'app.<%= modelNamePlural %>.list.edit' | t }}
                 </a>
                 <form action="/<%= modelNamePlural %>" method="post" class="inline ms-2" onSubmit="if(!confirm('{{ 'app.confirm-delete' | t }}')){ return false; }" >
-                  {% include 'authenticity_token' %}
+                  {% render 'authenticity_token', context: context %}
                   <input type="hidden" name="_method" value="delete" />
                   <input type="hidden" name="id" value="{{ <%= modelName %>.id }}">
 
@@ -43,7 +43,7 @@
         </tbody>
       </table>
     {% else %}
-      {% include 'theme/simple/<%= modelNamePlural %>/empty_state' %}
+      {% render 'theme/simple/<%= modelNamePlural %>/empty_state', context: context %}
     {% endif %}
   </div>
 </div>

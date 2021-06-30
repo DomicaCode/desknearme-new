@@ -17,10 +17,17 @@ en:
           properties: Properties
           name: Merchant name
           apply: Apply
+          add: Add Organization
         show:
           invited_at: Invited At
           accepted_at: Accepted At
           not_accepted_yet: Not accepted yet
+        new:
+          new_organization: New Organization
+          save: Create
+          offline_stores: Offline Stores(separate with semicolon)
+          created: Made request to create new organization. Now it must be accepted.
+          promote: Promote organization
         members:
           new:
             invite_member_for: Invite member for
@@ -53,6 +60,10 @@ en:
           rejected: Request was rejected
           failed: Can't update request
       users:
+        name: Customer
+        unlocking:
+          locked: "Account locked: %{date}"
+          unlock: Unlock
         list:
           permissions: Permissions
         permissions:
@@ -68,20 +79,49 @@ en:
         disable: Disable
         save: Save
         saved: Saved
-      auth:
-        title: Authentication
-        required_2fa: Two Factor Authentication on login for merchants and admins
-        enabled: Required
-        disabled: Not required
-        checker_users: Users that can accept processes
-      hcaptcha:
-        title: Require hCaptcha
-      password_policy:
-        title: Require complex password (lowercase, uppercase, number)
-      inventory_acceptance:
-        title: Require acceptance for item inventory changes
-
-
+        sections:
+          marketplace: Marketplace
+          login_and_auth: Login and authentication
+          community: Community
+        currency:
+          title: Site’s default currency
+        cancel_unpaid_after:
+          title: Cancel unpaid order after (in hours)
+        buyers_can_purchase:
+          title: Allow only Buyers to purchase items
+        inventory_acceptance:
+          title: Require acceptance for item inventory changes
+        stripe:
+          title: Stripe
+          setup: Setup Stripe
+          register: >-
+            Please visit <a href="https://stripe.com" target="_blank" rel="external noopener">https://stripe.com</a> and register your <span class="font-semibold">Stripe Connect</span> account.
+          copy_and_add: Copy and add this redirect URL in your <a href="https://dashboard.stripe.com/settings/applications" target="_blank" rel="external noopener">stripe settings</a>
+          public_key: Enter your Stripe public key, secret key, and connect account client ID in the form below
+        2fa:
+          title: Two Factor Authentication
+          desc: on login for merchants and admin
+          enabled: Required
+          disabled: Not required
+          checker_users: Users that can accept processes
+        hcaptcha:
+          title: Require hCaptcha
+        password_policy:
+          title: Require complex password
+          desc: Complex passwords require lowercase and uppercase letters and number
+        login_attempts:
+          title: Restrict the number of login attempts
+          desc: Lock account after X failed attempts. To disable the funcionality set this to 0.
+        unlock_after:
+          title: Unlock locked accounts after (in minutes)
+        after_login_redirect:
+          title: After logging in redirect the user to
+          homepage: Homepage
+          feed: User’s feed
+        slack:
+          title: Slack notifications
+        chat:
+          title: Chat
   admin:
     check_all: Check all
     uncheck_all: Uncheck all
@@ -90,6 +130,7 @@ en:
       sales: Sales
       stock: Stock
       users: Users
+      orders: Orders
       organizations: Merchants
       close_admin: Back to homepage
       activities: Activities
@@ -106,6 +147,8 @@ en:
       title: Items
     users:
       title: Registered users
+      profile:
+        orders: User's order list
     conversations:
       title: Threads
       filter: Filter
@@ -118,30 +161,9 @@ en:
     activities:
       filters:
         header: Feed
+
   admin_old:
-    saved: Saved
-    stripe:
-      setup_stripe: Setup Stripe
-      header: Stripe
-      register: >-
-        Please visit <a href="https://stripe.com" target="_blank" rel="extrnal
-        noopener">https://stripe.com</a> and register your <span
-        class="font-semibold">Stripe Connect</span> account.
-      copy_and_add: Copy and add this redirect URL in your
-      public_key: 'Enter your Stripe public key, secret key, and connect account client ID'
-      settings: 'stripe settings: '
-      save: Save
     menu:
-      items: Items
-      users:
-        slug: 'slug: '
-        id: 'id: '
-        uuid: 'uuid: '
-        missing_profile: missing profile
-      posts:
-        author: Author
-        name: Posts
-        empty_state: There are no results.
       activities:
         name: Activities
         following: 'following:'
@@ -158,44 +180,3 @@ en:
           questions: questions
           answers: answers
           item_inventory_updates: Item inventory updates
-      setup: Setup
-      categories: Categories
-      orders: Orders
-      users_title: Users
-      home: Home
-      support-tickets: Support tickets
-    slack:
-      setup:
-        title: Slack Notifications
-        webhook: 'Currently your slack-webhook is set as:'
-        none: none
-    order:
-      title: Orders settings
-      cancel_unpaid_after_x_hours: Cancel unpaid order after x hours
-    auth:
-      title: Authentication
-      required_2fa: Two Factor Authentication on login for merchants and admins
-      enabled: Required
-      disabled: Not required
-      checker_users: Users that can accept processes
-    metric:
-      period:
-        montly: Montly
-        daily: Daily
-        total: Total
-      income:
-        name: Income
-        description: Marketplace Owner fee is set to 10%
-        delta: Since yesterday
-      users:
-        name: Users
-        description: User account registration counter
-        delta: Since yesterday
-      orders:
-        name: Orders
-        description: New order counter
-        delta: Since yesterday
-      items:
-        name: Items
-        description: Listings counter
-        delta: Since yesterday

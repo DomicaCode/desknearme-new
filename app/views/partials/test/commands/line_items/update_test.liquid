@@ -1,6 +1,6 @@
 {% parse_json buyer %} {"id": "5"} {% endparse_json %}
 {% liquid
-  function item = 'test/fixtures/item', quantity: 3, max_in_one_order: 3
+  function item = 'test/fixtures/item', quantity: 3, max_in_one_order: 3, contract: contract
   function order = 'test/fixtures/order', current_profile: buyer, item: item
 %}
 {% comment %} test {% endcomment %}

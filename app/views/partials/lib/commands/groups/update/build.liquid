@@ -1,10 +1,11 @@
-{% parse_json object %}
+{% parse_json data %}
   {
     "id":          {{ object.id | json }},
     "name":        {{ object.name | json }},
     "summary":     {{ object.summary | json }},
     "content_type":     {{ object.content_type | json }},
     "description": {{ object.description | default: "" | json }},
+    "code_of_conduct": {{ object.code_of_conduct | json }},
     "group_type": {{ object.group_type | json }},
     "ask_to_join": {{ object.ask_to_join | json }},
     "meta_visible": {{ object.meta_visible | json }},
@@ -16,5 +17,8 @@
 {% endparse_json %}
 
 {% liquid
-  return object
+  function slugged_tags = 'lib/slugify_tags', tags: object.tags
+  hash_assign data['tags'] = slugged_tags
+
+  return data
 %}

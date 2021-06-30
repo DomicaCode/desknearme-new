@@ -27,10 +27,10 @@
     function can_be_admin = "lib/can", actor: actor, do: "be_admin", object: actor
     if profile.organizations.size > 0 or can_be_admin.valid
       if required_2fa
-        assign required = true
+        return true
       endif
     endif
-    if required or profile.otp_configured
+    if required_2fa and profile.otp_configured
       return true
     endif
   endcase

@@ -11,5 +11,7 @@
   hash_assign object['line_item_id'] = line_item.id
   hash_assign object['quantity'] = line_item.quantity
 
-  include 'theme/simple/dashboard/line_item_returns/new', object: object, line_item: line_item, order: order.results.first, profile: current_profile
+  function chat_enabled = 'lib/queries/constants/find' name: "USE_WEBSOCKET_CHAT", type: "boolean", context: context
+
+  include 'theme/simple/dashboard/line_item_returns/new', object: object, line_item: line_item, order: order.results.first, profile: current_profile, chat_enabled: chat_enabled
 %}

@@ -17,6 +17,9 @@
 
   if object.shipping_type == 'personal_pickup'
     function c = 'lib/validations/presence', c: c, object: object, field_name: 'shipping_pickup_point'
+    if offline_stores
+      function c = 'lib/validations/included', c: c, object: object, field_name: 'shipping_pickup_point', array: offline_stores
+    endif
   endif
 
 

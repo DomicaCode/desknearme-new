@@ -1,13 +1,18 @@
-<div class="container">
-<section class="text-gray-900 body-font">
-  <div class="mb-5 text-right">
-    <a href="{% render 'link_to', group: group, action: 'content/new' %}" class="button button-icon-right">
-      {{ 'app.groups.content.new' | t }} {{ group.content_type | t: scope: 'app.groups.form.content_types' }}
-      {% render 'theme/simple/ui/icon', icon: 'plus' %}
-    </a>
-  </div>
+{% render 'theme/simple/groups/header', group: group, current_profile: current_profile, context: context %}
 
-  <div class="grid grid-cols-1 gapy-6 my-6 md:py-5">
+<div class="container flex flex-col md:flex-row gap-4">
+  {% render 'theme/simple/groups/nav', tab: tab, group: group %}
+
+  <div class="flex-1">
+    {% if list.total_entries > 0 %}
+      <div class="mb-4 text-right">
+        <a href="{% render 'link_to', group: group, action: 'content/new' %}" class="button button-icon-right">
+          {{ 'app.groups.content.new' | t }} {{ group.content_type | t: scope: 'app.groups.form.content_types' }}
+          {% render 'theme/simple/ui/icon', icon: 'plus' %}
+        </a>
+      </div>
+    {% endif %}
+
     {% for record in list.results %}
       {% liquid
         if context.params.tag
@@ -15,11 +20,11 @@
           render 'theme/simple/ui/title', label: title
         endif
 
-        render 'theme/simple/groups/content/summary', post: record, content_type: group.content_type
+        render 'theme/simple/groups/content/summary', post: record
       %}
     {% else %}
-      <p class="my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
+      {% render 'theme/simple/groups/content/empty_state', group: group %}
     {% endfor %}
   </div>
-</section>
+
 </div>

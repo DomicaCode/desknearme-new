@@ -4,6 +4,8 @@
   titles
   content
   grid extensions
+  appearance reset
+  scrolling margin
 */
 
 
@@ -35,6 +37,15 @@ a:focus-visible {
 ============================================================================ */
 @layer utilities {
   @variants responsive {
+
+    .pagetitle {
+      @apply
+        text-white
+        bg-gradient-to-b to-pageheader-to from-pageheader-from
+        text-3xl text-center font-medium
+        py-5
+        relative -top-10;
+    }
 
     .bigtitle {
       @apply
@@ -94,6 +105,13 @@ main p + p {
       grid-template-rows: masonry;
     }
 
+    .grid-icons {
+      @apply
+        grid
+        gap-10;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr))
+    }
+
   }
 }
 
@@ -111,6 +129,18 @@ main p + p {
   .appearance-reset::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+}
+
+
+
+/* scrolling margin
+============================================================================ */
+@layer utilities {
+
+  .scroll-mt-16 {
+    scroll-margin-top: 4rem;
   }
 
 }

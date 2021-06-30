@@ -12,7 +12,8 @@ export default class SoldOrders {
       new: Selector('label').withText('New'),
       returned: Selector('label').withText('Returned'),
       delivered: Selector('label').withText('Delivered'),
-      cancelledByYou: Selector('label').withText('Cancelled By You')
+      cancelledByYou: Selector('label').withText('Cancelled By You'),
+      inProgress: Selector('label').withText('In Progress')
     }
     this.buttons = {
       filters: Selector('button').withText('Filters'),
@@ -20,19 +21,19 @@ export default class SoldOrders {
     }
     this.delivery = {
       information: Selector('input[name="order_delivery[delivery_information]"]'),
-      markAsDelivered: Selector('#order_delivered'),
-      saveDeliveryInfo: Selector('button').withText('Save'),
+      saveDeliveryInfo: Selector('button').withText('Mark as delivered'),
       statuses: {
         delivered: Selector('span').withText('READY FOR PICKUP'),
         new: Selector('span').withText('new'),
         inProgress: Selector('span').withText('NEW'),
         returnRequested: Selector('div').withText('Requested')
-      }
+      },
+      markAsCompleted: Selector('button').withText('Mark as completed')
     }
     this.returns = {
       buttons: {
         returnDetails: Selector('a').withText('Return details'),
-        accept: Selector('button').withText('Accept'),
+        accept: Selector('button').withText('Approve'),
         markAsReturned: Selector('button').withText('Mark as returned and refund payment'),
       }
     }

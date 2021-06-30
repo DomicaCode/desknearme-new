@@ -1,9 +1,14 @@
+{% render 'theme/simple/groups/header', group: group, current_profile: current_profile, context: context %}
 
-  {% liquid
-    case tab
-    when 'invitations'
-      render 'theme/simple/groups/invitations', group: group, list: list, current_profile: current_profile
-    endcase
-  %}
+<div class="container flex flex-col md:flex-row gap-4">
+  {% render 'theme/simple/groups/nav', tab: tab, group: group, context: context %}
+
+  <div class="flex-1">
+    {% function can = "lib/can", actor: current_profile, do: "post", object: group %}
+    {% if can.valid %}
+      {% render 'theme/simple/activities/feed_new_entry', current_profile: current_profile, placeholder: 'app.models.comments.placeholder', group: group, context: context %}
+    {% endif %}
+
+    {% render 'theme/simple/groups/activity', group: group, current_profile: current_profile, list: list, page: 1, context: context %}
+  </div>
 </div>
-

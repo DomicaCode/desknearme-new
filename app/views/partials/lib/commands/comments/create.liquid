@@ -3,7 +3,7 @@
   function object = 'lib/commands/comments/create/check', object: object
 
   if object.valid
-    function object = 'lib/commands/execute', mutation_name: 'comments/create' object: object
+    function object = 'lib/commands/execute', mutation_name: 'comments/create' object: object, selection: 'record_create'
   endif
 
   return object

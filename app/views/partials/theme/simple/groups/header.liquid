@@ -1,12 +1,67 @@
-<div class="container">
-  <div class="p-16 bg-content">
+{% liquid
+  assign group_id = group.id | append: ''
+  assign ids = current_profile.joined_group_ids | map: 'id'
+  assign member = false
+
+  if ids contains group_id
+    assign member = true
+  endif
+%}
+
+<div class="container mb-8">
+  <div class="p-16 relative bg-content bg-cover" {% if group.main_photo.photo.versions.uncropped %} style="background-image: url('{{ group.main_photo.photo.versions.uncropped }}')" {% endif %}>
     <h2 class="text-center bigtitle text-content-inverted">
       {{ group.name }}
     </h2>
-    <h3 class="text-center subtitle text-content-inverted">
+    <h3 class="text-center subtitle text-content-inverted break-words">
       {{ group.summary }}
     </h3>
+    <div class="text-center uppercase">
+      {% render 'theme/simple/ui/tags', tags: group.tags %}
+    </div>
+
+    {% capture 'dropdown' %}
+      <ul class="whitespace-nowrap">
+        {% function can_edit = "lib/can", actor: current_profile, do: "edit", object: group %}
+        {% if group.group_type == 'public' or group.owner.properties.name == 'owner' %}
+          <li>
+            {% render 'theme/simple/groups/invite_button', group: group, current_profile: current_profile, label: 'app.groups.invite_new_member', class: 'block py-3 px-7 md:rounded-t-md hover:bg-interaction text-content hover:text-content-inverted transition-colors' %}
+          </li>
+        {% endif %}
+        {% if can_edit.valid %}
+          <li>
+            <a href="/groups/{{ group.id }}/edit" class="block py-3 px-7 hover:bg-interaction text-content hover:text-content-inverted transition-colors text-start">Manage group</a>
+          </li>
+        {% endif %}
+        {% if member %}
+          <li class="border-t">
+            {% render 'theme/simple/groups/leave_button', group: group, current_profile: current_profile, member: member, context: context, button_class: 'w-full block py-3 px-7 md:rounded-b-md hover:bg-interaction hover:text-content-inverted transition-colors text-start' %}
+          </li>
+        {% endif %}
+      </ul>
+    {% endcapture %}
+
+    {% capture dropdown_label %}
+      {% render 'theme/simple/ui/icon', icon: 'menuHorizontal' %}
+    {% endcapture %}
+
+    <div class="absolute right-5 botton-5">
+      {% render 'theme/simple/ui/dropdown',
+        toggle_class: 'button button-secondary button-compact'
+        toggle_title: 'Toggle dropdown',
+        label: dropdown_label,
+        content: dropdown
+      %}
+    </div>
+
   </div>
 
-  {% render 'theme/simple/groups/nav', group: group, tab: tab, current_profile: current_profile %}
+  {% if member != true %}
+    <div class="mt-4 flex items-center">
+      {% render 'theme/simple/groups/join_button', group: group, current_profile: current_profile, member: member, context: context %}
+    </div>
+
+    <hr class="mt-4 border-t">
+  {% endif %}
+
 </div>

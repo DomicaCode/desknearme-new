@@ -1,18 +1,21 @@
-<div class="mb-4 md:mb-0">
-  {% liquid
-    render 'theme/simple/profile/nav', tab: section, user: current_profile, path: 'dashboard'
-
-    if section == 'activity'
-      include 'theme/simple/comments/new_entry', commentable: current_profile, commentable_type: 'profile', placeholder: "What's new?", presigned_url: presigned_url
-      render 'theme/simple/profile/sections/activity', list: list, current_profile: current_profile
-    elsif section == 'groups'
-      render 'theme/simple/profile/sections/groups', list: list, current_profile: current_profile
-    elsif section == 'following'
-      render 'theme/simple/profile/sections/following', list: list, current_profile: current_profile
-    elsif section == 'followers'
-      render 'theme/simple/profile/sections/followers', list: list, current_profile: current_profile
-    elsif section == 'products'
-      render 'theme/simple/profile/sections/products', list: list, current_profile: current_profile
-    endif
-  %}
-</div>
+<div class="container flex flex-col md:flex-row gap-4">
+  {% render 'theme/simple/profile/nav', tab: section, current_profiler: current_profile, path: 'my/', context: context %}
+  <section class="flex-1">
+    <div class="mb-4 md:mb-0">
+      {% liquid
+        if section == 'feed'
+          render 'theme/simple/activities/feed_new_entry', current_profile: current_profile, placeholder: 'app.models.comments.placeholder', group: current_profile, context: context
+          render 'theme/simple/profile/sections/activity', list: list, current_profile: current_profile, context: context, role: role, page: 1
+        elsif section == 'groups'
+          render 'theme/simple/profile/sections/groups', list: list, current_profile: current_profile, context: context
+        elsif section == 'following'
+          render 'theme/simple/profile/sections/following', list: list, suggested: suggested, current_profile: current_profile, show: show
+        elsif section == 'followers'
+          render 'theme/simple/profile/sections/followers', list: list, current_profile: current_profile
+        elsif section == 'products'
+          render 'theme/simple/profile/sections/products', list: list, current_profile: current_profile
+        endif
+      %}
+    </div>
+  </div>
+</section>

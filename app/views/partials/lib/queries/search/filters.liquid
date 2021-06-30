@@ -7,7 +7,7 @@
   function categories = 'lib/queries/categories/search', limit: 100
   hash_assign search_form['categories'] = categories | dig: 'results' | map: 'key'
 
-  function organizations = 'lib/queries/organizations/search_for_filters', limit: 30
+  function organizations = 'lib/queries/organizations/search_for_filters', limit: 100
   hash_assign search_form['organizations'] = organizations.results
 
   hash_assign search_form['query'] = query
@@ -19,6 +19,9 @@
   if query.price_max
     hash_assign search_form['price_max'] = query.price_max | fractional_to_amount: context.constants.CURRENCY
   endif
+
+  function available_languages = 'lib/queries/constants/find', name: "AVAILABLE_LANGUAGES", type: "array"
+  hash_assign search_form['available_languages'] = available_languages
 
   return search_form
 %}

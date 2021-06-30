@@ -7,13 +7,10 @@
   endif
   assign uuid = '' | uuid
   assign item_uuid = item.uuid | default: uuid
-  function available_languages = 'lib/queries/constants/find', name: "AVAILABLE_LANGUAGES", type: "array"
-  assign photos = photos | default: item.photos
 %}
 
-
-<form action="/dashboard/items/{{ path }}" method="post" class="card" x-data="{ 'activeTab': 0 }">
-  {% include 'authenticity_token' %}
+<form action="/dashboard/items/{{ path }}" method="post" class="card" x-data="{ 'activeTab': 0 }" data-photo-upload-items>
+  {% render 'authenticity_token', context: context %}
 
   {% if item.item_inventory_id %}
     <input type="hidden" name="item[item_inventory_id]" value="{{ item.item_inventory_id }}" />
@@ -22,7 +19,7 @@
   <input type="hidden" name="item[currency]" value="{{ currency }}" />
 
   <ul class="-mx-4 mb-8 flex border-b-2 justify-center">
-    {% for lang in available_languages %}
+    {% for lang in lib.available_languages %}
       <li
         class="max-w-sm mb-[-2px] pt-2 pb-4 px-4 flex-grow border-b-2 cursor-pointer text-center uppercase transition-colors"
         :class="activeTab=={{ forloop.index0 }} ? 'text-interaction border-interaction font-semibold' : 'text-content-sidenote hover:text-content hover:border-interaction-disabled'"
@@ -39,24 +36,23 @@
   </ul>
 
   <div class="flex flex-wrap gap-6 lg:gap-12">
-
     <div class="w-full md:w-auto flex-grow">
 
-      {% for lang in available_languages %}
+      {% for lang in lib.available_languages %}
         {% assign detail = item.details[lang] %}
         <input type="hidden" name="item[details][{{lang}}][lang]" value="{{lang}}">
         <div x-show="activeTab=={{forloop.index0}}">
           <fieldset>
             <label class="block" for="name_{{lang}}">{{ 'app.items.form.name' | t }}:</label>
             <input class="w-full" type="text" id="name_{{lang}}" name="item[details][{{lang}}][name]" value="{{ detail.name }}" autofocus>
-            {% include 'theme/simple/field_error', errors: detail.errors.name %}
+            {% render 'theme/simple/field_error', errors: detail.errors.name %}
           </fieldset>
 
           <fieldset class="mt-6">
             <label class="block" for="description_{{lang}}">{{ 'app.items.form.description' | t }}:</label>
             <textarea class="w-full min-h-[319px]" type="text" id="description_{{lang}}" name="item[details][{{lang}}][description]" rows="12">{{ detail.description }}</textarea>
 
-            {% include 'theme/simple/field_error', errors: detail.errors.description %}
+            {% render 'theme/simple/field_error', errors: detail.errors.description %}
           </fieldset>
         </div>
       {% endfor %}
@@ -77,7 +73,7 @@
           {% endfor %}
         </select>
 
-        {% include 'theme/simple/field_error', errors: item.errors.category %}
+        {% render 'theme/simple/field_error', errors: item.errors.category %}
       </fieldset>
 
       <fieldset class="mt-6">
@@ -87,20 +83,20 @@
           <input class="w-3/4" type="number" id="price" name="item[price]" step="any" min="0" value="{{ item.price | default: 1000 | fractional_to_amount: currency }}">
           {{ currency }}
         </div>
-        {% include 'theme/simple/field_error', errors: item.errors.price %}
+        {% render 'theme/simple/field_error', errors: item.errors.price %}
       </fieldset>
 
       {% unless item.item_inventory_id %}
         <fieldset class="mt-6">
           <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}:</label>
           <input class="w-3/4" type="number" id="quantity" name="item[quantity]" value="{{ item.quantity | default: 1 }}" />
-          {% include 'theme/simple/field_error', errors: item.errors.quantity %}
+          {% render 'theme/simple/field_error', errors: item.errors.quantity %}
         </fieldset>
 
         <fieldset class="mt-6">
           <label class="block" for="max_in_one_order">{{ 'app.items.form.max_quantity' | t }}:</label>
           <input class="w-3/4" type="number" id="quantity" name="item[max_in_one_order]" value="{{ item.max_in_one_order | default: 5 }}" />
-          {% include 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
+          {% render 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
         </fieldset>
       {% endunless %}
 
@@ -110,7 +106,7 @@
           <input class="w-3/4" type="number" id="return_days" name="item[return_days]" value="{{ item.return_days | default: 30 }}">
           {{ 'app.items.form.days' | t }}
         </div>
-        {% include 'theme/simple/field_error', errors: item.errors.return_days %}
+        {% render 'theme/simple/field_error', errors: item.errors.return_days %}
       </fieldset>
 
     </div>
@@ -129,14 +125,14 @@
     <div class="my-6">
       <label class="block" for="sku">{{ 'app.items.form.sku' | t }}</label>
       <input class="w-2/3" type="text" id="sku" name="item[sku]" value="{{ item.sku }}" {% if item.id %}disabled{% endif %}>
-      {% include 'theme/simple/field_error', errors: item.errors.sku %}
+      {% render 'theme/simple/field_error', errors: item.errors.sku %}
     </div>
   {% endcomment %}
 
 
   <fieldset class="mt-6">
     <label class="block">{{ 'app.items.form.photos' | t }}:</label>
-    {% include 'theme/simple/photos/uppy_area' %}
+    {% render 'theme/simple/photos/uppy_area' %}
     {% liquid
       assign photo_ids = photos | map: 'id' | join: ','
     %}
@@ -152,6 +148,13 @@
 
 </form>
 
-{% liquid
-  render 'theme/simple/photos/uppy_form', object_uuid: item_uuid, presigned_url: presigned_url, user_id: user.id, photo_type: 'photo', note: 'Images only, up to 3 files, 2MB each', max_number_of_files: 3, existing_photos: photos
+{% assign photos = photos | default: item.photos %}
+{% render 'theme/simple/photos/uppy_form',
+     object_uuid: item_uuid,
+     presigned_url: presigned_url,
+     user_id: user.id,
+     photo_type: 'photo',
+     note: 'Images only, up to 3 files, 2MB each',
+     max_number_of_files: 3,
+     existing_photos: photos
 %}

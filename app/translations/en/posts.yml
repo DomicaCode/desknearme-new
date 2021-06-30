@@ -15,7 +15,7 @@ en:
         title: Latest Questions
         list: Questions
         new: Ask Question
-        add: Add Question
+        add: Add
         add_heading: New post
         edit: Edit
         edit_heading: Edit my post
@@ -34,7 +34,7 @@ en:
         clear: clear
         errors:
           only_owner_can_accept_answer: Only owner can accept answer
-          owner_cant_vote_his_answer: You can't vote on answer you wrote
+          owner_cant_vote_his_post: You can't vote on post you wrote
         form:
           title_help: Be specific and imagine you’re asking a question to another person
           body_help: >-
@@ -46,3 +46,14 @@ en:
           tags: Tags
           upvotes: Upvotes
           downvotes: Downvotes
+          content_type: Content Type
+    posts:
+      create:
+        failed: Failed to create post
+        success: Posted
+      feed_new_entry:
+        submit: Post
+      like_button:
+        likes: likes
+        vote_up: Like
+        vote_clear: Clear like

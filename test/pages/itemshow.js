@@ -5,6 +5,8 @@ export default class ItemShowPage {
     this.fields = {
       name: Selector('h1').withText(item.name),
       description: Selector('div p').withText(item.description),
+      nameDE: Selector('h1').withText("Beispielartikel"),
+      descriptionDE: Selector('div p').withText("Dies ist eine kurze Beschreibung dieses Artikels"),
       price: Selector('form .subtitle').withText(
         (10000).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 })
       ),

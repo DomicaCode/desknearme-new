@@ -2,7 +2,7 @@
 
 {% comment %}before{% endcomment %}
 {% liquid
-  function item = 'test/fixtures/item', quantity: 3
+  function item = 'test/fixtures/item', quantity: 3, contract: contract
 
   function orders = 'lib/queries/orders/search', buyer: buyer.id, limit: 100
   assign msg = 'deleting orders for seller: ' | append: buyer.id

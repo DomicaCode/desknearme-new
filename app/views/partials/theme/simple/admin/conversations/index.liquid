@@ -31,14 +31,12 @@
           <ul>
             <li>
               <span class="lg:hidden">{{ 'app.conversations.attr.participants' | t }}</span>
-              <script>
-                console.log({{conversation}})
-              </script>
+
               {% for participant in conversation.participants %}
                 {% assign name = participant.name %}
                 {% if name == blank %}{% assign name = participant.first_name | append: ' ' | append: participant.last_name %}{% endif %}
                 {% if participant.slug %}
-                  <a href="{% render 'link_to', profile: participant %}">{{ name }}</a>
+                  <a href="{% render 'link_to', object: participant, namespace: 'admin' %}">{{ name }}</a>
                 {% else %}
                   {{ name }}
                 {% endif %}{% unless forloop.last %}, {% endunless %}

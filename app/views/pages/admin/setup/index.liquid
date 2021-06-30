@@ -11,6 +11,7 @@ layout: admin
   function verify_hcaptcha = 'lib/queries/constants/find' name: "VERIFY_HCAPTCHA", type: "boolean", context: context
   function use_complex_password = 'lib/queries/constants/find' name: "USE_COMPLEX_PASSWORD", type: "boolean", context: context
   function currency = 'lib/queries/constants/find' name: "CURRENCY", context: context
+  function only_buyers_can_purchase = 'lib/queries/constants/find' name: "ONLY_BUYERS_CAN_PURCHASE", context: context
 
-  include 'theme/simple/admin/setup/index', object: config, chat_enabled: chat_enabled, slack_alerts_enabled: slack_alerts_enabled, currency: currency, verify_hcaptcha: verify_hcaptcha, use_complex_password: use_complex_password
+  include 'theme/simple/admin/setup/index', object: config, chat_enabled: chat_enabled, slack_alerts_enabled: slack_alerts_enabled, currency: currency, verify_hcaptcha: verify_hcaptcha, use_complex_password: use_complex_password, only_buyers_can_purchase: only_buyers_can_purchase
 %}

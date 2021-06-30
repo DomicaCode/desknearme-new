@@ -8,12 +8,22 @@
 
 /* main
 ============================================================================ */
-.card {
-  @apply
-    p-4
-    bg-panel
-    rounded
-    shadow;
+@layer utilities {
+
+  .card {
+    @apply
+      p-4
+      bg-panel
+      rounded
+      shadow;
+  }
+
+  .card-lg {
+    @apply
+      card
+      !p-8;
+  }
+
 }
 
 

@@ -140,6 +140,8 @@ query search(
         quantity: property_int(name: "quantity")
         max_in_one_order: property_int(name: "max_in_one_order")
         sku: property(name: "sku")
+        c__rating_count: property_int(name: "c__rating_count")
+        c__rating_score: property_float(name: "c__rating_score")
 
         owner: related_record(
           table: "organization"
@@ -152,13 +154,10 @@ query search(
           first_name: property(name: "first_name")
           last_name: property(name: "last_name")
           slug: property(name: "slug")
-          logo: property_upload(name: "logo") {
-            url
-            file_name
-            extension
-          }
           shipping_types: property_array(name: "shipping_types")
           delivery_fee: property_int(name: "delivery_fee")
+          c__rating_count: property_int(name: "c__rating_count")
+          c__rating_score: property_float(name: "c__rating_score")
 
           avatar: related_record(
             table: "photo"

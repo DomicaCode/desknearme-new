@@ -9,7 +9,7 @@ metadata:
 {% liquid
   function current_profile = 'lib/current_profile', user_id: context.current_user.id, allow_uncompleted: true
   include 'lib/profile_present_or_redirect', profile: current_profile, allow_uncompleted: true
-  assign active_statuses = 'app.statuses.orders.confirmed,app.statuses.orders.paid,app.statuses.orders.cancelled_seller,app.statuses.orders.cancelled_buyer,app.statuses.orders.delivered,app.statuses.orders.returned' | split: ','
+  assign active_statuses = 'app.statuses.orders.confirmed,app.statuses.orders.paid,app.statuses.orders.in_progress,app.statuses.orders.cancelled_seller,app.statuses.orders.cancelled_buyer,app.statuses.orders.delivered,app.statuses.orders.returned,app.statuses.orders.completed' | split: ','
 
   function orders = 'lib/queries/orders/search', page: context.params.page, limit: 20, buyer: current_profile.id, withStatuses: true, lang: context.language, status: active_statuses
 

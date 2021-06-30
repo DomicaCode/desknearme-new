@@ -11,11 +11,12 @@ slug: items/:slug
   include 'lib/present_or_404', property: item.id
 
   function can_display = "lib/can", actor: current_profile, do: "display", object: item
+  function can_purchase = "lib/can", actor: current_profile, do: "purchase", object: item
+
 
   if can_display.valid
     function chat_enabled = 'lib/queries/constants/find' name: "USE_WEBSOCKET_CHAT", type: "boolean", context: context
-    render 'theme/simple/items/show', item: item, current_profile: current_profile, authenticity_token: context.authenticity_token, chat_enabled: chat_enabled
-    render 'theme/simple/wishlists/enable_event', current_profile_id: current_profile.id
+    render 'theme/simple/items/show', item: item, current_profile: current_profile, authenticity_token: context.authenticity_token, chat_enabled: chat_enabled, can_purchase: can_purchase
   else
     render 'theme/simple/items/unpublished', item: item, current_profile: current_profile, authenticity_token: context.authenticity_token, chat_enabled: chat_enabled
   endif

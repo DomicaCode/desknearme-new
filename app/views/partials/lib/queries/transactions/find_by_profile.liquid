@@ -4,7 +4,7 @@
     return null
   endif
 
-  graphql r  = 'transactions/search', id: id, limit: 1
+  graphql r  = 'transactions/search', id: id, limit: 1, profile_id: profile_id
   include 'lib/handle_graphql_response', r: r, name: 'queries/transactions/find_by_profile'
 
   return r.transactions.results.first

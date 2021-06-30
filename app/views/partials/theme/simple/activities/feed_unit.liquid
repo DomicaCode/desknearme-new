@@ -1,27 +1,38 @@
-{% assign type = payload.type %}
+<article class="card flex flex-col relative" id="object-{{payload.object.id}}">
+  {% render 'theme/simple/activities/feed_unit/header', payload: payload, namespace: namespace, role: role %}
 
-<div class="flex flex-col p-6 bg-panel rounded-lg shadow">
-  {% render 'theme/simple/activities/feed_unit/header', payload: payload %}
+  {% liquid
+   assign types = 'profile,group' | split: ','
+   if types contains payload.target.type and payload.object.type == 'comment'
+      assign comment_body_formatted = payload.object.body | markdown: '{ "elements": ["b","strong","i","em","a","code", "pre"], "attributes":{ "a": ["href"] } }'
+      echo comment_body_formatted
+    endif
+  %}
 
-  {% assign types = 'profile,group' | split: ',' %}
+  {% if payload.object.type == 'post' %}
+    {% liquid
+      assign post = payload.object
+      assign comments = payload.object.data.comments
+      assign comment_body_formatted = post.body | markdown: '{ "elements": ["b","br","strong","i","em","a","code","p","pre"], "attributes":{ "a": ["href"] } }'
+      echo comment_body_formatted
 
-  {% if types contains payload.target.type and payload.object.type == 'comment' %}
-    <div class="py-2 leading-snug break-all">
-      {% liquid
-        assign comment_body_formatted = payload.object.body | markdown: '{ "elements": ["b","strong","i","em","a","code", "pre"], "attributes":{ "a": ["href"] } }'
-        echo comment_body_formatted
-      %}
-    </div>
+      case payload.type
+      when 'post_created'
+        render 'theme/simple/activities/feed_unit/photo', photos: payload.object.photos, name: payload.object.name
+      endcase
+    %}
+
+    <footer class="mt-4 flex flex-wrap items-center gap-4 sidenote text-content-sidenote">
+      {% render 'theme/simple/posts/like_button', profile_id: current_profile.id, post: payload.object.data, context: context %}
+      {% if comments.size > 0 %}
+        <span class="flex gap-2">
+          {% render 'theme/simple/ui/icon', icon: 'messageBubblesDouble' %}
+          {{ 'app.feed.comments' | t: count: comments.size }}
+        </span>
+      {% endif %}
+    </footer>
+
+    {% render 'theme/simple/activities/feed_unit/comments', comments: comments, post: post, current_profile: current_profile, context: context %}
   {% endif %}
 
-  <!-- Photo should be inserted only if event = create -->
-  {% if payload.object.photos.size > 0 %}
-    <div class="mt-2">
-      <img class="object-cover rounded-lg w-40" src="{{ payload.object.photos.first.url.versions.small }}" alt="{{ payload.object.name }}">
-    </div>
-  {% elsif payload.target.photos.size > 0 and payload.type != 'comment_created' %}
-    <div class="mt-2">
-      <img class="object-cover rounded-lg w-40 " src="{{ payload.target.photos.first.url.versions.small }}" alt="{{ payload.target.name }}">
-    </div>
-  {% endif %}
-</div>
+</article>

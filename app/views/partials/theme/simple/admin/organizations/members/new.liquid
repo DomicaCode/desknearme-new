@@ -6,10 +6,9 @@
 </header>
 
 <div class="flex flex-wrap items-center mx-auto">
-  <form action="/admin/organizations/{{organization.id}}/members" method="post">
+  <form action="{% render 'link_to', object: organization, namespace: 'admin', action: 'members' %}" method="post">
     {% render 'authenticity_token', context: context %}
     <input name="_method" type="hidden" value="post">
-    <input name="member[organization_id]" type="hidden" value="{{organization.id}}">
     <input name="member[organization_id]" type="hidden" value="{{organization.id}}">
     <input name="member[organization_name]" type="hidden" value="{{organization.name}}">
 

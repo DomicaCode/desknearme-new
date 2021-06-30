@@ -9,5 +9,6 @@ properties:
   - name: shipping_type
   - name: shipping_pickup_point
   - name: shipping_address_id
+  - name: reject_reason
 
   - name: c__status

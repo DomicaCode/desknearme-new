@@ -1,34 +1,50 @@
-<div class="container relative flex-wrap justify-between text-white xs:flex xs:-top-3">
-  <div class="flex flex-col flex-1 p-6 mb-2 bg-no-repeat bg-cover me-2 card" style="background-image: url({{ 'images/card_bg.png' | asset_url }})">
+<section class="container relative text-content-inverted xs:flex">
+  <div class="relative flex flex-col flex-1 px-6 py-8 mb-2 overflow-hidden rounded me-2 bg-accent-dark">
+
+    <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover"
+      style="background-image: url({{ 'images/home/lines_horizontal.svg' | asset_url }})">
+    </div>
+
     <h3 class="bigtitle">
-      <a href="/dashboard/items/new" class="text-white hover:text-white">Sell</a>
+      <a href="/dashboard/items/new" class="text-content-inverted hover:text-content-inverted">Sell</a>
     </h3>
+
     <p>with confidence</p>
 
-    <a href="/dashboard/items/new" class="flex items-center justify-center p-4 ml-auto text-white rounded bg-interaction hover:bg-interaction-hover hover:text-white">
+    <a href="/dashboard/items/new" class="flex items-center justify-center p-4 ml-auto text-content-inverted rounded z-10 bg-interaction hover:bg-interaction-hover hover:text-content-inverted">
       {% render 'theme/simple/ui/icon', icon: 'dashRight', class: 'w-5' %}
     </a>
   </div>
 
-  <div class="flex flex-col flex-1 p-6 mb-2 bg-no-repeat bg-cover me-2 card" style="background-image: url({{ 'images/card_bg2.png' | asset_url }})">
+  <div class="relative flex flex-col flex-1 p-6 mb-2 overflow-hidden rounded bg-accent-dark me-2">
+
+    <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover"
+      style="background-image: url({{ 'images/home/lines_horizontal2.svg' | asset_url }})">
+    </div>
+
     <h3 class="bigtitle">
-      <a href="/search" class="text-white hover:text-white">Buy</a>
+      <a href="/search" class="text-content-inverted hover:text-content-inverted">Buy</a>
     </h3>
     <p>from favorite merchants</p>
 
-    <a href="/search" class="flex items-center justify-center p-4 ml-auto text-white rounded bg-interaction hover:bg-interaction-hover hover:text-white">
+    <a href="/search" class="flex items-center justify-center p-4 ml-auto text-content-inverted rounded z-10 bg-interaction hover:bg-interaction-hover hover:text-content-inverted">
       {% render 'theme/simple/ui/icon', icon: 'dashRight', class: 'w-5' %}
     </a>
   </div>
 
-  <div class="flex flex-col flex-1 p-6 mb-2 bg-no-repeat bg-cover me-2 card" style="background-image: url({{ 'images/card_bg3.png' | asset_url }})">
+  <div class="relative flex flex-col flex-1 p-6 mb-2 overflow-hidden rounded bg-accent-dark me-2">
+
+    <div class="absolute top-0 left-0 w-full h-full bg-no-repeat bg-cover"
+      style="background-image: url({{ 'images/home/lines_horizontal3.svg' | asset_url }})">
+    </div>
+
     <h3 class="bigtitle">
-      <a href="/questions" class="text-white hover:text-white">Questions</a>
+      <a href="/questions" class="text-content-inverted hover:text-content-inverted">Questions</a>
     </h3>
     <p>about the process</p>
 
-    <a href="/questions" class="flex items-center justify-center p-4 ml-auto text-white rounded bg-interaction hover:bg-interaction-hover hover:text-white">
+    <a href="/questions" class="flex items-center justify-center p-4 ml-auto text-content-inverted rounded z-10 bg-interaction hover:bg-interaction-hover hover:text-content-inverted">
       {% render 'theme/simple/ui/icon', icon: 'dashRight', class: 'w-5' %}
     </a>
   </div>
-</div>
+</section>

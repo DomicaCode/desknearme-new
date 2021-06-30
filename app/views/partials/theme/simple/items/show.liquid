@@ -42,7 +42,7 @@
         <picture class="block -me-1">
           <source :srcset="coverImgWebp" srcset="{{ item.photos[0].photo.versions.uncropped_webp }}" type="image/webp">
           <source :srcset="coverImg" srcset="{{ item.photos[0].photo.versions.uncropped }}" type="image/jpeg">
-          <img x-on:load="loading = false" :src="coverImg" src="{{ item.photos[0].photo.versions.uncropped }}" alt="{{ item.item_detail.name }}" class="w-full {% if item.photos.size > 1 %} max-h-[50vh] md:max-h-[60vh] {% endif %} block object-contain">
+          <img x-on:load="loading = false" :src="coverImg" src="{{ item.photos[0].photo.versions.uncropped }}" alt="{{ item.item_detail.name }}" class="w-full max-h-[50vh] md:max-h-[60vh] block object-contain">
         </picture>
       </div>
     {% else %}
@@ -144,9 +144,8 @@
         {% liquid
           assign status = item.item_inventory.status.name
         %}
-        <button
-          class="button"
-          {% if status != 'app.statuses.items.published' or item.id != item.item_inventory.item_id %} disabled {% endif %}
+        <button class="button"
+          {% if status != 'app.statuses.items.published' or item.id != item.item_inventory.item_id or can_purchase.valid != true %} disabled {% endif %}
         >
           {% if item.item_inventory.status.name == 'app.statuses.items.unavailable' %}
             {{ 'app.items.sold-out' | t }}
@@ -156,6 +155,16 @@
         </button>
       </form>
     </div>
+
+    {% if item.item_inventory.c__rating_count > 0 %}
+      <div class="mt-6 pt-4 border-t flex items-center">
+        {{item.item_inventory.c__rating_score }}
+        {% render 'theme/simple/ui/rating_stars', rating: item.item_inventory.c__rating_score, stars_class: "ps-1" %}
+        <span class="ps-3">
+          {{ 'app.items.product_rating_count' | t: count: item.item_inventory.c__rating_count }}
+        </span>
+      </div>
+    {% endif %}
 
     <p class="whitespace-pre-wrap mt-6 pt-4 border-t break-words">{{ item.item_detail.description }}</p>
 
@@ -167,7 +176,12 @@
             {{ 'app.items.by' | t }}
           </span>
           <span>
-            <a href="{% render 'link_to', organization: item.item_inventory.owner %}" class="mb-1 inline-block">{{ item.item_inventory.owner.name }}</a><br>
+            <a href="{% render 'link_to', object: item.item_inventory.owner %}" class="mb-1 inline-block">
+              {{ item.item_inventory.owner.name }}
+              {% if item.item_inventory.owner.c__rating_score %}
+                {{ 'app.items.organization_user_rating' | t: score: item.item_inventory.owner.c__rating_score }}
+              {% endif %}
+            </a><br>
             {% liquid
               if current_profile.id != item.item_inventory.owner.id and chat_enabled
                 render "modules/chat/theme/simple/message_button", to_id: item.item_inventory.owner.id, label_key: 'app.items.contact_seller'

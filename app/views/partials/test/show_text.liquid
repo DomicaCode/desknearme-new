@@ -3,6 +3,7 @@ Liquid tests
 {% liquid
   for contract in contracts
     render 'test/test_report_text', name: contract.test_path, contract: contract
+    assign total = total | plus: contract.total
   endfor
 %}
 ------------------------
@@ -15,7 +16,7 @@ Liquid tests
 %}
 {{result}}_{{test_name | strip }}
 {% if total_errors > 0 %}
-Total errors: {{ total_errors }}
+  Total errors: {{ total_errors }}
 {% endif %}
 
-Finished in: {{ total_duration }}ms
+Assertions: {{ total }}. Failed: {{ total_errors }}. Time: {{ total_duration }}ms

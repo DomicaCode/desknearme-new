@@ -10,6 +10,8 @@
 
     function c = 'lib/validations/truthy', c: c, field_name: 'password', object: user.authenticate, key: 'app.errors.invalid_email_or_password'
     hash_assign object['id'] = user.id
+    hash_assign object['attempts'] = user.attempts
+    hash_assign object['locked_at'] = user.locked_at
   endif
 
   hash_assign object['valid'] = c.valid

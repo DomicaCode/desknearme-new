@@ -3,17 +3,26 @@ method: post
 ---
 {% liquid
   include 'lib/anonymous_or_redirect', user: context.current_user
-
   function object = 'lib/commands/users/verify_password', object: context.params.user
+%}
+{% liquid
+  function default_login_attempts = 'lib/queries/constants/find', name: "LOGIN_ATTEMPTS_COUNTER", type: "integer"
+  function lock_time = 'lib/queries/constants/find', name: "LOGIN_ATTEMPTS_UNLOCK_AFTER_MINS", type: "integer"
+
+  if default_login_attempts > 0
+    function object = 'lib/commands/users/restrict_login_attempts', object: object, default_login_attempts: default_login_attempts, lock_time: lock_time, client_ip: context.headers.HTTP_X_FORWARDED_FOR
+  endif
+%}
+{% liquid
   if object.valid
     function profile = 'lib/queries/profiles/find', user_id: object.id, load_organizations: true
     function required_2fa = "lib/can", actor: profile, do: "required_2fa", object: profile
     if required_2fa.valid
       if profile.otp_configured
-        include 'theme/simple/sessions/2fa_verify', object: object
+        render 'theme/simple/sessions/2fa_verify', object: object, context: context
       else
         function user_otp = 'lib/queries/users/otp', email: profile.user.email
-        include 'theme/simple/sessions/2fa_setup', object: object, otp: user_otp.otp
+        render 'theme/simple/sessions/2fa_setup', object: object, otp: user_otp.otp, context: context
       endif
     else
       function res = 'lib/commands/profiles_anonymous/convert_models', anonymous_session_id: context.session.anonymous_session_id, profile: profile
@@ -22,6 +31,6 @@ method: post
       include 'redirect_to', default_url: url  notice: 'app.sessions.created'
     endif
   else
-    include 'theme/simple/sessions/new', object: object
+    render 'theme/simple/sessions/new', object: object, context: context
   endif
 %}

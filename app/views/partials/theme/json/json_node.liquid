@@ -1,11 +1,8 @@
 {% assign id = 10 | random_string %}
 <style>
   .debug {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: absolute;
     width: 400px;
-    font-size: 10px;
     z-index: 30;
     background-color: white;
     opacity: 98%;
@@ -14,18 +11,13 @@
   }
 </style>
 <script>
-  var json = {{ node | json | html_safe }}
-  console.log(json)
-  debug = document.getElementById("debug")
+  var nodes = document.getElementsByClassName('json');
 
-  if (!debug) {
-    var debug = document.createElement("div");
-    debug.setAttribute("id", "debug");
-    debug.classList.add("debug");
-    document.body.prepend(debug);
-  }
-
-  var log = document.createElement("pre");
-  log.appendChild(document.createTextNode(JSON.stringify(json, null, 2)));
-  debug.appendChild(log)
+  Array.prototype.forEach.call(nodes, function(node){
+    try {
+      node.innerText = JSON.stringify(JSON.parse(node.innerText), null, 2)
+    } catch(e) {
+      console.log("some errors:", e)
+    }
+  });
 </script>

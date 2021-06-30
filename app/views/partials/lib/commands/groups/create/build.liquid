@@ -1,11 +1,13 @@
-{% parse_json object %}
+{% parse_json data %}
   {
     "id":          {{ object.id | json }},
     "owner_id":    {{ owner_id | json }},
     "name":        {{ object.name | json }},
     "summary":     {{ object.summary | json }},
     "content_type":     {{ object.content_type | json }},
+    "content_types": {{ object.content_types | json }},
     "description": {{ object.description | default: "" | json }},
+    "code_of_conduct":       {{ object.code_of_conduct | json }},
     "uuid":        {{ object.uuid | json }},
     "group_type": {{ object.group_type | json }},
     "ask_to_join": {{ object.ask_to_join | json }},
@@ -18,5 +20,16 @@
 {% endparse_json %}
 
 {% liquid
-  return object
+  function slugged_tags = 'lib/slugify_tags', tags: object.tags
+  hash_assign data['tags'] = slugged_tags
+
+  if data.content_types == null
+    hash_assign data['content_types'] = '[]' | parse_json
+  endif
+
+  function group_templates = 'lib/queries/groups/group_templates'
+  assign template = group_templates[data.group_type]
+  assign data = data | hash_merge: template
+
+  return data
 %}

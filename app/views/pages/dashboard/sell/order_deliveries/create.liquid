@@ -6,12 +6,20 @@ method: post
   function current_profile = 'lib/current_organization_profile', user_id: context.current_user.id
   include 'lib/profile_organization_present_or_redirect', profile: current_profile, allow_uncompleted: true, return_to: '/dashboard/buy/review'
 
-  function order = 'lib/queries/orders/find', seller: current_profile.id, id: context.params.order_delivery.order_id, status: 'app.statuses.orders.paid', withStatuses: true
+  function order = 'lib/queries/orders/find', seller: current_profile.id, id: context.params.order_delivery.order_id
   include 'lib/present_or_404', property:  order.id
 
-  function object = 'lib/commands/order_deliveries/create', object: context.params.order_delivery, current_profile: current_profile
+  function object = 'lib/commands/order_deliveries/create', object: context.params.order_delivery, current_profile: current_profile, order: order
   function order_url = 'link_to', order: order, current_profile: current_profile
   if object.valid
+    if object.delivered
+      function delivery_status = 'lib/commands/statuses/create', profile_id: current_profile.id, object_id: object.id, name: 'app.statuses.order_deliveries.delivered', scope: 'app.statuses.order_deliveries'
+      include 'lib/commands/events/create', type: 'order_delivered', actor_id: current_profile.representative.id, target_id: order.id, object_id: object.id, delay: 0
+
+      function order_status = 'lib/commands/statuses/create', profile_id: order.buyer.id, object_id: order.id, name: 'app.statuses.orders.delivered', scope: 'app.statuses.orders'
+      include 'lib/commands/events/create', type: 'status_created', actor_id: current_profile.representative.id, object_id: order_status.id, target_id: order_status.object_id, delay: 0
+    endif
+
     include 'redirect_to', url: order_url, notice: 'app.orders.status.updated'
   else
     function message = 'theme/simple/full_error', errors: object.errors, model: 'order_delivery'
