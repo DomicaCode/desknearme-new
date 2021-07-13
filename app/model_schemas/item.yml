@@ -19,5 +19,29 @@ properties:
     type: boolean
   - name: photo_ids
     type: array
+  - name: location_name
+    type: string
+  - name: location_address
+    type: string
+  - name: zip_code
+    type: string
+  - name: location_type
+    type: string
+  - name: quantity
+    type: integer
+  - name: availability
+    type: string
+  - name: property_status
+    type: string
+  - name: price_per_hour
+    type: integer
+  - name: price_per_day
+    type: integer
+  - name: price_per_work_week
+    type: integer
+  - name: price_per_calender_week
+    type: integer
+  - name: price_per_month
+    type: integer
 
   - name: c__status

@@ -10,7 +10,19 @@
     "lang":        {{ object.lang | default: "en" | json }},
     "name":        {{ object.name | json }},
     "description": {{ object.description | default: "" | json }},
-    "tags":        {{ object.tags | downcase | split: ',' | uniq }}
+    "tags":        {{ object.tags | downcase | split: ',' | uniq }},
+    "location_name": {{ object.location_name | default: "" | json }},
+    "location_address": {{ object.location_address | default: "" | json }},
+    "zip_code": {{ object.zip_code | default: "" | json }},
+    "location_type": {{ object.location_type | default: "" | json }},
+    "quantity": {{ object.quantity | plus: 0 | times: 100 | to_positive_integer: 1 }},
+    "availability": {{ object.availability | default: "" | json }},
+    "property_status": {{ object.property_status | default: "" | json }},
+    "price_per_hour": {{ object.price_per_hour | plus: 0 | times: 1 | to_positive_integer: 0 }},
+    "price_per_day": {{ object.price_per_day | plus: 0 | times: 1 | to_positive_integer: 0 }},
+    "price_per_work_week": {{ object.price_per_work_week | plus: 0 | times: 1 | to_positive_integer: 0 }},
+    "price_per_calender_week": {{ object.price_per_calender_week | plus: 0 | times: 1 | to_positive_integer: 0 }},
+    "price_per_month": {{ object.price_per_month | plus: 0 | times: 1 | to_positive_integer: 0 }}
   }
 {% endparse_json %}
 

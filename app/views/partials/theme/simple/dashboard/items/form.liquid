@@ -77,41 +77,127 @@
       </fieldset>
 
       <fieldset class="mt-6">
-        <label class="block" for="price">{{ 'app.items.form.price' | t }}:</label>
+        <label class="block" for="price_per_hour">{{ 'app.items.form.price_per_hour' | t }}:</label>
         <!-- TODO: Add currency prefix $[input]  -->
         <div class="flex items-center gap-3">
-          <input class="w-3/4" type="number" id="price" name="item[price]" step="any" min="0" value="{{ item.price | default: 1000 | fractional_to_amount: currency }}">
+          <input class="w-3/4" type="number" id="price_per_hour" name="item[price_per_hour]" step="any" min="0" value="{{ item.price_per_hour | default: 1000 | fractional_to_amount: currency }}">
           {{ currency }}
         </div>
-        {% render 'theme/simple/field_error', errors: item.errors.price %}
+        {% render 'theme/simple/field_error', errors: item.errors.price_per_hour %}
       </fieldset>
 
-      {% unless item.item_inventory_id %}
-        <fieldset class="mt-6">
-          <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}:</label>
-          <input class="w-3/4" type="number" id="quantity" name="item[quantity]" value="{{ item.quantity | default: 1 }}" />
-          {% render 'theme/simple/field_error', errors: item.errors.quantity %}
-        </fieldset>
-
-        <fieldset class="mt-6">
-          <label class="block" for="max_in_one_order">{{ 'app.items.form.max_quantity' | t }}:</label>
-          <input class="w-3/4" type="number" id="quantity" name="item[max_in_one_order]" value="{{ item.max_in_one_order | default: 5 }}" />
-          {% render 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
-        </fieldset>
-      {% endunless %}
+      <fieldset class="mt-6">
+        <label class="block" for="price_per_day">{{ 'app.items.form.price_per_day' | t }}:</label>
+        <!-- TODO: Add currency prefix $[input]  -->
+        <div class="flex items-center gap-3">
+          <input class="w-3/4" type="number" id="price_per_day" name="item[price_per_day]" step="any" min="0" value="{{ item.price_per_day | default: 1000 | fractional_to_amount: currency }}">
+          {{ currency }}
+        </div>
+        {% render 'theme/simple/field_error', errors: item.errors.price_per_day %}
+      </fieldset>
 
       <fieldset class="mt-6">
-        <label class="block" for="return_days">{{ 'app.items.form.return_days' | t }}:</label>
+        <label class="block" for="price_per_work_week">{{ 'app.items.form.price_per_work_week' | t }}:</label>
+        <!-- TODO: Add currency prefix $[input]  -->
         <div class="flex items-center gap-3">
-          <input class="w-3/4" type="number" id="return_days" name="item[return_days]" value="{{ item.return_days | default: 30 }}">
-          {{ 'app.items.form.days' | t }}
+          <input class="w-3/4" type="number" id="price_per_work_week" name="item[price_per_work_week]" step="any" min="0" value="{{ item.price_per_work_week | default: 1000 | fractional_to_amount: currency }}">
+          {{ currency }}
         </div>
-        {% render 'theme/simple/field_error', errors: item.errors.return_days %}
+        {% render 'theme/simple/field_error', errors: item.errors.price_per_work_week %}
+      </fieldset>
+
+      <fieldset class="mt-6">
+        <label class="block" for="price_per_calendar_week">{{ 'app.items.form.price_per_calendar_week' | t }}:</label>
+        <!-- TODO: Add currency prefix $[input]  -->
+        <div class="flex items-center gap-3">
+          <input class="w-3/4" type="number" id="price_per_calendar_week" name="item[price_per_calendar_week]" step="any" min="0" value="{{ item.price_per_calendar_week | default: 1000 | fractional_to_amount: currency }}">
+          {{ currency }}
+        </div>
+        {% render 'theme/simple/field_error', errors: item.errors.price_per_calendar_week %}
+      </fieldset>
+
+      <fieldset class="mt-6">
+        <label class="block" for="price_per_month">{{ 'app.items.form.price_per_month' | t }}:</label>
+        <!-- TODO: Add currency prefix $[input]  -->
+        <div class="flex items-center gap-3">
+          <input class="w-3/4" type="number" id="price_per_month" name="item[price_per_month]" step="any" min="0" value="{{ item.price_per_month | default: 1000 | fractional_to_amount: currency }}">
+          {{ currency }}
+        </div>
+        {% render 'theme/simple/field_error', errors: item.errors.price_per_month %}
       </fieldset>
 
     </div>
-
   </div>
+
+  <fieldset class="mt-6">
+    <label class="block" for="location_name">{{ 'app.items.form.location_name' | t }}:</label>
+    <input class="w-full" type="text" id="location_name" name="item[location_name]" value="{{ item.location_name }}" >
+    {% render 'theme/simple/field_error', errors: item.errors.location_name %}
+  </fieldset>
+
+  <fieldset class="mt-6">
+    <label class="block" for="location_address">{{ 'app.items.form.location_address' | t }}:</label>
+    <input class="w-full" type="text" id="location_address" name="item[location_address]" value="{{ item.location_address }}" >
+    {% render 'theme/simple/field_error', errors: item.errors.location_address %}
+  </fieldset>
+
+  <fieldset class="mt-6">
+    <label class="block" for="zip_code">{{ 'app.items.form.zip_code' | t }}:</label>
+    <input class="w-full" type="text" id="zip_code" name="item[zip_code]" value="{{ item.zip_code }}" >
+    {% render 'theme/simple/field_error', errors: item.errors.zip_code %}
+  </fieldset>
+
+  <fieldset class="mt-6">
+    <label class="block" for="location_type">{{ 'app.items.form.location_type' | t }}:</label>
+    <select class="w-full" id="location_type" name="item[location_type]">
+      <option value="Business" {% if item.location_type == 'Business' %}selected{% endif %}>Business</option>
+      <option value="Co-Working" {% if item.location_type == 'Co-Working' %}selected{% endif %}>Co-Working</option>
+      <option value="Public" {% if item.location_type == 'Public' %}selected{% endif %}>Public</option>
+      <option value="Executive Suites" {% if item.location_type == 'Executive Suites' %}selected{% endif %}>Executive Suites</option>
+    </select>
+    {% render 'theme/simple/field_error', errors: item.errors.location_type %}
+  </fieldset>
+
+  <fieldset class="mt-6">
+    <label for="availability">{{ 'app.items.form.availability' | t }}</label>
+    <select @change="$event.target.value == 'Customize' ? isShowCusAvailability=true : isShowCusAvailability=false" id="availability" name="item[availability]">
+      <option value="Mon to Fri (9:00AM - 6:00PM)" {% if item.availability == 'Mon to Fri (9:00AM - 6:00PM)' %}selected{% endif %}>Mon to Fri (9:00AM - 6:00PM)</option>
+      <option value="Customize" {% if item.availability == 'Customize' %}selected{% endif %}>Customize</option>
+    </select>
+  </fieldset>
+
+  <fieldset class="mt-6">
+    <label class="block" for="property_status">{{ 'app.items.form.property_status' | t }}:</label>
+    <select class="w-full" id="property_status" name="item[property_status]">
+      <option value="active" {% if item.property_status == 'active' %}selected{% endif %}>Active</option>
+      <option value="inactive" {% if item.property_status == 'inactive' %}selected{% endif %}>Inactive</option>
+    </select>
+    {% render 'theme/simple/field_error', errors: item.errors.property_status %}
+  </fieldset>
+
+  {% unless item.item_inventory_id %}
+    <fieldset class="mt-6">
+      <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}:</label>
+      <input class="w-3/4" type="number" id="quantity" name="item[quantity]" value="{{ item.quantity | default: 1 }}" />
+      {% render 'theme/simple/field_error', errors: item.errors.quantity %}
+    </fieldset>
+
+    <fieldset class="mt-6">
+      <label class="block" for="max_in_one_order">{{ 'app.items.form.max_quantity' | t }}:</label>
+      <input class="w-3/4" type="number" id="quantity" name="item[max_in_one_order]" value="{{ item.max_in_one_order | default: 5 }}" />
+      {% render 'theme/simple/field_error', errors: item.errors.max_in_one_order %}
+    </fieldset>
+  {% endunless %}
+
+  <fieldset class="mt-6">
+    <label class="block" for="price">{{ 'app.items.form.price' | t }}:</label>
+    <!-- TODO: Add currency prefix $[input]  -->
+    <div class="flex items-center gap-3">
+      <input class="w-3/4" type="number" id="price" name="item[price]" step="any" min="0" value="{{ item.price | default: 1000 | fractional_to_amount: currency }}">
+      {{ currency }}
+    </div>
+    {% render 'theme/simple/field_error', errors: item.errors.price %}
+  </fieldset>
 
   {% comment %}
     <div class="mt-6">

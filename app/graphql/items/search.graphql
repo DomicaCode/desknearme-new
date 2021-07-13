@@ -39,6 +39,18 @@ query search(
       or: [
         { properties: { name: "tags", contains: $keyword } }
         { properties: { name: "category", contains: $keyword } }
+        { properties: { name: "location_name", contains: $keyword } }
+        { properties: { name: "location_address", contains: $keyword } }
+        { properties: { name: "zip_code", contains: $keyword } }
+        { properties: { name: "location_type", contains: $keyword } }
+        { properties: { name: "quantity", contains: $keyword } }
+        { properties: { name: "availability", contains: $keyword } }
+        { properties: { name: "property_status", contains: $keyword } }
+        { properties: { name: "price_per_hour", contains: $keyword } }
+        { properties: { name: "price_per_day", contains: $keyword } }
+        { properties: { name: "price_per_work_week", contains: $keyword } }
+        { properties: { name: "price_per_calender_week", contains: $keyword } }
+        { properties: { name: "price_per_month", contains: $keyword } }
         {
           related_records: {
             join: { join_on_property: "id", foreign_property: "item_id" }
@@ -74,6 +86,18 @@ query search(
       slug: property(name: "slug")
       promoted: property_boolean(name: "promoted")
       photo_ids: property_array(name: "photo_ids")
+      location_name: property(name: "location_name")
+      location_address: property(name: "location_address")
+      zip_code: property(name: "zip_code")
+      location_type: property(name: "location_type")
+      quantity: property(name: "quantity")
+      availability: property(name: "availability")
+      property_status: property(name: "property_status")
+      price_per_hour: property(name: "price_per_hour")
+      price_per_day: property(name: "price_per_day")
+      price_per_work_week: property(name: "price_per_work_week")
+      price_per_calender_week: property(name: "price_per_calender_week")
+      price_per_month: property(name: "price_per_month")
 
       item_detail: related_record(
         table: "item_detail"
