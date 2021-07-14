@@ -6,6 +6,17 @@ mutation create_item_complex(
   $uuid: String!
   $owner: String!
   $photo_ids: [String!]
+  $location_name: String!
+  $location_address: String!
+  $zip_code: String!
+  $location_type: String!
+  $availability: String!
+  $property_status: String!
+  $price_per_hour: Int!
+  $price_per_day: Int!
+  $price_per_work_week: Int!
+  $price_per_calender_week: Int!
+  $price_per_month: Int!
 
   $sku: String
   $quantity: Int!
@@ -24,6 +35,17 @@ mutation create_item_complex(
         { name: "uuid", value: $uuid }
         { name: "owner", value: $owner }
         { name: "photo_ids", value_array: $photo_ids }
+        { name: "location_name", value: $location_name }
+        { name: "location_address", value: $location_address }
+        { name: "zip_code", value: $zip_code }
+        { name: "location_type", value: $location_type }
+        { name: "availability", value: $availability }
+        { name: "property_status", value: $property_status }
+        { name: "price_per_hour", value_int: $price_per_hour }
+        { name: "price_per_day", value_int: $price_per_day }
+        { name: "price_per_work_week", value_int: $price_per_work_week }
+        { name: "price_per_calender_week", value_int: $price_per_calender_week }
+        { name: "price_per_month", value_int: $price_per_month }
       ]
     }
   ) {

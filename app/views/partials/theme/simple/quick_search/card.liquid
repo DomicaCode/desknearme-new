@@ -8,6 +8,8 @@
   else
     assign model_name = model.name
   endif
+
+  log model
 %}
 
 <div class="px-0 pt-0 overflow-hidden card">
@@ -23,8 +25,6 @@
 
   <div class="md:p-4">
     <header class="text-xs">
-      {% print model.type | t: scope: 'app.quick_search.type' %}
-
     <div class="float-right">
       {% if current_profile and model.type == 'profile' and current_profile.id != model.id %}
         {% render 'theme/simple/follow_button', current_profile: current_profile, profile: model %}
@@ -37,6 +37,9 @@
         <h2 class="text-lg font-medium">
           <a href="{{ url }}">{{ model_name }}</a>
         </h2>
+        <div>
+          {{model.item.price_per_hour}}
+        </div>
       {% endif %}
     </div>
 

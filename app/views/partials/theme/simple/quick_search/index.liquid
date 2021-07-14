@@ -1,9 +1,6 @@
 <div class="container mx-auto">
   {% if records.items.total_entries > 0 or records.groups.total_entries > 0 or records.profiles.total_entries > 0 or records.posts.total_entries > 0 %}
     {% render 'theme/simple/quick_search/section', records: records.items, type: 'item', limit: limit, current_profile: current_profile, see_more_url: '/search' %}
-    {% render 'theme/simple/quick_search/section', records: records.groups, type: 'group', limit: limit, current_profile: current_profile, see_more_url: '/groups' %}
-    {% render 'theme/simple/quick_search/section', records: records.profiles, type: 'profile', limit: limit, current_profile: current_profile, see_more_url: '/profiles' %}
-    {% render 'theme/simple/quick_search/section', records: records.posts, type: 'post', limit: limit, current_profile: current_profile, see_more_url: '/posts' %}
   {% else %}
     <p class="container my-8 text-lg">{{ 'app.search.no_items_found.title' | t }}</p>
   {% endif %}

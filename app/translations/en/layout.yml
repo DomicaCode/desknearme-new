@@ -49,9 +49,9 @@ en:
     notifications:
       empty: Your notifications will appear right here when something will come up.
     hero:
-      shop: Find your dream watch
-      sell: Sell part of your collection
-      main-sentence: Find Your Time
+      shop: Find your space
+      sell: Rent your space
+      main-sentence: Find a space to work
       secondary-sentence: MVP Marketplace is a social marketplace to buy and sell all things
     safety_list:
       safe-shopping: Safe online <strong class="text-interaction font-bold">Shopping</strong>

@@ -10,6 +10,17 @@
   hash_assign object['owner'] = item_inventory.item.owner
   hash_assign object['quantity'] = item_inventory.quantity
   hash_assign object['max_in_one_order'] = item_inventory.max_in_one_order
+  hash_assign object['location_name'] = item_inventory.item.location_name
+  hash_assign object['location_address'] = item_inventory.item.location_address
+  hash_assign object['zip_code'] = item_inventory.item.zip_code
+  hash_assign object['location_type'] = item_inventory.item.location_type
+  hash_assign object['availability'] = item_inventory.item.availability
+  hash_assign object['property_status'] = item_inventory.item.property_status
+  hash_assign object['price_per_hour'] = item_inventory.item.price_per_hour
+  hash_assign object['price_per_day'] = item_inventory.item.price_per_day
+  hash_assign object['price_per_work_week'] = item_inventory.item.price_per_work_week
+  hash_assign object['price_per_calendar_week'] = item_inventory.item.price_per_calendar_week
+  hash_assign object['price_per_month'] = item_inventory.item.price_per_month
   hash_assign object['photos'] = item_inventory.item.photos
 
   assign details = '{}' | parse_json
