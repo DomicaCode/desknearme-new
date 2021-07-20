@@ -9,7 +9,7 @@
     assign model_name = model.name
   endif
 
-  log model
+  log model, type: 'error'
 %}
 
 <div class="px-0 pt-0 overflow-hidden card">
@@ -38,7 +38,7 @@
           <a href="{{ url }}">{{ model_name }}</a>
         </h2>
         <div>
-          {{model.item.price_per_hour}}
+          From ${{model.price_per_day}} / day
         </div>
       {% endif %}
     </div>
