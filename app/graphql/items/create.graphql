@@ -12,6 +12,7 @@ mutation create_item(
   $quantity: Int!
   $availability: String!
   $property_status: String!
+  $desk_type: String!
   $price_per_hour: Int!
   $price_per_day: Int!
   $price_per_work_week: Int!
@@ -35,6 +36,7 @@ mutation create_item(
         { name: "quantity", value_int: $quantity }
         { name: "availability", value: $availability }
         { name: "property_status", value: $property_status }
+        { name: "desk_type", value: $desk_type }
         { name: "price_per_hour", value_int: $price_per_hour }
         { name: "price_per_day", value_int: $price_per_day }
         { name: "price_per_work_week", value_int: $price_per_work_week }
@@ -57,6 +59,7 @@ mutation create_item(
     quantity: property(name: "quantity")
     availability: property(name: "availability")
     property_status: property(name: "property_status")
+    desk_type: property(name: "desk_type")
     price_per_hour: property(name: "price_per_hour")
     price_per_day: property(name: "price_per_day")
     price_per_work_week: property(name: "price_per_work_week")

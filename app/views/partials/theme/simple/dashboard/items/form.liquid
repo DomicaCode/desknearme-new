@@ -175,6 +175,23 @@
     {% render 'theme/simple/field_error', errors: item.errors.property_status %}
   </fieldset>
 
+  {% comment %}
+    Temporarily hardcoded values, this should be manageable
+  {% endcomment %}
+
+  <fieldset class="mt-6">
+    <label class="block" for="desk_type">{{ 'app.items.form.desk_type' | t }}:</label>
+    <select class="w-full" id="desk_type" name="item[desk_type]">
+      <option value="Desk" {% if item.desk_type == 'Desk' %}selected{% endif %}>Desk</option>
+      <option value="Meeting Room" {% if item.desk_type == 'Meeting Room' %}selected{% endif %}>Meeting Room</option>
+      <option value="Office Space" {% if item.desk_type == 'Office Space' %}selected{% endif %}>Office Space</option>
+      <option value="Saloon Booth" {% if item.desk_type == 'Saloon Booth' %}selected{% endif %}>Saloon Booth</option>
+      <option value="Events" {% if item.desk_type == 'Events' %}selected{% endif %}>Events</option>
+      <option value="Lecture Room" {% if item.desk_type == 'Lecture Room' %}selected{% endif %}>Lecture Room</option>
+    </select>
+    {% render 'theme/simple/field_error', errors: item.errors.desk_type %}
+  </fieldset>
+
   {% unless item.item_inventory_id %}
     <fieldset class="mt-6">
       <label class="block" for="quantity">{{ 'app.items.form.quantity' | t }}:</label>

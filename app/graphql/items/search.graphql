@@ -42,15 +42,6 @@ query search(
         { properties: { name: "location_name", contains: $keyword } }
         { properties: { name: "location_address", contains: $keyword } }
         { properties: { name: "zip_code", contains: $keyword } }
-        { properties: { name: "location_type", contains: $keyword } }
-        { properties: { name: "quantity", contains: $keyword } }
-        { properties: { name: "availability", contains: $keyword } }
-        { properties: { name: "property_status", contains: $keyword } }
-        { properties: { name: "price_per_hour", contains: $keyword } }
-        { properties: { name: "price_per_day", contains: $keyword } }
-        { properties: { name: "price_per_work_week", contains: $keyword } }
-        { properties: { name: "price_per_calender_week", contains: $keyword } }
-        { properties: { name: "price_per_month", contains: $keyword } }
         {
           related_records: {
             join: { join_on_property: "id", foreign_property: "item_id" }
@@ -93,6 +84,7 @@ query search(
       quantity: property(name: "quantity")
       availability: property(name: "availability")
       property_status: property(name: "property_status")
+      desk_type: property(name: "desk_type")
       price_per_hour: property(name: "price_per_hour")
       price_per_day: property(name: "price_per_day")
       price_per_work_week: property(name: "price_per_work_week")
