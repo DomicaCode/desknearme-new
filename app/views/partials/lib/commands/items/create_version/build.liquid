@@ -8,7 +8,20 @@
     "tax_rate":    {{ object.tax_rate | json }},
     "category":    {{ object.category | default: "" | json }},
     "owner":       {{ owner | json }},
-    "photo_ids":   {{ object.photo_ids | split: ',' | json }}
+    "photo_ids":   {{ object.photo_ids | split: ',' | json }},
+    "location_name": {{ object.location_name | default: "" | json }},
+    "location_address": {{ object.location_address | default: "" | json }},
+    "zip_code": {{ object.zip_code | default: "" | json }},
+    "location_type": {{ object.location_type | default: "" | json }},
+    "quantity": {{ object.quantity | plus: 0 | times: 100 | to_positive_integer: 1 }},
+    "availability": {{ object.availability | default: "" | json }},
+    "property_status": {{ object.property_status | default: "" | json }},
+    "desk_type": {{ object.desk_type | default: "" | json }},
+    "price_per_hour": {{ object.price_per_hour | to_positive_integer: 0 }},
+    "price_per_day": {{ object.price_per_day | to_positive_integer: 0 }},
+    "price_per_work_week": {{ object.price_per_work_week | to_positive_integer: 0 }},
+    "price_per_calender_week": {{ object.price_per_calender_week | to_positive_integer: 0 }},
+    "price_per_month": {{ object.price_per_month | to_positive_integer: 0 }}
   }
 {% endparse_json %}
 

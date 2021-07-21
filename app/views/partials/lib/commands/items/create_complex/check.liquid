@@ -8,14 +8,6 @@
   function c = 'lib/validations/number', c: c, object: object, field_name: 'return_days', greater_than_or_equal: 0
   function c = 'lib/validations/price', c: c, object: object, field_name: 'price', minimal_price: MINIMAL_PRICE, maximal_price: MAXIMAL_PRICE, currency: object.currency
   function c = 'lib/validations/presence', c: c, object: object, field_name: 'currency'
-  if object.category == blank
-    include 'lib/register_error', contract: c, field_name: 'category', key: 'app.errors.blank'
-  else
-    function category = 'lib/queries/categories/find', key: object.category
-    unless category
-      include 'lib/register_error', contract: c, field_name: 'category', key: 'app.errors.disallowed'
-    endunless
-  endif
 
 
   function c = 'lib/validations/length', c: c, object: object, field_name: 'details', minimum: 1

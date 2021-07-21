@@ -7,7 +7,6 @@
     "tax_rate":    {{ object.tax_rate | json }},
     "category":    {{ object.category | default: "" | json }},
     "photo_ids":   {{ object.photo_ids | split: ',' | json }},
-
     "owner":       {{ owner | json }},
     "sku":         {{ object.sku | json }},
     "quantity":    {{ object.quantity | plus: 0 | to_positive_integer: 0 }},

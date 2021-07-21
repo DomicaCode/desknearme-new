@@ -2,6 +2,8 @@
   function object = 'lib/commands/items/create_complex/build', object: object, owner: owner
   function object = 'lib/commands/items/create_complex/check', object: object
 
+  log object
+
   if object.valid
     function object = 'lib/commands/items/create_complex/execute', object: object
 

@@ -67,6 +67,18 @@ en:
         return_days: Returns available for
         days: days
         invalid: Invalid
+        price_per_hour: Price per hour
+        price_per_day: Price per day
+        price_per_work_week: Price per work week (5 days)
+        price_per_calendar_week: Price per calendar week (7 days) 
+        price_per_month: Price per month
+        location_name: Location name
+        location_address: Location address
+        zip_code: Zip code
+        location_type: Location type
+        availability: Availability
+        property_status: Property status
+        desk_type: Desk type
       ordered_times:
         other: 'Ordered %{count} times'
         one: 'Ordered %{count} time'
